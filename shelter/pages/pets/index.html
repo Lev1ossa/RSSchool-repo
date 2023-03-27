@@ -5,21 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pets</title>
   <link rel="stylesheet" href="./style.css">
+  <link rel="icon" href="../../assets/icons/favicon.ico">
 </head>
 <body>
   <header>
     <div class="header-wrapper">
       <div class="header-block">
         <div class="logo">
-          <a class="logo-title" href="#">Cozy House</a>
-          <a class="logo-subtitle" href="#">Shelter for pets in Boston</a>
+          <a class="logo-title" target="_blank" href="../main/index.html">Cozy House</a>
+          <a class="logo-subtitle" target="_blank" href="../main/index.html">Shelter for pets in Boston</a>
         </div>
         <nav class="nav">
           <ul class="nav-list">
-            <li class="nav-item">About the shelter</li>
-            <li class="nav-item">Our pets</li>
-            <li class="nav-item">Help the shelter</li>
-            <li class="nav-item">Contacts</li>
+            <li><a class="nav-item" target="_blank" href="../main/index.html">About the shelter</a></li>
+            <li><a class="nav-item-active" href="#our-friends">Our pets</a></li>
+            <li><a class="nav-item" target="_blank" href="../main/index.html#help">Help the shelter</a></li>
+            <li><a class="nav-item" href="#footer">Contacts</a></li>
           </ul>
         </nav>
       </div>
@@ -29,7 +30,7 @@
   <section id="our-friends">
     <div class="our-friends-wrapper">
       <div class="our-friends-block">
-        <h2 class="our-friends-title">Our friends who <br> are looking for a house</h2>
+        <h1 class="our-friends-title">Our friends who <br> are looking for a house</h1>
         <div class="our-friends-cards">
           <div class="cards-items-wrapper">
             <div class="cards-item">
@@ -124,48 +125,48 @@
         </div>
         <div class="nav-panel">
           <form>
-            <button class="nav-left-double-button">&lt&lt</button>
+            <button disabled class="nav-left-double-button">&lt;&lt;</button>
           </form>
           <form>
-            <button class="nav-left-button">&lt</button>
+            <button disabled class="nav-left-button">&lt;</button>
           </form>
           <form>
             <button class="nav-page-button">1</button>
           </form>
           <form>
-            <button class="nav-right-double-button">&gt</button>
+            <button class="nav-right-button">&gt;</button>
           </form>
           <form>
-            <button class="nav-right-double-button">&gt&gt</button>
+            <button class="nav-right-double-button">&gt;&gt;</button>
           </form>
         </div>
       </div>
     </div>
   </section>
 
-  <footer>
+  <footer id="footer">
     <div class="footer-wrapper">
       <div class="footer-block">
         <div class="footer-contacts">
           <h2 class="footer-contacts-title">For questions and suggestions</h2>
           <div class="footer-email">
-            <img class="email-ico" src="../../assets/icons/mail.svg" alt="email icon">
-            <p class="footer-email-text">email@shelter.com</p>
+            <a href="mailto:email@shelter.com"><img class="email-ico" src="../../assets/icons/mail.svg" alt="email icon"></a>
+            <a href="mailto:email@shelter.com" class="footer-email-text">email@shelter.com</a>
           </div>
           <div class="footer-phone">
-            <img class="phone-ico" src="../../assets/icons/phone.svg" alt="phone icon">
-            <p class="footer-phone-text">+13 674 567 75 54</p>
+            <a href="tel:+136745677554"><img class="phone-ico" src="../../assets/icons/phone.svg" alt="phone icon"></a>
+            <a href="tel:+136745677554" class="footer-phone-text">+13 674 567 75 54</a>
           </div>
         </div>
         <div class="footer-locations">
           <h2 class="footer-locations-title">We are waiting for your visit</h2>
           <div class="location-adress-1">
-            <img class="location-ico" src="../../assets/icons/location.svg" alt="location icon">
-            <p class="location-adress-1-text">1 Central Street, Boston (entrance from the store)</p>
+            <a target="_blank" href="https://www.google.com/maps/@52.9755568,-0.0295319,17.5z"><img class="location-ico" src="../../assets/icons/location.svg" alt="location icon"></a>
+            <a target="_blank" href="https://www.google.com/maps/@52.9755568,-0.0295319,17.5z" class="location-adress-1-text">1 Central Street, Boston (entrance from the store)</a>
           </div>
           <div class="location-adress-2">
-            <img class="location-ico" src="../../assets/icons/location.svg" alt="location icon">
-            <p class="location-adress-2-text">18 South Park, London </p>
+            <a target="_blank" href="https://www.google.com/maps/@51.5107309,-0.1301942,15z"><img class="location-ico" src="../../assets/icons/location.svg" alt="location icon"></a>
+            <a target="_blank" href="https://www.google.com/maps/@51.5107309,-0.1301942,15z" class="location-adress-2-text">18 South Park, London </a>
           </div>
         </div>
         <img class="footer-puppy" src="../../assets/images/footer-puppy.png" alt="puppy">

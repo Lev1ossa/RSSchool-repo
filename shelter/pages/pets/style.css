@@ -63,7 +63,7 @@ body,
 .nav-left-double-button,
 .nav-left-button,
 .nav-page-button,
-.nav-right-double-button,
+.nav-right-button,
 .nav-right-double-button {
   font-family: "Georgia";
   font-style: normal;
@@ -71,7 +71,8 @@ body,
 }
 
 .logo-subtitle,
-.nav-item {
+.nav-item,
+.nav-item-active {
   font-family: "Arial";
   font-style: normal;
   font-weight: 400;
@@ -102,6 +103,8 @@ body,
   line-height: 35.2px;
   letter-spacing: 0.06em;
   text-align: left;
+  opacity: 100%;
+  transition: all 1s ease-in-out;
 }
 
 .logo-subtitle {
@@ -111,6 +114,8 @@ body,
   margin-left: 4px;
   line-height: 14.95px;
   letter-spacing: 0.1em;
+  opacity: 100%;
+  transition: all 1s ease-in-out;
 }
 
 .nav-list {
@@ -121,7 +126,23 @@ body,
 }
 
 .nav-item {
+  display: block;
+  height: 24px;
+  text-decoration: none;
   color: #545454;
+  font-size: 15px;
+  line-height: 24px;
+  border: 0px;
+  transition: all 1s ease-in-out;
+}
+
+.nav-item-active {
+  display: block;
+  height: 24px;
+  border-bottom: 3px solid #F1CDB3;
+  cursor: default;
+  text-decoration: none;
+  color: #292929;
   font-size: 15px;
   line-height: 24px;
 }
@@ -172,6 +193,8 @@ body,
   border-radius: 9px;
   width: 270px;
   height: 435px;
+  box-shadow: none;
+  transition: all 1s ease-in-out;
 }
 
 .cards-item-title {
@@ -215,7 +238,7 @@ body,
   font-size: 17px;
   line-height: 22.1px;
   letter-spacing: 0.06em;
-
+  transition: all 1s ease-in-out;
 }
 
 .nav-panel {
@@ -273,9 +296,10 @@ body,
   letter-spacing: 0.06em;
   color: #292929;
   background: #F6F6F6;
+  transition: all 1s ease-in-out;
 }
 
-.nav-right-double-button {
+.nav-right-button {
   width: 52px;
   height: 52px;
   border: 2px solid #F1CDB3;
@@ -285,6 +309,7 @@ body,
   letter-spacing: 0.06em;
   color: #292929;
   background: #F6F6F6;
+  transition: all 1s ease-in-out;
 }
 
 
@@ -326,12 +351,20 @@ body,
 }
 
 .footer-email-text {
+  text-decoration: none;
   width: 191px;
   height: 23px;
   font-size: 20px;
   line-height: 23px;
   letter-spacing: 0.06em;
   color: #F1CDB3;
+  opacity: 100%;
+  transition: all 1s ease-in-out;
+}
+
+.email-ico {
+  opacity: 100%;
+  transition: all 1s ease-in-out;
 }
 
 .footer-phone {
@@ -342,12 +375,20 @@ body,
 }
 
 .footer-phone-text {
+  text-decoration: none;
   width: 180px;
   height: 23px;
   font-size: 20px;
   line-height: 23px;
   letter-spacing: 0.06em;
   color: #F1CDB3;
+  opacity: 100%;
+  transition: all 1s ease-in-out;
+}
+
+.phone-ico {
+  opacity: 100%;
+  transition: all 1s ease-in-out;
 }
 
 .footer-locations {
@@ -375,12 +416,15 @@ body,
 }
 
 .location-adress-1-text {
+  text-decoration: none;
   width: 260px;
   height: 46px;
   font-size: 20px;
   line-height: 23px;
   letter-spacing: 0.06em;
   color: #F1CDB3;
+  opacity: 100%;
+  transition: all 1s ease-in-out;
 }
 
 .location-adress-2 {
@@ -392,10 +436,161 @@ body,
 
 
 .location-adress-2-text {
+  text-decoration: none;
   width: 260px;
   height: 23px;
   font-size: 20px;
   line-height: 23px;
   letter-spacing: 0.06em;
   color: #F1CDB3;
+  opacity: 100%;
+  transition: all 1s ease-in-out;
+}
+
+.location-ico {
+  opacity: 100%;
+  transition: all 1s ease-in-out;
+}
+
+.nav-item:hover {
+  height: 24px;
+  color: #292929;
+  font-size: 15px;
+  line-height: 24px;
+  transition: all 1s ease-in-out;
+}
+
+.nav-item:active {
+  height: 24px;
+  color: #292929;
+  font-size: 15px;
+  line-height: 24px;
+  border-bottom: 3px solid #F1CDB3;
+  transition: all 1s ease-in-out;
+}
+
+.cards-item:hover {
+  cursor: pointer;
+  background: #FFFFFF;
+  box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);
+  transition: all 1s ease-in-out;
+}
+
+.cards-item:hover .cards-item-button {
+  background: #FDDCC4;
+  transition: all 1s ease-in-out;
+}
+
+.nav-left-double-button {
+  cursor: default;
+}
+
+.nav-left-button {
+  cursor: default;
+}
+
+.nav-page-button {
+  background: #F1CDB3;
+  cursor: default;
+}
+
+.cards-item-button:hover {
+  cursor: pointer;
+}
+
+
+.nav-right-double-button:hover {
+  cursor: pointer;
+  background: #FDDCC4;
+  transition: all 1s ease-in-out;
+}
+
+.nav-right-button:hover {
+  cursor: pointer;
+  background: #FDDCC4;
+  transition: all 1s ease-in-out;
+}
+
+.logo-title:hover {
+  color: #FDDCC4;
+  transition: all 1s ease-in-out;
+}
+
+.logo-subtitle:hover {
+  color: #FDDCC4;
+  transition: all 1s ease-in-out;
+}
+
+.footer-email-text:hover {
+  cursor: pointer;
+  color: #FDDCC4;
+  transition: all 1s ease-in-out;
+}
+
+.footer-email-text:active {
+  opacity: 50%;
+  transition: all 1s ease-in-out;
+}
+
+.footer-phone-text:hover {
+  cursor: pointer;
+  color: #FDDCC4;
+  transition: all 1s ease-in-out;
+}
+
+.footer-phone-text:active {
+  opacity: 50%;
+  transition: all 1s ease-in-out;
+}
+
+.email-ico:hover {
+  opacity: 50%;
+  transition: all 1s ease-in-out;
+}
+
+.email-ico:active {
+  opacity: 10%;
+  transition: all 1s ease-in-out;
+}
+
+.phone-ico:hover {
+  opacity: 50%;
+  transition: all 1s ease-in-out;
+}
+
+.phone-ico:active {
+  opacity: 10%;
+  transition: all 1s ease-in-out;
+}
+
+.location-ico:hover {
+  opacity: 50%;
+  transition: all 1s ease-in-out;
+}
+
+.location-ico:active {
+  opacity: 10%;
+  transition: all 1s ease-in-out;
+}
+
+.location-adress-1-text:hover {
+  cursor: pointer;
+  color: #FDDCC4;
+  transition: all 1s ease-in-out;
+}
+
+.location-adress-1-text:active {
+  opacity: 50%;
+  transition: all 1s ease-in-out;
+}
+
+.location-adress-2-text:hover {
+  cursor: pointer;
+  color: #FDDCC4;
+  transition: all 1s ease-in-out;
+}
+
+.location-adress-2-text:active {
+  opacity: 50%;
+  transition: all 1s ease-in-out;
 }
