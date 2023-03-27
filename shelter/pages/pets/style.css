@@ -36,6 +36,12 @@
   font-display: swap;
 }
 
+html {
+  width: 100vw;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
 body,
 .our-friends-title,
 .cards-item-title,
