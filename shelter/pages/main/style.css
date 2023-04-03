@@ -38,8 +38,8 @@
 }
 
 html {
-  width: 100vw;
-  overflow-x: hidden;
+  /* width: 100vw; */
+  /* overflow-x: hidden; */
   scroll-behavior: smooth;
 }
 
@@ -1150,6 +1150,10 @@ body,
 
   .footer-wrapper {
     padding: 30px 64px 0px;
+  }
+
+  .footer-block {
+    gap: 65px 40px;
   }
 
   .footer-puppy-wrapper {
