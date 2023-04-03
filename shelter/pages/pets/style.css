@@ -42,7 +42,8 @@ html {
   scroll-behavior: smooth;
 }
 
-body,
+html,
+body, 
 .our-friends-title,
 .cards-item-title,
 .footer-puppy,
@@ -378,6 +379,10 @@ body,
   justify-content: space-between;
   width: 239px;
   align-items: center;
+}
+
+.footer-link {
+  display: flex;
 }
 
 .footer-phone-text {
