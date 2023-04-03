@@ -37,8 +37,6 @@
 }
 
 html {
-  /* width: 100vw;
-  overflow-x: hidden; */
   scroll-behavior: smooth;
 }
 
@@ -123,8 +121,6 @@ body,
 
 .nav-list {
   list-style-type: none;
-  /* display: flex;
-  justify-content: space-between; */
   width: 443px;
 }
 
@@ -161,8 +157,6 @@ body,
 
 .our-friends-wrapper{
   background: #F6F6F6;
-  /* padding: 80px 40px 100px; */
-  /* height: 1162px; */
 }
 
 .our-friends-block {
@@ -171,7 +165,6 @@ body,
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* align-items: center; */
 }
 
 .our-friends-title {
@@ -197,7 +190,6 @@ body,
   justify-content: space-between;
   flex-wrap: wrap;
   width: 1200px;
-  /* min-height: 930px; */
   margin: 15px 0px;
   row-gap: 30px;
 }
@@ -262,7 +254,6 @@ body,
   width: 340px;
   height: 52px;
   align-self: center;
-  /* margin-top: 30px; */
 }
 
 .nav-left-double-button {
@@ -292,7 +283,6 @@ body,
 .nav-page-button {
   width: 52px;
   height: 52px;
-  /* border: 2px solid #F1CDB3; */
   border: 0px;
   border-radius: 100px;
   background: #F1CDB3;
@@ -330,7 +320,6 @@ body,
 
 .footer-wrapper {
   background: url(../../assets/images/noise_transparent@2x.png), radial-gradient(110.67% 538.64% at 5.73% 50%, #513D2F 0%, #1A1A1C 100%), #211F20;
-  /* padding: 40px 40px 0px 40px; */
 }
 
 .footer-block {
@@ -342,16 +331,10 @@ body,
   row-gap: 65px;
 }
 
-/* .footer-contacts-wrapper {
-  display: flex;
-  justify-content: space-between;
-} */
-
 .footer-contacts {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* margin: 16px 0px 60px; */
 }
 
 .footer-contacts-title {
@@ -391,7 +374,6 @@ body,
   display: flex;
   justify-content: space-between;
   width: 239px;
-  /* height: 32px; */
   align-items: center;
 }
 
@@ -420,7 +402,6 @@ body,
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* margin: 16px 0px 60px; */
 }
 
 .footer-locations-title {
@@ -645,10 +626,6 @@ body,
     padding: 40px 40px 0px 40px;
   }
 
-  /* .footer-contacts-wrapper {
-    min-width: 741px;
-  } */
-
   .footer-contacts {
     margin: 16px 0px 60px;
     height: 234px;
@@ -700,13 +677,11 @@ body,
 
   .footer-puppy-wrapper {
     margin: auto;
-    /* display: flex; */
   }
 
   .footer-puppy {
     width: 100%;
     height: auto;
-    /* margin: 0px 234px 0px; */
   }
 
   .footer-contacts {
