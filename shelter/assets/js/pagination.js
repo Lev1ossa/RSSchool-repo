@@ -89,102 +89,152 @@ const PETS = [
   }
 ];
 
+const CARDS = document.querySelectorAll('.cards-item');
+const LEFT_DOUBLE_BUTTON = document.querySelector('.nav-left-double-button');
+const LEFT_BUTTON = document.querySelector('.nav-left-button');
+const RIGHT_BUTTON = document.querySelector('.nav-right-button');
+const RIGHT_DOUBLE_BUTTON = document.querySelector('.nav-right-double-button');
+const NumberButton = document.querySelector('.nav-page-button');
+
 const baseArr = [1, 2, 3, 4, 5, 6, 7, 8];
-const pastArr = [];
-const currArr = [];
-const nextArr = [];
 
-const generateNewArr = (checkArr) => {
-  const newArr = [];
-  const cleanBaseArr = baseArr.filter(item => !checkArr.includes(item));
-  
-  for (let i = 0; i < 3; i++) {
-   let randomIdx = Math.floor(Math.random() * (cleanBaseArr.length - 1));
-   newArr.push(cleanBaseArr.splice(randomIdx, 1)[0]);
+const shuffleArr = arr => {
+  newArr = [...arr];
+	for(let i = newArr.length - 1; i > 0; i--){ 
+		let randomInt = Math.floor(Math.random() * (i + 1));
+		let container = newArr[randomInt];
+		newArr[randomInt] = newArr[i];
+		newArr[i] = container;
+	}
+	return newArr;
+}
+
+const getPseudoRandomArr = () => {
+  const resultArr = [];
+  const randomArr = shuffleArr(baseArr);
+  const chunkedArr = [];
+  for (let i = 0; i < randomArr.length; i += 3) {
+    chunkedArr.push(randomArr.slice(i, i + 3));
   }
 
-  return newArr;
+  for (let i = 0; i < 6; i++) {
+    chunkedArr.forEach(item => resultArr.push(shuffleArr(item)));
+  }
+
+  return resultArr.flat();
 }
 
-const initSlider = () => {
-  pastArr.splice(0, pastArr.length, ...generateNewArr([]));
-  currArr.splice(0, currArr.length, ...generateNewArr(pastArr));
-  nextArr.splice(0, nextArr.length, ...generateNewArr(currArr));
-}
+pseudoRandomArr = getPseudoRandomArr();
 
-const sliderForward = () => {
-  pastArr.splice(0, pastArr.length, ...currArr);
-  currArr.splice(0, currArr.length, ...nextArr);
-  nextArr.splice(0, nextArr.length, ...generateNewArr(currArr));
-};
-
-const sliderBackward = () => {
-  nextArr.splice(0, nextArr.length, ...currArr);
-  currArr.splice(0, currArr.length, ...pastArr);
-  pastArr.splice(0, pastArr.length, ...generateNewArr(currArr));
-};
-
-initSlider();
-
-const sliderPrev = document.querySelector('.slider-prev');
-const sliderCurr = document.querySelector('.slider-current');
-const sliderNext = document.querySelector('.slider-next');
-
-const updCardsInfo = () => {
-  currArr.forEach((item, idx) => {
-    sliderCurr.children[idx].children[0].children[0].src = PETS[item - 1].img;
-    sliderCurr.children[idx].children[0].children[0].alt = PETS[item - 1].type + ' ' + PETS[item - 1].name;
-    sliderCurr.children[idx].children[1].children[0].innerHTML = PETS[item - 1].name;
-  })
-
-  pastArr.forEach((item, idx) => {
-    sliderPrev.children[idx].children[0].children[0].src = PETS[item - 1].img;
-    sliderPrev.children[idx].children[0].children[0].alt = PETS[item - 1].type + ' ' + PETS[item - 1].name;
-    sliderPrev.children[idx].children[1].children[0].innerHTML = PETS[item - 1].name;
-  })
-
-  nextArr.forEach((item, idx) => {
-    sliderNext.children[idx].children[0].children[0].src = PETS[item - 1].img;
-    sliderNext.children[idx].children[0].children[0].alt = PETS[item - 1].type + ' ' + PETS[item - 1].name;
-    sliderNext.children[idx].children[1].children[0].innerHTML = PETS[item - 1].name;
-  })
-}
-
-updCardsInfo();
-
-const BTN_LEFT = document.querySelector('.slider-left-button-form');
-const BTN_RIGHT = document.querySelector('.slider-right-button-form');
-const SLIDER = document.querySelector('.slider-wrapper');
-
-BTN_LEFT.addEventListener('click', () => {
-  SLIDER.classList.add('transition-left');
-})
-
-const moveLeft = () => {
-  SLIDER.classList.add('transition-left');
-  BTN_LEFT.removeEventListener('click', moveLeft);
-  BTN_RIGHT.removeEventListener('click', moveRight);
-};
-
-const moveRight = () => {
-  SLIDER.classList.add('transition-right');
-  BTN_LEFT.removeEventListener('click', moveLeft);
-  BTN_RIGHT.removeEventListener('click', moveRight);
-};
-
-BTN_LEFT.addEventListener('click', moveLeft);
-BTN_RIGHT.addEventListener('click', moveRight);
-
-SLIDER.addEventListener('animationend', (e) => {
-  if (e.animationName === "move-left") {
-    SLIDER.classList.remove("transition-left");
-    sliderBackward();
+const getCurrentWidthPoint = () => {
+  let currentClientWidth = document.documentElement.clientWidth;
+  let currentMediaPoint;
+  if (currentClientWidth < 768) {
+    currentMediaPoint = 320;
+  } else if (currentClientWidth < 1280) {
+    currentMediaPoint = 768;
   } else {
-    SLIDER.classList.remove("transition-right");
-    sliderForward();
+    currentMediaPoint = 1280;
   }
+  return currentMediaPoint;
+};
 
-  updCardsInfo();
-  BTN_LEFT.addEventListener("click", moveLeft);
-  BTN_RIGHT.addEventListener("click", moveRight);
-})
+const getNumberOfPages = () => {
+  let currentWidthPoint = getCurrentWidthPoint();
+  let numOfPages = 0;
+  if (currentWidthPoint == 320) {
+    numOfPages = 16;
+  } else if (currentWidthPoint == 768) {
+    numOfPages = 8;
+  } else if (currentWidthPoint == 1280) {
+    numOfPages = 6;
+  }
+  return numOfPages;
+};
+
+let numberOfPages = getNumberOfPages();
+let prevNumberOfPages = numberOfPages;
+
+const updCards = () => {
+  const currentPage = Number(NumberButton.innerHTML);
+  const numberOfElements = 48 / numberOfPages;
+  let startIdx = (currentPage - 1) * numberOfElements;
+  let endIdx = startIdx + 8;
+  const currentPageArr = pseudoRandomArr.slice(startIdx, endIdx);
+  
+  currentPageArr.forEach((item, idx) => {
+    CARDS[idx].children[0].children[0].src = PETS[item - 1].img;
+    CARDS[idx].children[0].children[0].alt = PETS[item - 1].type + ' ' + PETS[item - 1].name;
+    CARDS[idx].children[1].children[0].innerHTML = PETS[item - 1].name;
+  });
+}
+
+console.log(pseudoRandomArr);
+
+updCards();
+
+const updButtons = () => {
+  if (Number(NumberButton.innerHTML) == 1) {
+    LEFT_DOUBLE_BUTTON.disabled = true;
+    LEFT_BUTTON.disabled = true;
+    RIGHT_BUTTON.disabled = false;
+    RIGHT_DOUBLE_BUTTON.disabled = false;
+  } else if (Number(NumberButton.innerHTML) == numberOfPages) {
+    LEFT_DOUBLE_BUTTON.disabled = false;
+    LEFT_BUTTON.disabled = false;
+    RIGHT_BUTTON.disabled = true;
+    RIGHT_DOUBLE_BUTTON.disabled = true;
+  } else {
+    LEFT_DOUBLE_BUTTON.disabled = false;
+    LEFT_BUTTON.disabled = false;
+    RIGHT_BUTTON.disabled = false;
+    RIGHT_DOUBLE_BUTTON.disabled = false;
+  }
+};
+
+updButtons();
+
+const updCurrPage = () => {
+  if (Number(NumberButton.innerHTML) > numberOfPages){
+    NumberButton.innerHTML = numberOfPages;
+  }
+};
+
+window.addEventListener('resize', function(e){
+  numberOfPages = getNumberOfPages();
+  if (!(prevNumberOfPages == numberOfPages)){
+    // console.log('rebuild!');
+    updCurrPage();
+    updCards();
+    updButtons();
+    prevNumberOfPages = numberOfPages;
+  }
+});
+
+LEFT_DOUBLE_BUTTON.addEventListener('click', (e) => {
+  NumberButton.innerHTML = '1';
+  updCards();
+  updButtons();
+});
+
+LEFT_BUTTON.addEventListener('click', (e) => {
+  let currentPage = Number(NumberButton.innerHTML);
+  NumberButton.innerHTML = currentPage - 1;
+  updCards();
+  updButtons();
+});
+
+RIGHT_BUTTON.addEventListener('click', (e) => {
+  let currentPage = Number(NumberButton.innerHTML);
+  NumberButton.innerHTML = currentPage + 1;
+  updCards();
+  updButtons();
+});
+
+RIGHT_DOUBLE_BUTTON.addEventListener('click', (e) => {
+  NumberButton.innerHTML = numberOfPages;
+  updCards();
+  updButtons();
+});
+
+console.log(pseudoRandomArr);
