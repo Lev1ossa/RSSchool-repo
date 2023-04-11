@@ -366,10 +366,12 @@ body,
 
 .slider-left-button {
   background-image: url(../../assets/icons/arrow-left.svg);
+  margin-right: 53px;
 }
 
 .slider-right-button {
   background-image: url(../../assets/icons/arrow-right.svg);
+  margin-left: 53px;
 }
 
 .slider {
@@ -392,6 +394,7 @@ body,
   display: flex;
   justify-content: space-between;
   column-gap: 90px;
+  width: 100%;
 }
 
 .slider-item1,
@@ -807,6 +810,7 @@ body,
   top: 50%;
   transform: translate(-50%, -50%);
   border-radius: 9px;
+  transition: box-shadow 0.5s ease-in-out;
   /* background-color: black; */
 }
 
@@ -1037,12 +1041,12 @@ body,
 
 @keyframes move-right {
   from {left: -100%;}
-  to {left: -205%;}
+  to {left: -200%;}
 }
 
 @keyframes move-left {
   from {left: -100%;}
-  to {left: 5%;}
+  to {left: 0%;}
 }
 
 @media (min-width: 1280px) { 

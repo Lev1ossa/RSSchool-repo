@@ -1165,4 +1165,11 @@ body,
     flex-direction: column;
     justify-content: space-between;
   }
+
+  @media (hover: hover){
+    .nav-item:hover {
+      color: #FAFAFA;
+      transition: color 1s ease-in-out;
+  }
+}
 }
