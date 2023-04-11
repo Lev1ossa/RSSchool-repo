@@ -169,8 +169,6 @@ const updCards = () => {
   });
 }
 
-console.log(pseudoRandomArr);
-
 updCards();
 
 const updButtons = () => {
@@ -203,7 +201,6 @@ const updCurrPage = () => {
 window.addEventListener('resize', function(e){
   numberOfPages = getNumberOfPages();
   if (!(prevNumberOfPages == numberOfPages)){
-    // console.log('rebuild!');
     updCurrPage();
     updCards();
     updButtons();

@@ -15,14 +15,11 @@ const toggleActivePopup = function() {
   }
 
   currentActivePopup = !currentActivePopup;
-  // console.log('hey!');
 }
 
 const updPopup = (cardsItem) => {
   let petName = cardsItem.children[1].children[0].innerHTML;
   let currPet = PETS.find(item => item.name == petName);
-
-  console.log(currPet);
 
   popup.children[1].children[0].children[0].src = currPet.img;
   popup.children[1].children[1].children[0].children[0].innerHTML = currPet.name;
@@ -53,7 +50,6 @@ document.addEventListener('click', function (e) {
 
 for (let i = 0; i < 8; i++) {
   cardsItems[i].addEventListener('click', (e) => {
-    // console.log(e);
     e.stopPropagation();
     updPopup(cardsItems[i]);
     toggleActivePopup();

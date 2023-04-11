@@ -23,7 +23,6 @@ burgerBtn.addEventListener('click', (e) => {
 
 document.addEventListener('click', function (e) {
   const clickTarget = e.target;
-  // const targetNav = clickTarget == navList || navList.contains(clickTarget);
   const targetNav = clickTarget == navList;
   const targetBurgetBtn = clickTarget == burgerBtn;
   const NavActive = navList.classList.contains('active');
