@@ -6,30 +6,30 @@ module.exports = {
   entry: './src/app.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'main.js'
+    filename: 'main.js',
   },
   mode: 'development',
   module: {
     rules: [
       {
         test: /\.html$/,
-        use:  [
+        use: [
           {
             loader: 'html-loader',
             options: { minimize: false },
-          }
-        ]
+          },
+        ],
       },
       {
         test: /\.css$/,
         use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
-    ]
+    ],
   },
   plugins: [
-    new  HtmlWebPackPlugin({
+    new HtmlWebPackPlugin({
       template: './src/index.html',
-      filename: './index.html'
+      filename: './index.html',
     }),
     new MiniCssExtractPlugin({
       filename: '[name].css',
