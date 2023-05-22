@@ -1,5 +1,9 @@
 import './style.css';
 import mineImage from './assets/icons/mine.svg';
+import winSoundsrc from './assets/sounds/win.mp3';
+import pushSoundsrc from './assets/sounds/push.mp3';
+import loseSoundsrc from './assets/sounds/lose.mp3';
+import flaggedSoundsrc from './assets/sounds/flagged.mp3';
 
 const body = document.querySelector('body');
 const defaultDifficulty = 'easy';
@@ -41,6 +45,26 @@ class FieldCell {
     this.id = id;
   }
 }
+
+const playSound = (sound) => {
+  if (sound === 'win') {
+    const winSound = new Audio(winSoundsrc);
+    winSound.volume = 0.5;
+    winSound.play();
+  } else if (sound === 'push') {
+    const pushSound = new Audio(pushSoundsrc);
+    pushSound.volume = 0.5;
+    pushSound.play();
+  } else if (sound === 'lose') {
+    const loseSound = new Audio(loseSoundsrc);
+    loseSound.volume = 0.5;
+    loseSound.play();
+  } else if (sound === 'flagged') {
+    const flaggedSound = new Audio(flaggedSoundsrc);
+    flaggedSound.volume = 0.5;
+    flaggedSound.play();
+  }
+};
 
 const startTimer = () => {
   const writeTime = () => {
@@ -142,12 +166,15 @@ const countMines = () => {
 const addRandomMines = () => {
   while (gameData.mineCells.length < gameData.mines) {
     const randomInt = Math.floor(Math.random() * (gameData.size * gameData.size));
-    if (!gameData.mineCells.includes(randomInt) && !gameData.openedCells.includes(randomInt)) {
+    if (randomInt !== 0 && !gameData.mineCells.includes(randomInt)
+    && !gameData.openedCells.includes(randomInt)) {
       gameData.mineCells.push(randomInt);
     }
   }
 
   gameData.mineCells.forEach((item) => {
+    console.log(gameData.mineCells);
+    console.log(item);
     gameData.fieldMap[item].isMine = true;
   });
 
@@ -182,6 +209,38 @@ const changeMovesCounter = () => {
   movesEl.innerHTML = +movesEl.innerHTML + 1;
 };
 
+const addFlag = (cellID) => {
+  const minesEl = document.querySelector('.stats-mines');
+  const flagsEl = document.querySelector('.stats-flags');
+  const fieldCellObj = gameData.fieldMap[cellID];
+  const fieldCellEl = document.getElementById(cellID);
+
+  gameData.flagedCells.push(cellID);
+  fieldCellObj.state = 'flagged';
+  fieldCellEl.classList.add('field-cell-flagged');
+  minesEl.innerHTML = +minesEl.innerHTML - 1;
+  flagsEl.innerHTML = +flagsEl.innerHTML + 1;
+
+  playSound('flagged');
+};
+
+const removeFlag = (cellID) => {
+  const minesEl = document.querySelector('.stats-mines');
+  const flagsEl = document.querySelector('.stats-flags');
+  const fieldCellObj = gameData.fieldMap[cellID];
+  const fieldCellEl = document.getElementById(cellID);
+
+  const cellIdx = gameData.flagedCells.indexOf(cellID);
+  if (cellIdx !== -1) {
+    gameData.flagedCells.splice(cellIdx, 1);
+  }
+  fieldCellObj.state = 'unopened';
+  fieldCellEl.classList.remove('field-cell-flagged');
+  minesEl.innerHTML = +minesEl.innerHTML + 1;
+  flagsEl.innerHTML = +flagsEl.innerHTML - 1;
+  playSound('flagged');
+};
+
 const gameStart = (cellID) => {
   const fieldCellObj = gameData.fieldMap[cellID];
   gameData.openedCells.push(fieldCellObj.id);
@@ -206,10 +265,14 @@ const gameEnd = (gameResult, cellID) => {
       mineImg.setAttribute('src', mineImage);
       mineImg.alt = 'mine image';
       fieldCellEl.appendChild(mineImg);
-      // TODO show lose message
     });
+    // TODO show lose message
+    alert(`you lose`);
+    playSound('lose');
   } else if (gameResult === 'win') {
     // TODO show lose message
+    alert(`Hooray! You found all mines in ${gameData.gameTime} seconds and ${gameData.moves} moves!`);
+    playSound('win');
   }
 
   gameData.gamefinished = true;
@@ -301,8 +364,14 @@ const cellMouseupHandler = (event) => {
         cellOpen(fieldCellObj.id);
         openNeighboursCells(fieldCellObj.id);
         changeMovesCounter();
+        playSound('push');
       } else if (event.which === 3) {
         console.log('rightMouseUp');
+        if (fieldCellObj.state === 'unopened' && !gameData.firstMove) {
+          addFlag(fieldCellObj.id);
+        } else if (fieldCellObj.state === 'flagged') {
+          removeFlag(fieldCellObj.id);
+        }
       }
     }
     clickedCell = undefined;
@@ -369,7 +438,29 @@ const createApp = () => {
       </div>
       <div class="field">
       </div>
-      <div class="settings"></div>
+      <div class="settings">
+        <fieldset class="settings-fieldset">
+          <legend class="settings-legend">Select a difficulty level:</legend>
+          <div class="settings-input">
+            <input type="radio" id="easy" name="difficulty" value="easy" checked>
+            <label for="easy">Easy</label>
+          </div>
+          <div class="settings-input">
+            <input type="radio" id="medium" name="difficulty" value="medium">
+            <label for="medium">Medium</label>
+          </div>
+          <div class="settings-input">
+            <input type="radio" id="hard" name="difficulty" value="hard">
+            <label for="hard">Hard</label>
+          </div>
+          <div class="settings-input">
+            <input type="number" id="mines" name="mines" min="10" max="100" value="10">
+            <label for="mines">Number of mines (10-100):</label>
+          </div>
+        </fieldset>
+        <div class="save-game">Save</div>
+        <div class="load-game">Load</div>
+      </div>
     </div>
   </main>`;
 
@@ -385,4 +476,9 @@ createApp();
 
 window.addEventListener('mouseup', (event) => {
   cellMouseupHandler(event);
+});
+
+const minesInput = document.getElementById('mines');
+minesInput.addEventListener('change', (e) => {
+  console.log(e.target.value);
 });

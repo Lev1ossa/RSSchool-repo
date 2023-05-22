@@ -142,3 +142,16 @@ h1 {
 .color-darkgray {
   color: #49423d;
 }
+
+.field-cell.field-cell-flagged {
+  /* height: 80%;
+  width: 80%; */
+  background-image: url('./assets/icons/flag.svg');
+  background-position: center;
+  background-size: contain;
+}
+
+.settings {
+  max-width: 500px;
+  margin: 0 auto;
+}
