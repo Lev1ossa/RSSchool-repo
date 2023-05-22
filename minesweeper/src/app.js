@@ -1,10 +1,11 @@
 import './style.css';
 
 const body = document.querySelector('body');
-// const defaultDifficulty = 'easy';
-// const defaultMines = 10;
+const defaultDifficulty = 'easy';
+const defaultMines = 10;
 
-// const fieldMap;
+let clickedCell;
+
 // Todo: implement difficulty lvl and game load
 // let currentSize = 10;
 // let currentMines = 10;
@@ -20,10 +21,93 @@ const gameData = {
   openedCells: [],
   flagedCells: [],
   fieldMap: {},
+  gamefinished: false,
 };
 
-const createField = () => {
+class FieldCell {
+  constructor(row, column, id) {
+    this.mineAround = 0;
+    this.isMine = false;
+    this.state = 'unopened';
+    this.row = row;
+    this.column = column;
+    this.id = id;
+  }
+}
+
+const addRandomMines = () => {
+  while (gameData.mineCells.length < gameData.mines) {
+    const randomInt = Math.floor(Math.random() * (gameData.size * gameData.size));
+    if (!gameData.mineCells.includes(randomInt) && !gameData.openedCells.includes(randomInt)) {
+      gameData.mineCells.push(randomInt);
+    }
+  }
+
+  gameData.mineCells.forEach((item) => {
+    gameData.fieldMap[item].isMine = true;
+  });
+};
+
+const cellOpen = (fieldCellObj) => {
+  // if (gameData.firstMove) {
+  //   gameStart(fieldCellObj);
+  //   gameData.firstMove = false;
+  // }
+  if (fieldCellObj.isMine) {
+    console.log('gameover');
+  } else {
+    if (fieldCellObj.state !== 'opened') {
+      gameData.openedCells.push(fieldCellObj.id);
+      fieldCellObj.state = 'opened';
+    }
+    const fieldCellEl = document.getElementById(fieldCellObj.id);
+    fieldCellEl.classList.add('field-cell-opened');
+    if (fieldCellObj.mineAround !== 0) {
+      fieldCellEl.innerHTML = fieldCellObj.mineAround;
+    }
+  }
+};
+
+const gameStart = (fieldCellObj) => {
+  // addRandomMines();
+}
+
+const cellMousedownHandler = (event, fieldCellEl) => {
+  const fieldCellObj = gameData.fieldMap[fieldCellEl.id];
+  // console.log(fieldCellObj.state !== 'opened');
+  if (!gameData.gamefinished && fieldCellObj.state !== 'opened') {
+    clickedCell = fieldCellEl;
+    if (event.which === 1 && fieldCellObj.state !== 'flagged') {
+      console.log('leftMouseDown');
+      fieldCellEl.classList.add('field-cell-active');
+    } else if (event.which === 3) {
+      console.log('rightMouseDown');
+    }
+  }
+};
+
+const cellMouseupHandler = (event) => {
+  if (clickedCell) {
+    const fieldCellObj = gameData.fieldMap[clickedCell.id];
+    if (!gameData.gamefinished && fieldCellObj.state !== 'opened') {
+      // console.log(fieldCellObj);
+      if (event.which === 1 && fieldCellObj.state !== 'flagged') {
+        console.log('leftMouseUp');
+        clickedCell.classList.remove('field-cell-active');
+        cellOpen(fieldCellObj);
+      } else if (event.which === 3) {
+        console.log('rightMouseUp');
+      }
+    }
+    clickedCell = undefined;
+  }
+};
+
+const createNewField = () => {
   const field = document.querySelector('.field');
+
+  field.innerHTML = '';
+
   field.classList.add(`field-${gameData.difficulty}`);
 
   for (let i = 0; i < gameData.size; i += 1) {
@@ -36,8 +120,20 @@ const createField = () => {
       fieldCellEl.classList.add('field-cell', `field-column-${j + 1}`);
       fieldCellEl.setAttribute('id', `${elID}`);
       fieldRow.appendChild(fieldCellEl);
+
+      fieldCellEl.addEventListener('mousedown', (event) => {
+        cellMousedownHandler(event, fieldCellEl);
+      });
+
+      fieldCellEl.addEventListener('contextmenu', (event) => {
+        event.preventDefault();
+      });
+
+      gameData.fieldMap[elID] = new FieldCell(i + 1, j + 1, elID);
     }
   }
+
+  gameData.firstMove = true;
 };
 
 const createApp = () => {
@@ -72,7 +168,15 @@ const createApp = () => {
   </main>`;
 
   body.appendChild(app);
-  createField();
+  createNewField();
 };
 
 createApp();
+
+window.addEventListener('mouseup', (event) => {
+  cellMouseupHandler(event);
+});
+
+
+
+// console.log(gameData.fieldMap[1]);
