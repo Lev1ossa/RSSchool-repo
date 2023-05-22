@@ -1,4 +1,5 @@
 import './style.css';
+import mineImage from './assets/icons/mine.svg';
 
 const body = document.querySelector('body');
 const defaultDifficulty = 'easy';
@@ -35,6 +36,91 @@ class FieldCell {
   }
 }
 
+const getNeighboursIdArr = (cell, cellID) => {
+  const neighboursIdArr = [];
+
+  if (cell.row === 1 && cell.column === 1) {
+    neighboursIdArr.push(
+      cellID + 1,
+      cellID + gameData.size + 1,
+      cellID + gameData.size,
+    );
+  } else if (cell.row === 1 && cell.column === gameData.size) {
+    neighboursIdArr.push(
+      cellID + gameData.size,
+      cellID + gameData.size - 1,
+      cellID - 1,
+    );
+  } else if (cell.row === gameData.size && cell.column === 1) {
+    neighboursIdArr.push(
+      cellID - gameData.size,
+      cellID - gameData.size + 1,
+      cellID + 1,
+    );
+  } else if (cell.row === gameData.size && cell.column === gameData.size) {
+    neighboursIdArr.push(
+      cellID - gameData.size - 1,
+      cellID - gameData.size,
+      cellID - 1,
+    );
+  } else if (cell.column === 1) {
+    neighboursIdArr.push(
+      cellID - gameData.size,
+      cellID - gameData.size + 1,
+      cellID + 1,
+      cellID + gameData.size + 1,
+      cellID + gameData.size,
+    );
+  } else if (cell.column === gameData.size) {
+    neighboursIdArr.push(
+      cellID - gameData.size - 1,
+      cellID - gameData.size,
+      cellID + gameData.size,
+      cellID + gameData.size - 1,
+      cellID - 1,
+    );
+  } else if (cell.row === 1) {
+    neighboursIdArr.push(
+      cellID + 1,
+      cellID + gameData.size + 1,
+      cellID + gameData.size,
+      cellID + gameData.size - 1,
+      cellID - 1,
+    );
+  } else if (cell.row === gameData.size) {
+    neighboursIdArr.push(
+      cellID - gameData.size - 1,
+      cellID - gameData.size,
+      cellID - gameData.size + 1,
+      cellID + 1,
+      cellID - 1,
+    );
+  } else {
+    neighboursIdArr.push(
+      cellID - gameData.size - 1,
+      cellID - gameData.size,
+      cellID - gameData.size + 1,
+      cellID + 1,
+      cellID + gameData.size + 1,
+      cellID + gameData.size,
+      cellID + gameData.size - 1,
+      cellID - 1,
+    );
+  }
+
+  return neighboursIdArr;
+};
+
+const countMines = () => {
+  gameData.mineCells.forEach((item) => {
+    const mine = gameData.fieldMap[item];
+    const neighboursIdArr = getNeighboursIdArr(mine, item);
+    neighboursIdArr.forEach((neighbourId) => {
+      gameData.fieldMap[neighbourId].mineAround += 1;
+    });
+  });
+};
+
 const addRandomMines = () => {
   while (gameData.mineCells.length < gameData.mines) {
     const randomInt = Math.floor(Math.random() * (gameData.size * gameData.size));
@@ -48,29 +134,71 @@ const addRandomMines = () => {
   });
 };
 
-const cellOpen = (fieldCellObj) => {
-  // if (gameData.firstMove) {
-  //   gameStart(fieldCellObj);
-  //   gameData.firstMove = false;
-  // }
+const allCellsAreOpen = () => {
+  let result;
+  if (gameData.openedCells.length < gameData.size * gameData.size - gameData.mines) {
+    result = false;
+  } else {
+    result = true;
+  }
+
+  return result;
+};
+
+const gameStart = (cellID) => {
+  const fieldCellObj = gameData.fieldMap[cellID];
+  gameData.openedCells.push(fieldCellObj.id);
+  fieldCellObj.state = 'opened';
+  addRandomMines();
+  countMines();
+  gameData.firstMove = false;
+};
+
+const gameEnd = (gameResult, cellID) => {
+  if (gameResult === 'lose') {
+    gameData.mineCells.forEach((item) => {
+      const fieldCellEl = document.getElementById(item);
+      if (item === cellID) {
+        fieldCellEl.classList.add('field-cell-opened', 'field-cell-mine');
+      } else {
+        fieldCellEl.classList.add('field-cell-opened');
+      }
+      const mineImg = document.createElement('img');
+      mineImg.classList.add('field-img-mine');
+      mineImg.setAttribute('src', mineImage);
+      mineImg.alt = 'mine image';
+      fieldCellEl.appendChild(mineImg);
+      // TODO show lose message
+    });
+  } else if (gameResult === 'win') {
+    // TODO show lose message
+  }
+
+  gameData.gamefinished = true;
+};
+
+const cellOpen = (cellID) => {
+  const fieldCellObj = gameData.fieldMap[cellID];
+  const fieldCellEl = document.getElementById(fieldCellObj.id);
+  if (gameData.firstMove) {
+    gameStart(fieldCellObj.id);
+  }
   if (fieldCellObj.isMine) {
-    console.log('gameover');
+    gameEnd('lose', cellID);
   } else {
     if (fieldCellObj.state !== 'opened') {
       gameData.openedCells.push(fieldCellObj.id);
       fieldCellObj.state = 'opened';
     }
-    const fieldCellEl = document.getElementById(fieldCellObj.id);
     fieldCellEl.classList.add('field-cell-opened');
     if (fieldCellObj.mineAround !== 0) {
       fieldCellEl.innerHTML = fieldCellObj.mineAround;
     }
+    if (allCellsAreOpen) {
+      gameEnd('win', cellID);
+    }
   }
 };
-
-const gameStart = (fieldCellObj) => {
-  // addRandomMines();
-}
 
 const cellMousedownHandler = (event, fieldCellEl) => {
   const fieldCellObj = gameData.fieldMap[fieldCellEl.id];
@@ -94,7 +222,7 @@ const cellMouseupHandler = (event) => {
       if (event.which === 1 && fieldCellObj.state !== 'flagged') {
         console.log('leftMouseUp');
         clickedCell.classList.remove('field-cell-active');
-        cellOpen(fieldCellObj);
+        cellOpen(fieldCellObj.id);
       } else if (event.which === 3) {
         console.log('rightMouseUp');
       }
