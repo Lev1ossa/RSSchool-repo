@@ -1,0 +1,157 @@
+.body,
+.header,
+.main,
+h1 {
+  padding: 0;
+  margin: 0;
+}
+
+.body {
+  min-height: 100vh;
+  background: #dbefff;
+  user-select: none;
+}
+
+.header-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 50px;
+  padding: 30px 50px;
+}
+
+.main-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.field {
+  display: flex;
+  /* flex-wrap: wrap; */
+  margin: 0 auto;
+  flex-direction: column;
+}
+
+.field-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.field-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  background-color: #c0c0c0;
+  border-top: 4px solid #d7d7d7;
+  border-right: 4px solid #7d7f7d;
+  border-bottom: 4px solid #7d7f7d;
+  border-left: 4px solid #d7d7d7;
+  width: 26px;
+  height: 26px;
+}
+
+.field-hard {
+  width: 650px;
+}
+
+.field-medium {
+  width: 390px;
+}
+
+.field-easy {
+  width: 260px;
+}
+
+.stats {
+  font-size: 20px;
+  font-weight: 700;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: 500px;
+  padding: 0px 50px;
+}
+
+.stats-newgame {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 140px;
+}
+
+.stats-smile {
+  height: 50px;
+  width: 50px;
+  background-image: url('./assets/icons/smile.svg');
+  background-position: center;
+  background-size: contain;
+}
+
+.field-cell.field-cell-active {
+  border-top: 4px solid #7d7f7d;
+  border-right: none;
+  border-bottom: none;
+  border-left: 4px solid #7d7f7d;
+}
+
+.field-cell.field-cell-opened {
+  border-top: none;
+  border-right: 1px solid #d7d7d7;
+  border-bottom: 1px solid #d7d7d7;
+  border-left: none;
+}
+
+.field-cell-mine {
+  background-color: #960018;
+}
+
+.field-img-mine {
+  /* object-fit: contain; */
+  width: 80%;
+  height: 80%;
+}
+
+.color-blue {
+  color: #0000ff;
+}
+
+.color-green {
+  color: #008000;
+}
+
+.color-red {
+  color: #ff0000;
+}
+
+.color-darkblue {
+  color: #002137;
+}
+
+.color-brown {
+  color: #964b00;
+}
+
+.color-aqua {
+  color: #30d5c8;
+}
+
+.color-gray {
+  color: #bbbbbb;
+}
+
+.color-darkgray {
+  color: #49423d;
+}
+
+.field-cell.field-cell-flagged {
+  /* height: 80%;
+  width: 80%; */
+  background-image: url('./assets/icons/flag.svg');
+  background-position: center;
+  background-size: contain;
+}
+
+.settings {
+  max-width: 500px;
+  margin: 0 auto;
+}
