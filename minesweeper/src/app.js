@@ -177,6 +177,29 @@ const gameEnd = (gameResult, cellID) => {
   gameData.gamefinished = true;
 };
 
+const getColor = (numberOfMines) => {
+  let color;
+  if (numberOfMines === 1) {
+    color = 'blue';
+  } else if (numberOfMines === 2) {
+    color = 'green';
+  } else if (numberOfMines === 3) {
+    color = 'red';
+  } else if (numberOfMines === 4) {
+    color = 'darkblue';
+  } else if (numberOfMines === 5) {
+    color = 'brown';
+  } else if (numberOfMines === 6) {
+    color = 'aqua';
+  } else if (numberOfMines === 7) {
+    color = 'gray';
+  } else if (numberOfMines === 8) {
+    color = 'darkgray';
+  }
+
+  return color;
+};
+
 const cellOpen = (cellID) => {
   const fieldCellObj = gameData.fieldMap[cellID];
   const fieldCellEl = document.getElementById(fieldCellObj.id);
@@ -193,11 +216,25 @@ const cellOpen = (cellID) => {
     fieldCellEl.classList.add('field-cell-opened');
     if (fieldCellObj.mineAround !== 0) {
       fieldCellEl.innerHTML = fieldCellObj.mineAround;
+      fieldCellEl.classList.add(`color-${getColor(fieldCellObj.mineAround)}`);
     }
-    if (allCellsAreOpen) {
+    if (allCellsAreOpen()) {
       gameEnd('win', cellID);
     }
   }
+};
+
+const openNeighboursCells = (currentCellID) => {
+  const neighboursArr = getNeighboursIdArr(gameData.fieldMap[currentCellID], currentCellID);
+  neighboursArr.forEach((item) => {
+    const thisCell = gameData.fieldMap[item];
+    if (!thisCell.isMine && thisCell.state !== 'opened' && thisCell.state !== 'flagged') {
+      cellOpen(item);
+      if (thisCell.mineAround === 0) {
+        openNeighboursCells(item);
+      }
+    }
+  });
 };
 
 const cellMousedownHandler = (event, fieldCellEl) => {
@@ -223,6 +260,7 @@ const cellMouseupHandler = (event) => {
         console.log('leftMouseUp');
         clickedCell.classList.remove('field-cell-active');
         cellOpen(fieldCellObj.id);
+        openNeighboursCells(fieldCellObj.id);
       } else if (event.which === 3) {
         console.log('rightMouseUp');
       }
@@ -304,7 +342,3 @@ createApp();
 window.addEventListener('mouseup', (event) => {
   cellMouseupHandler(event);
 });
-
-
-
-// console.log(gameData.fieldMap[1]);

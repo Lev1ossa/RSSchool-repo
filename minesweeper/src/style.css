@@ -110,3 +110,35 @@ h1 {
   width: 80%;
   height: 80%;
 }
+
+.color-blue {
+  color: #0000ff;
+}
+
+.color-green {
+  color: #008000;
+}
+
+.color-red {
+  color: #ff0000;
+}
+
+.color-darkblue {
+  color: #002137;
+}
+
+.color-brown {
+  color: #964b00;
+}
+
+.color-aqua {
+  color: #30d5c8;
+}
+
+.color-gray {
+  color: #bbbbbb;
+}
+
+.color-darkgray {
+  color: #49423d;
+}
