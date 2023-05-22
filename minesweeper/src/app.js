@@ -7,6 +7,10 @@ const defaultMines = 10;
 
 let clickedCell;
 
+let gameTimer;
+
+let gameLoaded = false;
+
 // Todo: implement difficulty lvl and game load
 // let currentSize = 10;
 // let currentMines = 10;
@@ -23,6 +27,8 @@ const gameData = {
   flagedCells: [],
   fieldMap: {},
   gamefinished: false,
+  gameTime: 0,
+  moves: 0,
 };
 
 class FieldCell {
@@ -35,6 +41,18 @@ class FieldCell {
     this.id = id;
   }
 }
+
+const startTimer = () => {
+  const writeTime = () => {
+    if (!gameData.gamefinished) {
+      const time = gameData.gameTime;
+      const timerEl = document.querySelector('.stats-timer');
+      gameData.gameTime = time + 1;
+      timerEl.innerHTML = time + 1;
+    }
+  };
+  gameTimer = setInterval(writeTime, 1000);
+};
 
 const getNeighboursIdArr = (cell, cellID) => {
   const neighboursIdArr = [];
@@ -132,6 +150,8 @@ const addRandomMines = () => {
   gameData.mineCells.forEach((item) => {
     gameData.fieldMap[item].isMine = true;
   });
+
+  console.log(gameData.mineCells);
 };
 
 const allCellsAreOpen = () => {
@@ -145,6 +165,23 @@ const allCellsAreOpen = () => {
   return result;
 };
 
+const setCounters = () => {
+  const movesEl = document.querySelector('.stats-moves');
+  const timerEl = document.querySelector('.stats-timer');
+  const minesEl = document.querySelector('.stats-mines');
+  const flagsEl = document.querySelector('.stats-flags');
+
+  timerEl.innerHTML = gameData.gameTime;
+  movesEl.innerHTML = gameData.moves;
+  minesEl.innerHTML = gameData.mines;
+  flagsEl.innerHTML = gameData.flagedCells.length;
+};
+
+const changeMovesCounter = () => {
+  const movesEl = document.querySelector('.stats-moves');
+  movesEl.innerHTML = +movesEl.innerHTML + 1;
+};
+
 const gameStart = (cellID) => {
   const fieldCellObj = gameData.fieldMap[cellID];
   gameData.openedCells.push(fieldCellObj.id);
@@ -152,6 +189,7 @@ const gameStart = (cellID) => {
   addRandomMines();
   countMines();
   gameData.firstMove = false;
+  startTimer();
 };
 
 const gameEnd = (gameResult, cellID) => {
@@ -175,6 +213,7 @@ const gameEnd = (gameResult, cellID) => {
   }
 
   gameData.gamefinished = true;
+  clearInterval(gameTimer);
 };
 
 const getColor = (numberOfMines) => {
@@ -261,6 +300,7 @@ const cellMouseupHandler = (event) => {
         clickedCell.classList.remove('field-cell-active');
         cellOpen(fieldCellObj.id);
         openNeighboursCells(fieldCellObj.id);
+        changeMovesCounter();
       } else if (event.which === 3) {
         console.log('rightMouseUp');
       }
@@ -314,8 +354,8 @@ const createApp = () => {
     <div class="main-wrapper">
       <div class="stats">
         <div class="stats-block">
-          <p class="stats-text">Moves:</p>
-          <p class="stats-text">Time:</p>
+          <p class="stats-text">Moves: <span class="stats-moves"></span></p>
+          <p class="stats-text">Time: <span class="stats-timer"></span></p>
         </div>
         <div class="stats-block stats-newgame">
           <p class="stats-text">New</p>
@@ -323,8 +363,8 @@ const createApp = () => {
           <p class="stats-text">game</p>
         </div>
         <div class="stats-block">
-          <p class="stats-text">Mines:</p>
-          <p class="stats-text">Flags:</p>
+          <p class="stats-text">Mines: <span class="stats-mines"></span></p>
+          <p class="stats-text">Flags: <span class="stats-flags"></span></p>
         </div>
       </div>
       <div class="field">
@@ -335,6 +375,10 @@ const createApp = () => {
 
   body.appendChild(app);
   createNewField();
+  setCounters();
+  // if (gameLoaded) {
+  //   startTimer();
+  // }
 };
 
 createApp();
