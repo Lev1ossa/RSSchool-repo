@@ -276,10 +276,6 @@ const showDialog = (DialogContent) => {
     dialogBlock.appendChild(favDialogText);
   }
 
-  // leaderboardButton.addEventListener('click', () => {
-  //   favDialog.showModal();
-  // });
-
   favDialog.showModal();
 
   cancelButton.addEventListener('click', () => {
@@ -530,9 +526,6 @@ const createApp = () => {
   body.appendChild(app);
   createNewField();
   setCounters();
-  // if (gameLoaded) {
-  //   startTimer();
-  // }
   const minesInput = document.getElementById('mines');
   minesInput.addEventListener('change', (e) => {
     if (e.target.value < 10) {
@@ -576,7 +569,6 @@ const startNewGame = () => {
   gameData.gameTime = 0;
   gameData.moves = 0;
   gameData.minesCounter = numberOfMines;
-  // gameData.soundOn = true;
 
   setCounters();
   createNewField();

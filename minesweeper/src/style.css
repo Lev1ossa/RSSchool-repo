@@ -138,7 +138,6 @@ h1 {
 }
 
 .field-img-mine {
-  /* object-fit: contain; */
   width: 80%;
   height: 80%;
 }
@@ -176,8 +175,6 @@ h1 {
 }
 
 .field-cell.field-cell-flagged {
-  /* height: 80%;
-  width: 80%; */
   background-image: url('./assets/icons/flag.svg');
   background-position: center;
   background-size: contain;
@@ -195,7 +192,6 @@ h1 {
   max-width: 500px;
   height: 60px;
   display: flex;
-  /* flex-direction: column; */
   justify-content: space-between;
   margin: 10px auto;
 }
