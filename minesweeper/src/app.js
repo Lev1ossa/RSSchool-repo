@@ -6,20 +6,10 @@ import loseSoundsrc from './assets/sounds/lose.mp3';
 import flaggedSoundsrc from './assets/sounds/flagged.mp3';
 
 const body = document.querySelector('body');
-const defaultDifficulty = 'easy';
-const defaultMines = 10;
 
 let clickedCell;
 
 let gameTimer;
-
-let gameLoaded = false;
-
-// Todo: implement difficulty lvl and game load
-// let currentSize = 10;
-// let currentMines = 10;
-// let currentDifficulty = 'easy';
-// let firstMove = true;
 
 const gameData = {
   difficulty: 'easy',
@@ -176,8 +166,6 @@ const addRandomMines = () => {
   gameData.mineCells.forEach((item) => {
     gameData.fieldMap[item].isMine = true;
   });
-
-  console.log(gameData.mineCells);
 };
 
 const allCellsAreOpen = () => {
@@ -253,6 +241,32 @@ const gameStart = (cellID) => {
   startTimer();
 };
 
+const showDialog = (DialogContent) => {
+  const cancelButton = document.getElementById('close');
+  const favDialog = document.getElementById('favDialog');
+  const dialogBlock = document.getElementById('dialog-block');
+
+  dialogBlock.innerHTML = '';
+
+  if (Array.isArray(DialogContent)) {
+    console.log('array');
+  } else {
+    const favDialogText = document.createElement('p');
+    favDialogText.innerHTML = DialogContent;
+    dialogBlock.appendChild(favDialogText);
+  }
+
+  // leaderboardButton.addEventListener('click', () => {
+  //   favDialog.showModal();
+  // });
+
+  favDialog.showModal();
+
+  cancelButton.addEventListener('click', () => {
+    favDialog.close();
+  });
+};
+
 const gameEnd = (gameResult, cellID) => {
   if (gameResult === 'lose') {
     gameData.mineCells.forEach((item) => {
@@ -268,13 +282,10 @@ const gameEnd = (gameResult, cellID) => {
       mineImg.alt = 'mine image';
       fieldCellEl.appendChild(mineImg);
     });
-    // TODO show lose message
-    alert(`you lose`);
+    showDialog('Game over. Try again');
     playSound('lose');
   } else if (gameResult === 'win') {
-    console.log('hey');
-    // TODO show lose message
-    alert(`Hooray! You found all mines in ${gameData.gameTime} seconds and ${gameData.moves} moves!`);
+    showDialog(`Hooray! You found all mines in ${gameData.gameTime} seconds and ${gameData.moves} moves!`);
     playSound('win');
   }
 
@@ -344,14 +355,10 @@ const openNeighboursCells = (currentCellID) => {
 
 const cellMousedownHandler = (event, fieldCellEl) => {
   const fieldCellObj = gameData.fieldMap[fieldCellEl.id];
-  // console.log(fieldCellObj.state !== 'opened');
   if (!gameData.gamefinished && fieldCellObj.state !== 'opened') {
     clickedCell = fieldCellEl;
     if (event.which === 1 && fieldCellObj.state !== 'flagged') {
-      console.log('leftMouseDown');
       fieldCellEl.classList.add('field-cell-active');
-    } else if (event.which === 3) {
-      console.log('rightMouseDown');
     }
   }
 };
@@ -360,16 +367,13 @@ const cellMouseupHandler = (event) => {
   if (clickedCell) {
     const fieldCellObj = gameData.fieldMap[clickedCell.id];
     if (!gameData.gamefinished && fieldCellObj.state !== 'opened') {
-      // console.log(fieldCellObj);
       if (event.which === 1 && fieldCellObj.state !== 'flagged') {
-        console.log('leftMouseUp');
         clickedCell.classList.remove('field-cell-active');
         cellOpen(fieldCellObj.id);
         openNeighboursCells(fieldCellObj.id);
         changeMovesCounter();
         playSound('push');
       } else if (event.which === 3) {
-        console.log('rightMouseUp');
         if (fieldCellObj.state === 'unopened' && !gameData.firstMove) {
           addFlag(fieldCellObj.id);
         } else if (fieldCellObj.state === 'flagged') {
@@ -470,6 +474,14 @@ const createApp = () => {
         </div>
       </div>
     </div>
+    <dialog id="favDialog">
+      <form method="dialog">
+        <div id='dialog-block'></div>
+        <menu>
+          <button id="close" type="reset">Close</button>
+        </menu>
+      </form>
+    </dialog>
   </main>`;
 
   body.appendChild(app);
@@ -480,7 +492,6 @@ const createApp = () => {
   // }
   const minesInput = document.getElementById('mines');
   minesInput.addEventListener('change', (e) => {
-    console.log(e.target.value);
     if (e.target.value < 10) {
       e.target.value = 10;
     } else if (e.target.value > 99) {
@@ -520,46 +531,54 @@ const startNewGame = () => {
 const saveGame = () => {
   if (!gameData.gamefinished) {
     localStorage.setItem('lev1ossa-save-gameData', JSON.stringify(gameData));
+    showDialog('Game saved!');
+  } else {
+    showDialog('You can not save finished game!');
   }
 };
 
 const loadGame = () => {
-  clearInterval(gameTimer);
-  const loadGameData = JSON.parse(localStorage.getItem('lev1ossa-save-gameData'));
-  gameData.difficulty = loadGameData.difficulty;
-  gameData.size = loadGameData.size;
-  gameData.mines = loadGameData.mines;
-  gameData.mineCells = loadGameData.mineCells;
-  gameData.openedCells = loadGameData.openedCells;
-  gameData.flagedCells = loadGameData.flagedCells;
-  gameData.gamefinished = loadGameData.gamefinished;
-  gameData.gameTime = loadGameData.gameTime;
-  gameData.moves = loadGameData.moves;
-  gameData.minesCounter = loadGameData.minesCounter;
+  if (localStorage.getItem('lev1ossa-save-gameData')) {
+    clearInterval(gameTimer);
+    const loadGameData = JSON.parse(localStorage.getItem('lev1ossa-save-gameData'));
+    gameData.difficulty = loadGameData.difficulty;
+    gameData.size = loadGameData.size;
+    gameData.mines = loadGameData.mines;
+    gameData.mineCells = loadGameData.mineCells;
+    gameData.openedCells = loadGameData.openedCells;
+    gameData.flagedCells = loadGameData.flagedCells;
+    gameData.gamefinished = loadGameData.gamefinished;
+    gameData.gameTime = loadGameData.gameTime;
+    gameData.moves = loadGameData.moves;
+    gameData.minesCounter = loadGameData.minesCounter;
 
-  createNewField();
+    createNewField();
 
-  gameData.firstMove = loadGameData.firstMove;
-  gameData.fieldMap = loadGameData.fieldMap;
+    gameData.firstMove = loadGameData.firstMove;
+    gameData.fieldMap = loadGameData.fieldMap;
 
-  if (!gameData.firstMove) {
-    startTimer();
-    gameData.openedCells.forEach((item) => {
-      const cellObj = gameData.fieldMap[item];
-      const cellEl = document.getElementById(item);
-      cellEl.classList.add('field-cell-opened');
-      if (cellObj.mineAround !== 0) {
-        cellEl.innerHTML = cellObj.mineAround;
-        cellEl.classList.add(`color-${getColor(cellObj.mineAround)}`);
-      }
-    });
-    gameData.flagedCells.forEach((item) => {
-      const cellEl = document.getElementById(item);
-      cellEl.classList.add('field-cell-flagged');
-    });
+    if (!gameData.firstMove) {
+      startTimer();
+      gameData.openedCells.forEach((item) => {
+        const cellObj = gameData.fieldMap[item];
+        const cellEl = document.getElementById(item);
+        cellEl.classList.add('field-cell-opened');
+        if (cellObj.mineAround !== 0) {
+          cellEl.innerHTML = cellObj.mineAround;
+          cellEl.classList.add(`color-${getColor(cellObj.mineAround)}`);
+        }
+      });
+      gameData.flagedCells.forEach((item) => {
+        const cellEl = document.getElementById(item);
+        cellEl.classList.add('field-cell-flagged');
+      });
+    }
+
+    setCounters();
+    showDialog('Game loaded!');
+  } else {
+    showDialog('Save not found!');
   }
-
-  setCounters();
 };
 
 createApp();
@@ -568,6 +587,7 @@ const newGameButton = document.querySelector('.new-game');
 const newGameSmile = document.querySelector('.stats-smile');
 const saveGameButton = document.querySelector('.save-game');
 const loadGameButton = document.querySelector('.load-game');
+const leaderboardButton = document.querySelector('.leaderboard');
 
 newGameButton.addEventListener('click', () => {
   startNewGame();
@@ -583,6 +603,10 @@ saveGameButton.addEventListener('click', () => {
 
 loadGameButton.addEventListener('click', () => {
   loadGame();
+});
+
+leaderboardButton.addEventListener('click', () => {
+  showDialog();
 });
 
 window.addEventListener('mouseup', (event) => {
