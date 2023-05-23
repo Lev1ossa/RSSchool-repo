@@ -72,11 +72,15 @@ h1 {
   padding: 0px 50px;
 }
 
+.stats-block {
+  width: 100px;
+}
+
 .stats-newgame {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  width: 140px;
+  width: 50px;
 }
 
 .stats-smile {
@@ -154,4 +158,31 @@ h1 {
 .settings {
   max-width: 500px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.buttons-block {
+  height: 175px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.button {
+  box-sizing: border-box;
+  background-color: #d7d7d7;
+  width: 100px;
+  height: 25px;
+  border: 1px solid black;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button:active {
+  border: none;
 }

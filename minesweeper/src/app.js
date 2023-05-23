@@ -165,7 +165,9 @@ const countMines = () => {
 
 const addRandomMines = () => {
   while (gameData.mineCells.length < gameData.mines) {
-    const randomInt = Math.floor(Math.random() * (gameData.size * gameData.size));
+    console.log(gameData.mines);
+    console.log(gameData.mineCells);
+    const randomInt = Math.floor(Math.random() * (gameData.size * gameData.size)) + 1;
     if (randomInt !== 0 && !gameData.mineCells.includes(randomInt)
     && !gameData.openedCells.includes(randomInt)) {
       gameData.mineCells.push(randomInt);
@@ -382,7 +384,9 @@ const createNewField = () => {
   const field = document.querySelector('.field');
 
   field.innerHTML = '';
-
+  field.classList.remove('field-easy');
+  field.classList.remove('field-medium');
+  field.classList.remove('field-hard');
   field.classList.add(`field-${gameData.difficulty}`);
 
   for (let i = 0; i < gameData.size; i += 1) {
@@ -427,9 +431,7 @@ const createApp = () => {
           <p class="stats-text">Time: <span class="stats-timer"></span></p>
         </div>
         <div class="stats-block stats-newgame">
-          <p class="stats-text">New</p>
           <div class="stats-smile"></div>
-          <p class="stats-text">game</p>
         </div>
         <div class="stats-block">
           <p class="stats-text">Mines: <span class="stats-mines"></span></p>
@@ -454,12 +456,17 @@ const createApp = () => {
             <label for="hard">Hard</label>
           </div>
           <div class="settings-input">
-            <input type="number" id="mines" name="mines" min="10" max="100" value="10">
-            <label for="mines">Number of mines (10-100):</label>
+            <input type="number" id="mines" name="mines" min="10" max="99" value="10">
+            <label for="mines">Number of mines (10-99):</label>
           </div>
         </fieldset>
-        <div class="save-game">Save</div>
-        <div class="load-game">Load</div>
+        <div class="buttons-block">
+          <div class="button new-game">New game</div>
+          <div class="button save-game">Save</div>
+          <div class="button load-game">Load</div>
+          <div class="button color-theme">Change theme</div>
+          <div class="button leaderboard">Leaderboard</div>
+        </div>
       </div>
     </div>
   </main>`;
@@ -470,15 +477,58 @@ const createApp = () => {
   // if (gameLoaded) {
   //   startTimer();
   // }
+  const minesInput = document.getElementById('mines');
+  minesInput.addEventListener('change', (e) => {
+    console.log(e.target.value);
+    if (e.target.value < 10) {
+      e.target.value = 10;
+    } else if (e.target.value > 99) {
+      e.target.value = 99;
+    }
+  });
+};
+
+const startNewGame = () => {
+  const difficultySettings = document.querySelector('input[name="difficulty"]:checked').value;
+  const numberOfMines = document.querySelector('input[name="mines"]').value;
+
+  gameData.difficulty = difficultySettings;
+  if (difficultySettings === 'easy') {
+    gameData.size = 10;
+  } else if (difficultySettings === 'medium') {
+    gameData.size = 15;
+  } else if (difficultySettings === 'hard') {
+    gameData.size = 25;
+  }
+  console.log(gameData.size);
+  gameData.mines = numberOfMines;
+  gameData.firstMove = true;
+  gameData.mineCells = [];
+  gameData.openedCells = [];
+  gameData.flagedCells = [];
+  gameData.fieldMap = {};
+  gameData.gamefinished = false;
+  gameData.gameTime = 0;
+  gameData.moves = 0;
+
+  setCounters();
+  createNewField();
+  clearInterval(gameTimer);
 };
 
 createApp();
 
+const newGameButton = document.querySelector('.new-game');
+const newGameSmile = document.querySelector('.stats-smile');
+
+newGameButton.addEventListener('click', (() => {
+  startNewGame();
+}));
+
+newGameSmile.addEventListener('click', (() => {
+  startNewGame();
+}));
+
 window.addEventListener('mouseup', (event) => {
   cellMouseupHandler(event);
-});
-
-const minesInput = document.getElementById('mines');
-minesInput.addEventListener('change', (e) => {
-  console.log(e.target.value);
 });
