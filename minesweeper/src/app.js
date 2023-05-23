@@ -8,8 +8,15 @@ import flaggedSoundsrc from './assets/sounds/flagged.mp3';
 const body = document.querySelector('body');
 
 let clickedCell;
-
 let gameTimer;
+
+let leaderBoardArr;
+
+if (localStorage.getItem('lev1ossa-save-leaderBoard')) {
+  leaderBoardArr = JSON.parse(localStorage.getItem('lev1ossa-save-leaderBoard'));
+} else {
+  leaderBoardArr = [];
+}
 
 const gameData = {
   difficulty: 'easy',
@@ -249,7 +256,17 @@ const showDialog = (DialogContent) => {
   dialogBlock.innerHTML = '';
 
   if (Array.isArray(DialogContent)) {
-    console.log('array');
+    if (DialogContent.length > 0) {
+      DialogContent.forEach((item) => {
+        const favDialogText = document.createElement('p');
+        favDialogText.innerHTML = `diff: ${item.diff}, mines: ${item.mines}, moves: ${item.moves}, time: ${item.time}`;
+        dialogBlock.appendChild(favDialogText);
+      });
+    } else {
+      const favDialogText = document.createElement('p');
+      favDialogText.innerHTML = 'No scores yet!';
+      dialogBlock.appendChild(favDialogText);
+    }
   } else {
     const favDialogText = document.createElement('p');
     favDialogText.innerHTML = DialogContent;
@@ -265,6 +282,16 @@ const showDialog = (DialogContent) => {
   cancelButton.addEventListener('click', () => {
     favDialog.close();
   });
+};
+
+const addResultToLeaderBoard = (result) => {
+  if (leaderBoardArr.length < 10) {
+    leaderBoardArr.push(result);
+  } else {
+    leaderBoardArr.splice(0, 1);
+    leaderBoardArr.push(result);
+  }
+  localStorage.setItem('lev1ossa-save-leaderBoard', JSON.stringify(leaderBoardArr));
 };
 
 const gameEnd = (gameResult, cellID) => {
@@ -287,6 +314,12 @@ const gameEnd = (gameResult, cellID) => {
   } else if (gameResult === 'win') {
     showDialog(`Hooray! You found all mines in ${gameData.gameTime} seconds and ${gameData.moves} moves!`);
     playSound('win');
+    addResultToLeaderBoard({
+      diff: gameData.difficulty,
+      mines: gameData.mines,
+      moves: gameData.moves,
+      time: gameData.gameTime,
+    });
   }
 
   gameData.gamefinished = true;
@@ -606,7 +639,7 @@ loadGameButton.addEventListener('click', () => {
 });
 
 leaderboardButton.addEventListener('click', () => {
-  showDialog();
+  showDialog(leaderBoardArr);
 });
 
 window.addEventListener('mouseup', (event) => {
