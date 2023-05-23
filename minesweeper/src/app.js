@@ -31,6 +31,7 @@ const gameData = {
   gameTime: 0,
   moves: 0,
   minesCounter: 10,
+  soundOn: true,
 };
 
 class FieldCell {
@@ -45,22 +46,24 @@ class FieldCell {
 }
 
 const playSound = (sound) => {
-  if (sound === 'win') {
-    const winSound = new Audio(winSoundsrc);
-    winSound.volume = 0.5;
-    winSound.play();
-  } else if (sound === 'push') {
-    const pushSound = new Audio(pushSoundsrc);
-    pushSound.volume = 0.5;
-    pushSound.play();
-  } else if (sound === 'lose') {
-    const loseSound = new Audio(loseSoundsrc);
-    loseSound.volume = 0.5;
-    loseSound.play();
-  } else if (sound === 'flagged') {
-    const flaggedSound = new Audio(flaggedSoundsrc);
-    flaggedSound.volume = 0.5;
-    flaggedSound.play();
+  if (gameData.soundOn) {
+    if (sound === 'win') {
+      const winSound = new Audio(winSoundsrc);
+      winSound.volume = 0.5;
+      winSound.play();
+    } else if (sound === 'push') {
+      const pushSound = new Audio(pushSoundsrc);
+      pushSound.volume = 0.5;
+      pushSound.play();
+    } else if (sound === 'lose') {
+      const loseSound = new Audio(loseSoundsrc);
+      loseSound.volume = 0.5;
+      loseSound.play();
+    } else if (sound === 'flagged') {
+      const flaggedSound = new Audio(flaggedSoundsrc);
+      flaggedSound.volume = 0.5;
+      flaggedSound.play();
+    }
   }
 };
 
@@ -462,7 +465,21 @@ const createApp = () => {
     </div>
   </header>
   <main class="main">
-    <div class="main-wrapper">
+      <div class="main-wrapper">
+        <div class="buttons-block">
+        <div class="buttons-col">
+          <div class="button new-game">New game</div>
+          <div class="button leaderboard">Leaderboard</div>
+        </div>
+        <div class="buttons-col">
+          <div class="button save-game">Save</div>
+          <div class="button load-game">Load</div>
+        </div>
+        <div class="buttons-col">
+          <div class="button color-theme">Change theme</div>
+          <div class="button sound">Sound: ON</div>
+        </div>
+      </div>
       <div class="stats">
         <div class="stats-block">
           <p class="stats-text">Moves: <span class="stats-moves"></span></p>
@@ -498,13 +515,6 @@ const createApp = () => {
             <label for="mines">Number of mines (10-99):</label>
           </div>
         </fieldset>
-        <div class="buttons-block">
-          <div class="button new-game">New game</div>
-          <div class="button save-game">Save</div>
-          <div class="button load-game">Load</div>
-          <div class="button color-theme">Change theme</div>
-          <div class="button leaderboard">Leaderboard</div>
-        </div>
       </div>
     </div>
     <dialog id="favDialog">
@@ -533,6 +543,17 @@ const createApp = () => {
   });
 };
 
+const toggleSound = () => {
+  const soundButton = document.querySelector('.sound');
+  if (gameData.soundOn) {
+    soundButton.innerHTML = 'Sound: OFF';
+    gameData.soundOn = false;
+  } else {
+    soundButton.innerHTML = 'Sound: ON';
+    gameData.soundOn = true;
+  }
+};
+
 const startNewGame = () => {
   const difficultySettings = document.querySelector('input[name="difficulty"]:checked').value;
   const numberOfMines = document.querySelector('input[name="mines"]').value;
@@ -555,6 +576,7 @@ const startNewGame = () => {
   gameData.gameTime = 0;
   gameData.moves = 0;
   gameData.minesCounter = numberOfMines;
+  // gameData.soundOn = true;
 
   setCounters();
   createNewField();
@@ -584,6 +606,10 @@ const loadGame = () => {
     gameData.gameTime = loadGameData.gameTime;
     gameData.moves = loadGameData.moves;
     gameData.minesCounter = loadGameData.minesCounter;
+    if (gameData.soundOn !== loadGameData.soundOn) {
+      toggleSound();
+    }
+    gameData.soundOn = loadGameData.soundOn;
 
     createNewField();
 
@@ -614,6 +640,11 @@ const loadGame = () => {
   }
 };
 
+const toggleColorTheme = () => {
+  const bodyEl = document.querySelector('body');
+  bodyEl.classList.toggle('body-dark');
+};
+
 createApp();
 
 const newGameButton = document.querySelector('.new-game');
@@ -621,6 +652,8 @@ const newGameSmile = document.querySelector('.stats-smile');
 const saveGameButton = document.querySelector('.save-game');
 const loadGameButton = document.querySelector('.load-game');
 const leaderboardButton = document.querySelector('.leaderboard');
+const soundButton = document.querySelector('.sound');
+const colorThemeButton = document.querySelector('.color-theme');
 
 newGameButton.addEventListener('click', () => {
   startNewGame();
@@ -640,6 +673,14 @@ loadGameButton.addEventListener('click', () => {
 
 leaderboardButton.addEventListener('click', () => {
   showDialog(leaderBoardArr);
+});
+
+soundButton.addEventListener('click', () => {
+  toggleSound();
+});
+
+colorThemeButton.addEventListener('click', () => {
+  toggleColorTheme();
 });
 
 window.addEventListener('mouseup', (event) => {

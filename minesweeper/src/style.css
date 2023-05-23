@@ -12,6 +12,19 @@ h1 {
   user-select: none;
 }
 
+.body-dark {
+  color: #d7d7d7;
+  background: #423189;
+}
+
+.header {
+  background: #d7d7d7;
+}
+
+.body-dark .header {
+  background: #003366;
+}
+
 .header-wrapper {
   max-width: 1200px;
   margin: 0 auto;
@@ -48,6 +61,14 @@ h1 {
   border-left: 4px solid #d7d7d7;
   width: 26px;
   height: 26px;
+}
+
+.body-dark .field-cell {
+  background-color: #979997;
+  border-top: 4px solid #7d7f7d;
+  border-right: 4px solid black;
+  border-bottom: 4px solid black;
+  border-left: 4px solid #7d7f7d;
 }
 
 .field-hard {
@@ -105,6 +126,13 @@ h1 {
   border-left: none;
 }
 
+.body-dark .field-cell.field-cell.field-cell-opened {
+  border-top: none;
+  border-right: 1px solid #003366;
+  border-bottom: 1px solid #003366;
+  border-left: none;
+}
+
 .field-cell-mine {
   background-color: #960018;
 }
@@ -157,18 +185,25 @@ h1 {
 
 .settings {
   max-width: 500px;
-  margin: 0 auto;
+  margin: 10px auto;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .buttons-block {
-  height: 175px;
+  max-width: 500px;
+  height: 60px;
+  display: flex;
+  /* flex-direction: column; */
+  justify-content: space-between;
+  margin: 10px auto;
+}
+
+.buttons-col {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-top: 10px;
 }
 
 .button {
@@ -183,6 +218,47 @@ h1 {
   justify-content: center;
 }
 
+.body-dark .button {
+  background-color: #003366;
+}
+
 .button:active {
   border: none;
+}
+
+.body-dark #mines {
+  background: #003366;
+  color: #d7d7d7;
+}
+
+.body-dark #favDialog {
+  background-color: #483d8b;
+  color: #d7d7d7;
+}
+
+.body-dark #close {
+  background-color: #003366;
+  color: #d7d7d7;
+}
+
+@media (max-width: 700px) {
+  .field-hard {
+    width: 500px;
+  }
+
+  .field-hard .field-cell {
+    height: 20px;
+    width: 20px;
+  }
+}
+
+@media (max-width: 520px) {
+  .field-hard {
+    width: 400px;
+  }
+
+  .field-hard .field-cell {
+    height: 16px;
+    width: 16px;
+  }
 }
