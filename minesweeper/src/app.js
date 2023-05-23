@@ -33,6 +33,7 @@ const gameData = {
   gamefinished: false,
   gameTime: 0,
   moves: 0,
+  minesCounter: 10,
 };
 
 class FieldCell {
@@ -165,8 +166,6 @@ const countMines = () => {
 
 const addRandomMines = () => {
   while (gameData.mineCells.length < gameData.mines) {
-    console.log(gameData.mines);
-    console.log(gameData.mineCells);
     const randomInt = Math.floor(Math.random() * (gameData.size * gameData.size)) + 1;
     if (randomInt !== 0 && !gameData.mineCells.includes(randomInt)
     && !gameData.openedCells.includes(randomInt)) {
@@ -175,8 +174,6 @@ const addRandomMines = () => {
   }
 
   gameData.mineCells.forEach((item) => {
-    console.log(gameData.mineCells);
-    console.log(item);
     gameData.fieldMap[item].isMine = true;
   });
 
@@ -202,13 +199,14 @@ const setCounters = () => {
 
   timerEl.innerHTML = gameData.gameTime;
   movesEl.innerHTML = gameData.moves;
-  minesEl.innerHTML = gameData.mines;
+  minesEl.innerHTML = gameData.minesCounter;
   flagsEl.innerHTML = gameData.flagedCells.length;
 };
 
 const changeMovesCounter = () => {
   const movesEl = document.querySelector('.stats-moves');
   movesEl.innerHTML = +movesEl.innerHTML + 1;
+  gameData.moves = movesEl.innerHTML;
 };
 
 const addFlag = (cellID) => {
@@ -222,6 +220,8 @@ const addFlag = (cellID) => {
   fieldCellEl.classList.add('field-cell-flagged');
   minesEl.innerHTML = +minesEl.innerHTML - 1;
   flagsEl.innerHTML = +flagsEl.innerHTML + 1;
+
+  gameData.minesCounter = minesEl.innerHTML;
 
   playSound('flagged');
 };
@@ -272,6 +272,7 @@ const gameEnd = (gameResult, cellID) => {
     alert(`you lose`);
     playSound('lose');
   } else if (gameResult === 'win') {
+    console.log('hey');
     // TODO show lose message
     alert(`Hooray! You found all mines in ${gameData.gameTime} seconds and ${gameData.moves} moves!`);
     playSound('win');
@@ -322,7 +323,7 @@ const cellOpen = (cellID) => {
       fieldCellEl.innerHTML = fieldCellObj.mineAround;
       fieldCellEl.classList.add(`color-${getColor(fieldCellObj.mineAround)}`);
     }
-    if (allCellsAreOpen()) {
+    if (allCellsAreOpen() && !gameData.gamefinished) {
       gameEnd('win', cellID);
     }
   }
@@ -500,7 +501,6 @@ const startNewGame = () => {
   } else if (difficultySettings === 'hard') {
     gameData.size = 25;
   }
-  console.log(gameData.size);
   gameData.mines = numberOfMines;
   gameData.firstMove = true;
   gameData.mineCells = [];
@@ -510,24 +510,80 @@ const startNewGame = () => {
   gameData.gamefinished = false;
   gameData.gameTime = 0;
   gameData.moves = 0;
+  gameData.minesCounter = numberOfMines;
 
   setCounters();
   createNewField();
   clearInterval(gameTimer);
 };
 
+const saveGame = () => {
+  if (!gameData.gamefinished) {
+    localStorage.setItem('lev1ossa-save-gameData', JSON.stringify(gameData));
+  }
+};
+
+const loadGame = () => {
+  clearInterval(gameTimer);
+  const loadGameData = JSON.parse(localStorage.getItem('lev1ossa-save-gameData'));
+  gameData.difficulty = loadGameData.difficulty;
+  gameData.size = loadGameData.size;
+  gameData.mines = loadGameData.mines;
+  gameData.mineCells = loadGameData.mineCells;
+  gameData.openedCells = loadGameData.openedCells;
+  gameData.flagedCells = loadGameData.flagedCells;
+  gameData.gamefinished = loadGameData.gamefinished;
+  gameData.gameTime = loadGameData.gameTime;
+  gameData.moves = loadGameData.moves;
+  gameData.minesCounter = loadGameData.minesCounter;
+
+  createNewField();
+
+  gameData.firstMove = loadGameData.firstMove;
+  gameData.fieldMap = loadGameData.fieldMap;
+
+  if (!gameData.firstMove) {
+    startTimer();
+    gameData.openedCells.forEach((item) => {
+      const cellObj = gameData.fieldMap[item];
+      const cellEl = document.getElementById(item);
+      cellEl.classList.add('field-cell-opened');
+      if (cellObj.mineAround !== 0) {
+        cellEl.innerHTML = cellObj.mineAround;
+        cellEl.classList.add(`color-${getColor(cellObj.mineAround)}`);
+      }
+    });
+    gameData.flagedCells.forEach((item) => {
+      const cellEl = document.getElementById(item);
+      cellEl.classList.add('field-cell-flagged');
+    });
+  }
+
+  setCounters();
+};
+
 createApp();
 
 const newGameButton = document.querySelector('.new-game');
 const newGameSmile = document.querySelector('.stats-smile');
+const saveGameButton = document.querySelector('.save-game');
+const loadGameButton = document.querySelector('.load-game');
 
-newGameButton.addEventListener('click', (() => {
+newGameButton.addEventListener('click', () => {
   startNewGame();
-}));
+});
 
-newGameSmile.addEventListener('click', (() => {
+newGameSmile.addEventListener('click', () => {
   startNewGame();
-}));
+});
+
+saveGameButton.addEventListener('click', () => {
+  saveGame();
+});
+
+loadGameButton.addEventListener('click', () => {
+  loadGame();
+});
 
 window.addEventListener('mouseup', (event) => {
   cellMouseupHandler(event);
