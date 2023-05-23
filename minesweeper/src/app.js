@@ -5,23 +5,18 @@ import pushSoundsrc from './assets/sounds/push.mp3';
 import loseSoundsrc from './assets/sounds/lose.mp3';
 import flaggedSoundsrc from './assets/sounds/flagged.mp3';
 
-alert('Убедительная просьба не проверять работу в первый день. Болел, доделываю задачу!');
-
 const body = document.querySelector('body');
-const defaultDifficulty = 'easy';
-const defaultMines = 10;
 
 let clickedCell;
-
 let gameTimer;
 
-let gameLoaded = false;
+let leaderBoardArr;
 
-// Todo: implement difficulty lvl and game load
-// let currentSize = 10;
-// let currentMines = 10;
-// let currentDifficulty = 'easy';
-// let firstMove = true;
+if (localStorage.getItem('lev1ossa-save-leaderBoard')) {
+  leaderBoardArr = JSON.parse(localStorage.getItem('lev1ossa-save-leaderBoard'));
+} else {
+  leaderBoardArr = [];
+}
 
 const gameData = {
   difficulty: 'easy',
@@ -35,6 +30,8 @@ const gameData = {
   gamefinished: false,
   gameTime: 0,
   moves: 0,
+  minesCounter: 10,
+  soundOn: true,
 };
 
 class FieldCell {
@@ -49,22 +46,24 @@ class FieldCell {
 }
 
 const playSound = (sound) => {
-  if (sound === 'win') {
-    const winSound = new Audio(winSoundsrc);
-    winSound.volume = 0.5;
-    winSound.play();
-  } else if (sound === 'push') {
-    const pushSound = new Audio(pushSoundsrc);
-    pushSound.volume = 0.5;
-    pushSound.play();
-  } else if (sound === 'lose') {
-    const loseSound = new Audio(loseSoundsrc);
-    loseSound.volume = 0.5;
-    loseSound.play();
-  } else if (sound === 'flagged') {
-    const flaggedSound = new Audio(flaggedSoundsrc);
-    flaggedSound.volume = 0.5;
-    flaggedSound.play();
+  if (gameData.soundOn) {
+    if (sound === 'win') {
+      const winSound = new Audio(winSoundsrc);
+      winSound.volume = 0.5;
+      winSound.play();
+    } else if (sound === 'push') {
+      const pushSound = new Audio(pushSoundsrc);
+      pushSound.volume = 0.5;
+      pushSound.play();
+    } else if (sound === 'lose') {
+      const loseSound = new Audio(loseSoundsrc);
+      loseSound.volume = 0.5;
+      loseSound.play();
+    } else if (sound === 'flagged') {
+      const flaggedSound = new Audio(flaggedSoundsrc);
+      flaggedSound.volume = 0.5;
+      flaggedSound.play();
+    }
   }
 };
 
@@ -167,7 +166,7 @@ const countMines = () => {
 
 const addRandomMines = () => {
   while (gameData.mineCells.length < gameData.mines) {
-    const randomInt = Math.floor(Math.random() * (gameData.size * gameData.size));
+    const randomInt = Math.floor(Math.random() * (gameData.size * gameData.size)) + 1;
     if (randomInt !== 0 && !gameData.mineCells.includes(randomInt)
     && !gameData.openedCells.includes(randomInt)) {
       gameData.mineCells.push(randomInt);
@@ -175,12 +174,8 @@ const addRandomMines = () => {
   }
 
   gameData.mineCells.forEach((item) => {
-    console.log(gameData.mineCells);
-    console.log(item);
     gameData.fieldMap[item].isMine = true;
   });
-
-  console.log(gameData.mineCells);
 };
 
 const allCellsAreOpen = () => {
@@ -202,13 +197,14 @@ const setCounters = () => {
 
   timerEl.innerHTML = gameData.gameTime;
   movesEl.innerHTML = gameData.moves;
-  minesEl.innerHTML = gameData.mines;
+  minesEl.innerHTML = gameData.minesCounter;
   flagsEl.innerHTML = gameData.flagedCells.length;
 };
 
 const changeMovesCounter = () => {
   const movesEl = document.querySelector('.stats-moves');
   movesEl.innerHTML = +movesEl.innerHTML + 1;
+  gameData.moves = movesEl.innerHTML;
 };
 
 const addFlag = (cellID) => {
@@ -222,6 +218,8 @@ const addFlag = (cellID) => {
   fieldCellEl.classList.add('field-cell-flagged');
   minesEl.innerHTML = +minesEl.innerHTML - 1;
   flagsEl.innerHTML = +flagsEl.innerHTML + 1;
+
+  gameData.minesCounter = minesEl.innerHTML;
 
   playSound('flagged');
 };
@@ -253,6 +251,48 @@ const gameStart = (cellID) => {
   startTimer();
 };
 
+const showDialog = (DialogContent) => {
+  const cancelButton = document.getElementById('close');
+  const favDialog = document.getElementById('favDialog');
+  const dialogBlock = document.getElementById('dialog-block');
+
+  dialogBlock.innerHTML = '';
+
+  if (Array.isArray(DialogContent)) {
+    if (DialogContent.length > 0) {
+      DialogContent.forEach((item) => {
+        const favDialogText = document.createElement('p');
+        favDialogText.innerHTML = `diff: ${item.diff}, mines: ${item.mines}, moves: ${item.moves}, time: ${item.time}`;
+        dialogBlock.appendChild(favDialogText);
+      });
+    } else {
+      const favDialogText = document.createElement('p');
+      favDialogText.innerHTML = 'No scores yet!';
+      dialogBlock.appendChild(favDialogText);
+    }
+  } else {
+    const favDialogText = document.createElement('p');
+    favDialogText.innerHTML = DialogContent;
+    dialogBlock.appendChild(favDialogText);
+  }
+
+  favDialog.showModal();
+
+  cancelButton.addEventListener('click', () => {
+    favDialog.close();
+  });
+};
+
+const addResultToLeaderBoard = (result) => {
+  if (leaderBoardArr.length < 10) {
+    leaderBoardArr.push(result);
+  } else {
+    leaderBoardArr.splice(0, 1);
+    leaderBoardArr.push(result);
+  }
+  localStorage.setItem('lev1ossa-save-leaderBoard', JSON.stringify(leaderBoardArr));
+};
+
 const gameEnd = (gameResult, cellID) => {
   if (gameResult === 'lose') {
     gameData.mineCells.forEach((item) => {
@@ -268,13 +308,17 @@ const gameEnd = (gameResult, cellID) => {
       mineImg.alt = 'mine image';
       fieldCellEl.appendChild(mineImg);
     });
-    // TODO show lose message
-    alert(`you lose`);
+    showDialog('Game over. Try again');
     playSound('lose');
   } else if (gameResult === 'win') {
-    // TODO show lose message
-    alert(`Hooray! You found all mines in ${gameData.gameTime} seconds and ${gameData.moves} moves!`);
+    showDialog(`Hooray! You found all mines in ${gameData.gameTime} seconds and ${gameData.moves} moves!`);
     playSound('win');
+    addResultToLeaderBoard({
+      diff: gameData.difficulty,
+      mines: gameData.mines,
+      moves: gameData.moves,
+      time: gameData.gameTime,
+    });
   }
 
   gameData.gamefinished = true;
@@ -322,7 +366,7 @@ const cellOpen = (cellID) => {
       fieldCellEl.innerHTML = fieldCellObj.mineAround;
       fieldCellEl.classList.add(`color-${getColor(fieldCellObj.mineAround)}`);
     }
-    if (allCellsAreOpen()) {
+    if (allCellsAreOpen() && !gameData.gamefinished) {
       gameEnd('win', cellID);
     }
   }
@@ -343,14 +387,10 @@ const openNeighboursCells = (currentCellID) => {
 
 const cellMousedownHandler = (event, fieldCellEl) => {
   const fieldCellObj = gameData.fieldMap[fieldCellEl.id];
-  // console.log(fieldCellObj.state !== 'opened');
   if (!gameData.gamefinished && fieldCellObj.state !== 'opened') {
     clickedCell = fieldCellEl;
     if (event.which === 1 && fieldCellObj.state !== 'flagged') {
-      console.log('leftMouseDown');
       fieldCellEl.classList.add('field-cell-active');
-    } else if (event.which === 3) {
-      console.log('rightMouseDown');
     }
   }
 };
@@ -359,16 +399,13 @@ const cellMouseupHandler = (event) => {
   if (clickedCell) {
     const fieldCellObj = gameData.fieldMap[clickedCell.id];
     if (!gameData.gamefinished && fieldCellObj.state !== 'opened') {
-      // console.log(fieldCellObj);
       if (event.which === 1 && fieldCellObj.state !== 'flagged') {
-        console.log('leftMouseUp');
         clickedCell.classList.remove('field-cell-active');
         cellOpen(fieldCellObj.id);
         openNeighboursCells(fieldCellObj.id);
         changeMovesCounter();
         playSound('push');
       } else if (event.which === 3) {
-        console.log('rightMouseUp');
         if (fieldCellObj.state === 'unopened' && !gameData.firstMove) {
           addFlag(fieldCellObj.id);
         } else if (fieldCellObj.state === 'flagged') {
@@ -384,7 +421,9 @@ const createNewField = () => {
   const field = document.querySelector('.field');
 
   field.innerHTML = '';
-
+  field.classList.remove('field-easy');
+  field.classList.remove('field-medium');
+  field.classList.remove('field-hard');
   field.classList.add(`field-${gameData.difficulty}`);
 
   for (let i = 0; i < gameData.size; i += 1) {
@@ -422,16 +461,28 @@ const createApp = () => {
     </div>
   </header>
   <main class="main">
-    <div class="main-wrapper">
+      <div class="main-wrapper">
+        <div class="buttons-block">
+        <div class="buttons-col">
+          <div class="button new-game">New game</div>
+          <div class="button leaderboard">Leaderboard</div>
+        </div>
+        <div class="buttons-col">
+          <div class="button save-game">Save</div>
+          <div class="button load-game">Load</div>
+        </div>
+        <div class="buttons-col">
+          <div class="button color-theme">Change theme</div>
+          <div class="button sound">Sound: ON</div>
+        </div>
+      </div>
       <div class="stats">
         <div class="stats-block">
           <p class="stats-text">Moves: <span class="stats-moves"></span></p>
           <p class="stats-text">Time: <span class="stats-timer"></span></p>
         </div>
         <div class="stats-block stats-newgame">
-          <p class="stats-text">New</p>
           <div class="stats-smile"></div>
-          <p class="stats-text">game</p>
         </div>
         <div class="stats-block">
           <p class="stats-text">Mines: <span class="stats-mines"></span></p>
@@ -456,31 +507,174 @@ const createApp = () => {
             <label for="hard">Hard</label>
           </div>
           <div class="settings-input">
-            <input type="number" id="mines" name="mines" min="10" max="100" value="10">
-            <label for="mines">Number of mines (10-100):</label>
+            <input type="number" id="mines" name="mines" min="10" max="99" value="10">
+            <label for="mines">Number of mines (10-99):</label>
           </div>
         </fieldset>
-        <div class="save-game">Save</div>
-        <div class="load-game">Load</div>
       </div>
     </div>
+    <dialog id="favDialog">
+      <form method="dialog">
+        <div id='dialog-block'></div>
+        <menu>
+          <button id="close" type="reset">Close</button>
+        </menu>
+      </form>
+    </dialog>
   </main>`;
 
   body.appendChild(app);
   createNewField();
   setCounters();
-  // if (gameLoaded) {
-  //   startTimer();
-  // }
+  const minesInput = document.getElementById('mines');
+  minesInput.addEventListener('change', (e) => {
+    if (e.target.value < 10) {
+      e.target.value = 10;
+    } else if (e.target.value > 99) {
+      e.target.value = 99;
+    }
+  });
+};
+
+const toggleSound = () => {
+  const soundButton = document.querySelector('.sound');
+  if (gameData.soundOn) {
+    soundButton.innerHTML = 'Sound: OFF';
+    gameData.soundOn = false;
+  } else {
+    soundButton.innerHTML = 'Sound: ON';
+    gameData.soundOn = true;
+  }
+};
+
+const startNewGame = () => {
+  const difficultySettings = document.querySelector('input[name="difficulty"]:checked').value;
+  const numberOfMines = document.querySelector('input[name="mines"]').value;
+
+  gameData.difficulty = difficultySettings;
+  if (difficultySettings === 'easy') {
+    gameData.size = 10;
+  } else if (difficultySettings === 'medium') {
+    gameData.size = 15;
+  } else if (difficultySettings === 'hard') {
+    gameData.size = 25;
+  }
+  gameData.mines = numberOfMines;
+  gameData.firstMove = true;
+  gameData.mineCells = [];
+  gameData.openedCells = [];
+  gameData.flagedCells = [];
+  gameData.fieldMap = {};
+  gameData.gamefinished = false;
+  gameData.gameTime = 0;
+  gameData.moves = 0;
+  gameData.minesCounter = numberOfMines;
+
+  setCounters();
+  createNewField();
+  clearInterval(gameTimer);
+};
+
+const saveGame = () => {
+  if (!gameData.gamefinished) {
+    localStorage.setItem('lev1ossa-save-gameData', JSON.stringify(gameData));
+    showDialog('Game saved!');
+  } else {
+    showDialog('You can not save finished game!');
+  }
+};
+
+const loadGame = () => {
+  if (localStorage.getItem('lev1ossa-save-gameData')) {
+    clearInterval(gameTimer);
+    const loadGameData = JSON.parse(localStorage.getItem('lev1ossa-save-gameData'));
+    gameData.difficulty = loadGameData.difficulty;
+    gameData.size = loadGameData.size;
+    gameData.mines = loadGameData.mines;
+    gameData.mineCells = loadGameData.mineCells;
+    gameData.openedCells = loadGameData.openedCells;
+    gameData.flagedCells = loadGameData.flagedCells;
+    gameData.gamefinished = loadGameData.gamefinished;
+    gameData.gameTime = loadGameData.gameTime;
+    gameData.moves = loadGameData.moves;
+    gameData.minesCounter = loadGameData.minesCounter;
+    if (gameData.soundOn !== loadGameData.soundOn) {
+      toggleSound();
+    }
+    gameData.soundOn = loadGameData.soundOn;
+
+    createNewField();
+
+    gameData.firstMove = loadGameData.firstMove;
+    gameData.fieldMap = loadGameData.fieldMap;
+
+    if (!gameData.firstMove) {
+      startTimer();
+      gameData.openedCells.forEach((item) => {
+        const cellObj = gameData.fieldMap[item];
+        const cellEl = document.getElementById(item);
+        cellEl.classList.add('field-cell-opened');
+        if (cellObj.mineAround !== 0) {
+          cellEl.innerHTML = cellObj.mineAround;
+          cellEl.classList.add(`color-${getColor(cellObj.mineAround)}`);
+        }
+      });
+      gameData.flagedCells.forEach((item) => {
+        const cellEl = document.getElementById(item);
+        cellEl.classList.add('field-cell-flagged');
+      });
+    }
+
+    setCounters();
+    showDialog('Game loaded!');
+  } else {
+    showDialog('Save not found!');
+  }
+};
+
+const toggleColorTheme = () => {
+  const bodyEl = document.querySelector('body');
+  bodyEl.classList.toggle('body-dark');
 };
 
 createApp();
 
-window.addEventListener('mouseup', (event) => {
-  cellMouseupHandler(event);
+const newGameButton = document.querySelector('.new-game');
+const newGameSmile = document.querySelector('.stats-smile');
+const saveGameButton = document.querySelector('.save-game');
+const loadGameButton = document.querySelector('.load-game');
+const leaderboardButton = document.querySelector('.leaderboard');
+const soundButton = document.querySelector('.sound');
+const colorThemeButton = document.querySelector('.color-theme');
+
+newGameButton.addEventListener('click', () => {
+  startNewGame();
 });
 
-const minesInput = document.getElementById('mines');
-minesInput.addEventListener('change', (e) => {
-  console.log(e.target.value);
+newGameSmile.addEventListener('click', () => {
+  startNewGame();
+});
+
+saveGameButton.addEventListener('click', () => {
+  saveGame();
+});
+
+loadGameButton.addEventListener('click', () => {
+  loadGame();
+});
+
+leaderboardButton.addEventListener('click', () => {
+  showDialog(leaderBoardArr);
+});
+
+soundButton.addEventListener('click', () => {
+  toggleSound();
+});
+
+colorThemeButton.addEventListener('click', () => {
+  toggleColorTheme();
+});
+
+window.addEventListener('mouseup', (event) => {
+  cellMouseupHandler(event);
 });

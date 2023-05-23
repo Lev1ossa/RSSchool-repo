@@ -12,6 +12,19 @@ h1 {
   user-select: none;
 }
 
+.body-dark {
+  color: #d7d7d7;
+  background: #423189;
+}
+
+.header {
+  background: #d7d7d7;
+}
+
+.body-dark .header {
+  background: #003366;
+}
+
 .header-wrapper {
   max-width: 1200px;
   margin: 0 auto;
@@ -50,6 +63,14 @@ h1 {
   height: 26px;
 }
 
+.body-dark .field-cell {
+  background-color: #979997;
+  border-top: 4px solid #7d7f7d;
+  border-right: 4px solid black;
+  border-bottom: 4px solid black;
+  border-left: 4px solid #7d7f7d;
+}
+
 .field-hard {
   width: 650px;
 }
@@ -72,11 +93,15 @@ h1 {
   padding: 0px 50px;
 }
 
+.stats-block {
+  width: 100px;
+}
+
 .stats-newgame {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  width: 140px;
+  width: 50px;
 }
 
 .stats-smile {
@@ -101,12 +126,18 @@ h1 {
   border-left: none;
 }
 
+.body-dark .field-cell.field-cell.field-cell-opened {
+  border-top: none;
+  border-right: 1px solid #003366;
+  border-bottom: 1px solid #003366;
+  border-left: none;
+}
+
 .field-cell-mine {
   background-color: #960018;
 }
 
 .field-img-mine {
-  /* object-fit: contain; */
   width: 80%;
   height: 80%;
 }
@@ -144,8 +175,6 @@ h1 {
 }
 
 .field-cell.field-cell-flagged {
-  /* height: 80%;
-  width: 80%; */
   background-image: url('./assets/icons/flag.svg');
   background-position: center;
   background-size: contain;
@@ -153,5 +182,79 @@ h1 {
 
 .settings {
   max-width: 500px;
-  margin: 0 auto;
+  margin: 10px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.buttons-block {
+  max-width: 500px;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  margin: 10px auto;
+}
+
+.buttons-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.button {
+  box-sizing: border-box;
+  background-color: #d7d7d7;
+  width: 100px;
+  height: 25px;
+  border: 1px solid black;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.body-dark .button {
+  background-color: #003366;
+}
+
+.button:active {
+  border: none;
+}
+
+.body-dark #mines {
+  background: #003366;
+  color: #d7d7d7;
+}
+
+.body-dark #favDialog {
+  background-color: #483d8b;
+  color: #d7d7d7;
+}
+
+.body-dark #close {
+  background-color: #003366;
+  color: #d7d7d7;
+}
+
+@media (max-width: 700px) {
+  .field-hard {
+    width: 500px;
+  }
+
+  .field-hard .field-cell {
+    height: 20px;
+    width: 20px;
+  }
+}
+
+@media (max-width: 520px) {
+  .field-hard {
+    width: 400px;
+  }
+
+  .field-hard .field-cell {
+    height: 16px;
+    width: 16px;
+  }
 }
