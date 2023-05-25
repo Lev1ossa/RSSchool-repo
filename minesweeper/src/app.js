@@ -264,9 +264,9 @@ const showDialog = (DialogContent) => {
 
   if (Array.isArray(DialogContent)) {
     if (DialogContent.length > 0) {
-      DialogContent.forEach((item) => {
+      DialogContent.forEach((item, idx) => {
         const favDialogText = document.createElement('p');
-        favDialogText.innerHTML = `diff: ${item.diff}, mines: ${item.mines}, moves: ${item.moves}, time: ${item.time}`;
+        favDialogText.innerHTML = `${idx + 1})result: ${item.result}, diff: ${item.diff}, mines: ${item.mines}, moves: ${item.moves}, time: ${item.time}`;
         dialogBlock.appendChild(favDialogText);
       });
     } else {
@@ -314,10 +314,18 @@ const gameEnd = (gameResult, cellID) => {
     });
     showDialog('Game over. Try again');
     playSound('lose');
+    addResultToLeaderBoard({
+      result: 'lose',
+      diff: gameData.difficulty,
+      mines: gameData.mines,
+      moves: gameData.moves,
+      time: gameData.gameTime,
+    });
   } else if (gameResult === 'win') {
     showDialog(`Hooray! You found all mines in ${gameData.gameTime} seconds and ${gameData.moves} moves!`);
     playSound('win');
     addResultToLeaderBoard({
+      result: 'win',
       diff: gameData.difficulty,
       mines: gameData.mines,
       moves: gameData.moves,
