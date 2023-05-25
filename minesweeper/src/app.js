@@ -32,6 +32,7 @@ const gameData = {
   moves: 0,
   minesCounter: 10,
   soundOn: true,
+  darkTheme: false,
 };
 
 class FieldCell {
@@ -248,6 +249,9 @@ const gameStart = (cellID) => {
   addRandomMines();
   countMines();
   gameData.firstMove = false;
+  const timerEl = document.querySelector('.stats-timer');
+  timerEl.innerHTML = 1;
+  gameData.gameTime = 1;
   startTimer();
 };
 
@@ -401,9 +405,9 @@ const cellMouseupHandler = (event) => {
     if (!gameData.gamefinished && fieldCellObj.state !== 'opened') {
       if (event.which === 1 && fieldCellObj.state !== 'flagged') {
         clickedCell.classList.remove('field-cell-active');
+        changeMovesCounter();
         cellOpen(fieldCellObj.id);
         openNeighboursCells(fieldCellObj.id);
-        changeMovesCounter();
         playSound('push');
       } else if (event.which === 3) {
         if (fieldCellObj.state === 'unopened' && !gameData.firstMove) {
@@ -547,6 +551,17 @@ const toggleSound = () => {
   }
 };
 
+const toggleColorTheme = () => {
+  const bodyEl = document.querySelector('body');
+  if (gameData.darkTheme) {
+    bodyEl.classList.remove('body-dark');
+    gameData.darkTheme = false;
+  } else {
+    bodyEl.classList.add('body-dark');
+    gameData.darkTheme = true;
+  }
+};
+
 const startNewGame = () => {
   const difficultySettings = document.querySelector('input[name="difficulty"]:checked').value;
   const numberOfMines = document.querySelector('input[name="mines"]').value;
@@ -576,11 +591,13 @@ const startNewGame = () => {
 };
 
 const saveGame = () => {
-  if (!gameData.gamefinished) {
+  if (!gameData.gamefinished && !gameData.firstMove) {
     localStorage.setItem('lev1ossa-save-gameData', JSON.stringify(gameData));
     showDialog('Game saved!');
-  } else {
+  } else if (gameData.gamefinished) {
     showDialog('You can not save finished game!');
+  } else if (gameData.firstMove) {
+    showDialog('You can not save not started game!');
   }
 };
 
@@ -602,6 +619,11 @@ const loadGame = () => {
       toggleSound();
     }
     gameData.soundOn = loadGameData.soundOn;
+
+    if (gameData.darkTheme !== loadGameData.darkTheme) {
+      toggleColorTheme();
+    }
+    gameData.darkTheme = loadGameData.darkTheme;
 
     createNewField();
 
@@ -630,11 +652,6 @@ const loadGame = () => {
   } else {
     showDialog('Save not found!');
   }
-};
-
-const toggleColorTheme = () => {
-  const bodyEl = document.querySelector('body');
-  bodyEl.classList.toggle('body-dark');
 };
 
 createApp();
