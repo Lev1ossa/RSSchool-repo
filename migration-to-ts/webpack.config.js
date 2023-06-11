@@ -8,6 +8,7 @@ const baseConfig = {
     mode: 'development',
     module: {
         rules: [
+            {test: /\.ts$/i, use: 'ts-loader'},
             {
                 test: /\.css$/i,
                 use: ['style-loader', 'css-loader'],
@@ -15,16 +16,19 @@ const baseConfig = {
         ],
     },
     resolve: {
-        extensions: ['.js'],
+        extensions: ['.ts', '.js', '.json'],
     },
-    output: {
-        filename: 'index.js',
-        path: path.resolve(__dirname, '../dist'),
-    },
+    // output: {
+    //     filename: 'index.js',
+    //     path: path.resolve(__dirname, '../dist'),
+    // },
     plugins: [
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, './src/index.html'),
             filename: 'index.html',
+        }),
+        new MiniCssExtractPlugin({
+          filename: 'style.[contenthash].css',
         }),
         new CleanWebpackPlugin(),
     ],
