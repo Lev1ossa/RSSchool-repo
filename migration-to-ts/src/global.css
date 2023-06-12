@@ -14,7 +14,7 @@ header h1 {
 }
 
 footer {
-    height: 100px;
+    min-height: 100px;
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -48,4 +48,11 @@ footer .copyright:before {
 
 .footer-link, .copyright {
   color: #fff;
+}
+
+@media (max-width: 500px) {
+  footer {
+    flex-direction: column;
+    margin-top: 50px;
+  }
 }
