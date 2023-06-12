@@ -1,5 +1,6 @@
 import './news.css';
 import { INewsItemArticle } from '../../../types/types';
+import placeholderImgSrc from './img/news-placeholder.png';
 
 class News {
   draw(data: INewsItemArticle[]): void {
@@ -16,7 +17,7 @@ class News {
       }
 
       const metaPhotoEl = newsClone?.querySelector('.news__meta-photo') as HTMLTemplateElement;
-      metaPhotoEl.style.backgroundImage = `url(${item.urlToImage || 'img/news_placeholder.jpg'})`;
+      metaPhotoEl.style.backgroundImage = `url(${item.urlToImage || placeholderImgSrc})`;
 
       const metaAuthorEl = newsClone?.querySelector('.news__meta-author') as HTMLTemplateElement;
       metaAuthorEl.textContent = item.author || item.source.name;
