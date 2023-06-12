@@ -22,10 +22,11 @@ module.exports = {
     'import/extensions': 'off',
     'prettier/prettier': 'error',
     'import/prefer-default-export': 'off',
-    "no-debugger": "off",
-    "no-console": 0,
-    "class-methods-use-this": "off",
+    'no-debugger': 'off',
+    'no-console': 0,
+    'class-methods-use-this': 'off',
     '@typescript-eslint/no-explicit-any': 'error',
+    '@typescript-eslint/lines-between-class-members': 'off',
     '@typescript-eslint/array-type': [
       'error',
       {
