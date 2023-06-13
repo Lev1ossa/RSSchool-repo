@@ -10,14 +10,19 @@
 
 .source__item {
     background: none;
-    border: 2px solid #30c5ff;
+    border: 2px solid #1959d1;
     font: inherit;
     line-height: 1;
     margin: 0.5em;
     padding: 1em 2em;
-    color: #70d6ff;
+    color: #0079db;
     transition: 0.25s;
     cursor: pointer;
+}
+
+.dark-theme .source__item {
+ border-color: #30c5ff;
+ color: #70d6ff;
 }
 
 .source__item:hover,

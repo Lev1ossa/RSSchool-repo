@@ -1,10 +1,18 @@
-body {
-    color: #fff;
-    background: #2e3038;
+.body {
+    color: #2e3038;
+    background: #e6e6e6;
     font-family: sans-serif;
 }
 
+.body.dark-theme {
+  color: #fff;
+  background: #2e3038;
+}
+
 header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 10px 30px;
 }
 
@@ -47,7 +55,25 @@ footer .copyright:before {
 }
 
 .footer-link, .copyright {
+  color: #2e3038;
+}
+
+.dark-theme .footer-link,
+.dark-theme .copyright {
   color: #fff;
+}
+
+.theme-button {
+  height: 50px;
+  width: 50px;
+  background-image: url("./assets/icons/light-theme.svg");
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.dark-theme .theme-button {
+  background-image: url("./assets/icons/dark-theme.svg");
 }
 
 @media (max-width: 500px) {

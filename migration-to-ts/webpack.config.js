@@ -1,7 +1,8 @@
 const path = require('path');
 const { merge } = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+// const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const EslingPlugin = require('eslint-webpack-plugin');
 
 const baseConfig = {
@@ -11,13 +12,17 @@ const baseConfig = {
         rules: [
             {test: /\.ts$/i, use: 'ts-loader'},
             {
-                test: /\.css$/i,
-                use: ['style-loader', 'css-loader'],
+              test: /\.css$/,
+              use: [MiniCssExtractPlugin.loader, 'css-loader'],
             },
             {
               test: /\.(png|svg|jpg|jpeg|gif|mp3)$/i,
               type: 'asset/resource',
             },
+            {
+              test: /\.html$/i,
+              use: 'html-loader',
+          },
         ],
     },
     resolve: {
@@ -29,12 +34,12 @@ const baseConfig = {
     // },
     plugins: [
         new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, './src/index.html'),
-            filename: 'index.html',
+          template: './src/index.html',
+          filename: './index.html',
         }),
-        // new MiniCssExtractPlugin({
-        //   filename: 'style.[contenthash].css',
-        // }),
+        new MiniCssExtractPlugin({
+          filename: 'style.[contenthash].css',
+        }),
         // new CleanWebpackPlugin(),
         new EslingPlugin({
           extensions: 'ts',
