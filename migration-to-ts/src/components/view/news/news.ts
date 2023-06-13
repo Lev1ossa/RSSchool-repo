@@ -3,7 +3,7 @@ import { INewsItemArticle } from '../../../types/types';
 import placeholderImgSrc from './img/news-placeholder.png';
 
 class News {
-  draw(data: INewsItemArticle[]): void {
+  public draw(data: INewsItemArticle[]): void {
     const news = data.length >= 10 ? data.filter((_item, idx) => idx < 10) : data;
 
     const fragment = document.createDocumentFragment();

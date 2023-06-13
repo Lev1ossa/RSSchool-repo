@@ -42,3 +42,5 @@ export enum Errors {
   error401 = 401,
   error404 = 404,
 }
+
+export type Options = Record<string, string>;
