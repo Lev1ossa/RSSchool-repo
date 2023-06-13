@@ -48,3 +48,5 @@ export type Options = Record<string, string>;
 export type NewsArticles = Pick<INews, 'status' | 'articles'>;
 
 export type NewsSources = Pick<INews, 'status' | 'sources'>;
+
+export type NewsReadOnly = Readonly<INews>;

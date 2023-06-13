@@ -1,4 +1,4 @@
-import { INews } from '../../types/types';
+import { NewsReadOnly } from '../../types/types';
 import AppController from '../controller/controller';
 import { AppView } from '../view/appView';
 
@@ -14,13 +14,13 @@ class App {
   public start(): void {
     const sourcesEl = document.querySelector('.sources');
     sourcesEl?.addEventListener('click', (e) =>
-      this.controller.getNews(e, (data?: INews) => {
+      this.controller.getNews(e, (data?: NewsReadOnly) => {
         if (data) {
           this.view.drawNews(data);
         }
       })
     );
-    this.controller.getSources((data?: INews) => {
+    this.controller.getSources((data?: NewsReadOnly) => {
       if (data) {
         this.view.drawSources(data);
       }
