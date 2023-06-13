@@ -28,10 +28,10 @@ export interface INews {
   sources?: INewsItemSource[];
 }
 
-// export type TRequest = {
-//   endpoint: string;
-//   options: Record<string, string>;
-// };
+export type Request = {
+  endpoint: string;
+  options?: Partial<Options>;
+};
 
 export enum Endpoints {
   everything = 'everything',
@@ -44,3 +44,7 @@ export enum Errors {
 }
 
 export type Options = Record<string, string>;
+
+export type NewsArticles = Pick<INews, 'status' | 'articles'>;
+
+export type NewsSources = Pick<INews, 'status' | 'sources'>;

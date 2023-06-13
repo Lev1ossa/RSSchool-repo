@@ -1,4 +1,4 @@
-import { Errors, Options } from '../../types/types';
+import { Errors, Options, Request } from '../../types/types';
 
 class Loader {
   private baseLink: string;
@@ -10,7 +10,7 @@ class Loader {
   }
 
   public getResp(
-    { endpoint, options = {} }: { endpoint: string; options?: Options },
+    { endpoint, options = {} }: Request,
     callback = (): void => {
       console.error('No callback for GET response');
     }
@@ -28,7 +28,7 @@ class Loader {
     return res;
   }
 
-  private makeUrl(options: Options, endpoint: string): string {
+  private makeUrl(options: Partial<Options>, endpoint: string): string {
     const urlOptions = { ...this.options, ...options };
     let url = `${this.baseLink}${endpoint}?`;
 
@@ -39,7 +39,7 @@ class Loader {
     return url.slice(0, -1);
   }
 
-  private load(method: string, endpoint: string, callback: <T>(data: T) => void, options: Options): void {
+  private load(method: string, endpoint: string, callback: <T>(data: T) => void, options: Partial<Options>): void {
     fetch(this.makeUrl(options, endpoint), { method })
       .then(this.errorHandler)
       .then((res) => res.json())
