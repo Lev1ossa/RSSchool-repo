@@ -2,7 +2,6 @@ const path = require('path');
 const { merge } = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-// const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const EslingPlugin = require('eslint-webpack-plugin');
 
 const baseConfig = {
@@ -28,10 +27,6 @@ const baseConfig = {
     resolve: {
         extensions: ['.ts', '.js', '.json'],
     },
-    // output: {
-    //     filename: 'index.js',
-    //     path: path.resolve(__dirname, '../dist'),
-    // },
     plugins: [
         new HtmlWebpackPlugin({
           template: './src/index.html',
@@ -40,7 +35,6 @@ const baseConfig = {
         new MiniCssExtractPlugin({
           filename: 'style.[contenthash].css',
         }),
-        // new CleanWebpackPlugin(),
         new EslingPlugin({
           extensions: 'ts',
         }),

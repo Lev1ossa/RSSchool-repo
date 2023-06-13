@@ -154,7 +154,6 @@
         -webkit-transform: skewX(-3deg);
         transform: skewX(-3deg);
         content: '';
-        /* background: #fff; */
         width: 30px;
         position: absolute;
         left: -10px;
