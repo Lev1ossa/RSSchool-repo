@@ -27,3 +27,18 @@ export interface INews {
   articles?: INewsItemArticle[];
   sources?: INewsItemSource[];
 }
+
+// export type TRequest = {
+//   endpoint: string;
+//   options: Record<string, string>;
+// };
+
+export enum Endpoints {
+  everything = 'everything',
+  sources = 'sources',
+}
+
+export enum Errors {
+  error401 = 401,
+  error404 = 404,
+}
