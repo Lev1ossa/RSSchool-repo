@@ -1,10 +1,11 @@
-import { ElementCreatorProps } from '../../../types/types';
+import { ElementCreatorProps, TableItems } from '../../../types/types';
 import { ElementCreator } from '../../../utils/elementCreator';
 import { AppView } from '../../appView';
+import { tableView } from './table/tableView';
 import './tableWrapper.css';
 
 export class TableWrapperView extends AppView {
-  constructor() {
+  constructor(tableItems: TableItems) {
     const props: ElementCreatorProps = {
       tag: 'div',
       classes: ['table-wrapper'],
@@ -12,10 +13,10 @@ export class TableWrapperView extends AppView {
       listeners: null,
     };
     super(props);
-    this.constructView();
+    this.constructView(tableItems);
   }
 
-  constructView(): void {
+  constructView(tableItems: TableItems): void {
     const surfaceProps: ElementCreatorProps = {
       tag: 'div',
       classes: ['table-surface'],
@@ -23,7 +24,6 @@ export class TableWrapperView extends AppView {
       listeners: null,
     }
     const tableSurface = new ElementCreator(surfaceProps);
-    this.elementCreator.addElement(tableSurface.getElement());
 
     const edgeProps: ElementCreatorProps = {
       tag: 'div',
@@ -32,6 +32,11 @@ export class TableWrapperView extends AppView {
       listeners: null,
     }
     const tableEdge = new ElementCreator(edgeProps);
+
+    const table = new tableView(tableItems);
+    tableSurface.addElement(table.getElement());
+
+    this.elementCreator.addElement(tableSurface.getElement());
     this.elementCreator.addElement(tableEdge.getElement());
   }
 }

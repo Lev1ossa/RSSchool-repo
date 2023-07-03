@@ -7,16 +7,18 @@
 .table-surface {
   background: #dd992d;
   height: 100px;
-  width: 550px;
+  width: 500px;
   transform: rotateX(25deg);
   transform-origin: bottom;
   margin: 0 auto;
+  box-shadow: 0px 30px 10px rgba(0,0,0, 20%);
+  padding: 20px;
 }
 
 .table-edge {
   background: #ac741c;
   height: 15px;
-  width: 550px;
+  width: 540px;
   transform: rotateX(-10deg);
   transform-origin: top;
   /* transform: perspective(200px) rotateX(-40deg); */

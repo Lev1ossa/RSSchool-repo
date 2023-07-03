@@ -1,0 +1,59 @@
+.table {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+plate {
+  width: 100px;
+  height: 100px;
+  background: whitesmoke;
+  border-radius: 100%;
+  border-bottom: solid 5px #d7d7d7;
+}
+
+plate:before {
+  display: block;
+  position: relative;
+  z-index: 100;
+  left: 15px;
+  top: 10px;
+  height: 65px;
+  width: 70px;
+  border-radius: 100%;
+  border-top: solid 7px #d7d7d7;
+  content: "";
+}
+
+.tooltip {
+  display: inline-block;
+  position: absolute;
+  z-index: 3;
+  left: 5px;
+  top: -50px;
+  background: #f2efdf;
+  padding: 10px;
+  font-size: 20px;
+  color: black;
+}
+
+.hidden {
+  display: none;
+}
+
+.skew {
+  animation: skew 1s infinite;
+  transform-origin: bottom;
+}
+
+.item-hovered {
+  box-shadow: 0 0 0 5px green;
+}
+
+@keyframes skew {
+  0%    {transform: skew(4deg,0deg)  scaleX(1);}
+  25%   {transform: skew(1deg,0deg)  scaleY(.9);}
+  50%   {transform: skew(-4deg,0deg) scaleX(1);}
+  75%   {transform: skew(-1deg,0deg) scaleY(.9);}
+  100%  {transform: skew(4deg,0deg)  scaleX(1);}
+}
