@@ -7,7 +7,7 @@ export class HeaderView extends AppView {
     const props: ElementCreatorProps = {
       tag: 'div',
       classes: ['header'],
-      textContent: 'Hello world!',
+      textContent: 'RSS CSS Selectors',
       listeners: null,
     };
     super(props);

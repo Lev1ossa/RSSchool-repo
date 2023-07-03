@@ -1,0 +1,24 @@
+.table-wrapper {
+  perspective: 250px;
+  display: flex;
+  flex-direction: column;
+}
+
+.table-surface {
+  background: #dd992d;
+  height: 100px;
+  width: 550px;
+  transform: rotateX(25deg);
+  transform-origin: bottom;
+  margin: 0 auto;
+}
+
+.table-edge {
+  background: #ac741c;
+  height: 15px;
+  width: 550px;
+  transform: rotateX(-10deg);
+  transform-origin: top;
+  /* transform: perspective(200px) rotateX(-40deg); */
+  margin: 0 auto;
+}
