@@ -41,7 +41,7 @@ export class MainView extends AppView {
     }
     const gameView = new ElementCreator(gameProps);
     const tableWrapperView = new TableWrapperView(this.levelsData[this.currentLevel]);
-    const editorView = new EditorView();
+    const editorView = new EditorView(this.levelsData[this.currentLevel]);
     const levelsView = new LevelsView();
     const gameTitle = new ElementCreator(titleProps);
 

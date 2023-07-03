@@ -1,0 +1,23 @@
+.editor-html {
+  display: flex;
+}
+
+.numbers {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* padding: 5px 0px; */
+  /* word-spacing: 25px; */
+  color: gray;
+  background:  #1b1813;;
+  height: 200px;
+  border: 1px solid black;
+}
+
+.number {
+  height: 16px;
+}
+
+.html-editor-item {
+  padding-left: 10px;
+}
