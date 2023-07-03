@@ -17,10 +17,10 @@ export class EditorView extends AppView {
   }
 
   constructView(): void {
-  const editorHtmlView = new EditorHtmlView();
-  const editorCssView = new EditorCssView();
+    const editorHtmlView = new EditorHtmlView();
+    const editorCssView = new EditorCssView();
 
-  this.elementCreator.addElement(editorHtmlView.getElement());
-  this.elementCreator.addElement(editorCssView.getElement());
+    this.elementCreator.addElement(editorCssView.getElement());
+    this.elementCreator.addElement(editorHtmlView.getElement());
   }
 }

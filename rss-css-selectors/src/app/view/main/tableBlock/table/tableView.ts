@@ -1,10 +1,10 @@
 import { AppView } from '../../../appView';
-import { ElementCreatorProps, TableItem, TableItems } from '../../../../types/types';
+import { ElementCreatorProps, LevelData, TableItem } from '../../../../types/types';
 import './table.css';
 import { ElementCreator } from '../../../../utils/elementCreator';
 
 export class tableView extends AppView {
-  constructor(tableItems: TableItems) {
+  constructor(levelData: LevelData) {
     const props: ElementCreatorProps = {
       tag: 'div',
       classes: ['table'],
@@ -12,10 +12,10 @@ export class tableView extends AppView {
       listeners: null,
     };
     super(props);
-    this.constructView(tableItems);
+    this.constructView(levelData);
   }
 
-  constructView(tableItems: TableItems): void {
+  constructView(levelData: LevelData): void {
     const tooltipProps = {
       tag: 'div',
       classes: ['tooltip', 'hidden'],
@@ -26,7 +26,7 @@ export class tableView extends AppView {
     const tooltip = new ElementCreator(tooltipProps);
     this.elementCreator.addElement(tooltip.getElement());
 
-    tableItems.forEach((item: TableItem) => {
+    levelData.tableItems.forEach((item: TableItem) => {
       const tableItemProps: ElementCreatorProps = {
         tag: item.tag,
         classes: [item.class],

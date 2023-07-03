@@ -16,6 +16,7 @@ export enum Statuses {
 }
 
 export type TableItem = {
+  id: string,
   tag: string,
   class: string,
   tooltip: string,
@@ -24,6 +25,7 @@ export type TableItem = {
 export type TableItems = TableItem[];
 
 export type HtmlEditorItem = {
+  id: string,
   tag: string,
   selector: string,
   children: HtmlEditorItem[],
@@ -32,11 +34,19 @@ export type HtmlEditorItem = {
 export type HtmlEditorItems = HtmlEditorItem[];
 
 export type LevelData = {
+  name: string,
   title: string,
   helpTag: string,
   status: Statuses,
   tableItems: TableItems,
   htmlEditorItems: HtmlEditorItems,
 }
+
+export type ElAttribute = {
+  attribute: string,
+  value: string,
+}
+
+export type ElAttributes = ElAttribute[];
 
 export type LevelsData = Record<number, LevelData>;

@@ -1,11 +1,11 @@
-import { ElementCreatorProps, TableItems } from '../../../types/types';
+import { ElementCreatorProps, LevelData } from '../../../types/types';
 import { ElementCreator } from '../../../utils/elementCreator';
 import { AppView } from '../../appView';
 import { tableView } from './table/tableView';
 import './tableWrapper.css';
 
 export class TableWrapperView extends AppView {
-  constructor(tableItems: TableItems) {
+  constructor(levelData: LevelData) {
     const props: ElementCreatorProps = {
       tag: 'div',
       classes: ['table-wrapper'],
@@ -13,10 +13,10 @@ export class TableWrapperView extends AppView {
       listeners: null,
     };
     super(props);
-    this.constructView(tableItems);
+    this.constructView(levelData);
   }
 
-  constructView(tableItems: TableItems): void {
+  constructView(levelData: LevelData): void {
     const surfaceProps: ElementCreatorProps = {
       tag: 'div',
       classes: ['table-surface'],
@@ -33,7 +33,7 @@ export class TableWrapperView extends AppView {
     }
     const tableEdge = new ElementCreator(edgeProps);
 
-    const table = new tableView(tableItems);
+    const table = new tableView(levelData);
     tableSurface.addElement(table.getElement());
 
     this.elementCreator.addElement(tableSurface.getElement());

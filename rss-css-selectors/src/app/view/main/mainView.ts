@@ -30,7 +30,7 @@ export class MainView extends AppView {
     const titleProps: ElementCreatorProps = {
       tag: 'div',
       classes: ['title'],
-      textContent: 'Game Title',
+      textContent: this.levelsData[this.currentLevel].title,
       listeners: null,
     }
     const gameProps: ElementCreatorProps = {
@@ -40,7 +40,7 @@ export class MainView extends AppView {
       listeners: null,
     }
     const gameView = new ElementCreator(gameProps);
-    const tableWrapperView = new TableWrapperView(this.levelsData[this.currentLevel].tableItems);
+    const tableWrapperView = new TableWrapperView(this.levelsData[this.currentLevel]);
     const editorView = new EditorView();
     const levelsView = new LevelsView();
     const gameTitle = new ElementCreator(titleProps);

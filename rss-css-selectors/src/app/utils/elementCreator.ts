@@ -1,4 +1,4 @@
-import { ListenersObj, ElementCreatorProps } from '../types/types';
+import { ListenersObj, ElementCreatorProps, ElAttributes, ElAttribute } from '../types/types';
 
 export class ElementCreator {
   element: HTMLElement;
@@ -22,8 +22,12 @@ export class ElementCreator {
     return element;
   }
 
-  getElement(): HTMLElement {
+  getElement(): HTMLElement | HTMLInputElement {
       return this.element;
+  }
+
+  setElementAttributes(attributes: ElAttributes): void {
+    attributes.forEach((item: ElAttribute) => this.element.setAttribute(item.attribute, item.value));
   }
 
   setTextContent(element: HTMLElement, textContent: string): void {

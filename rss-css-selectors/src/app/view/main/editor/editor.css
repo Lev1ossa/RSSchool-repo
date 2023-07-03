@@ -1,8 +1,21 @@
 .editor {
   display: flex;
   flex-direction: column;
-  /* width: 450px; */
-  /* margin: 0 auto; */
+  width: 450px;
+  margin: 0 auto;
   align-items: center;
   /* justify-content: center; */
+  height: 300px;
+  border: solid 5px #000;
+}
+
+.loseShake {
+  animation: loseShake .1s 5;
+}
+
+@keyframes loseShake {
+  0%  { transform: translateX(0); }
+  25% {  transform: translateX(-10px); }
+  50% {  transform: translateX(0); }
+  75% {  transform: translateX(10px); }
 }
