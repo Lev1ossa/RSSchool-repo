@@ -14,7 +14,7 @@ module.exports = {
     sourceType: 'module',
     project: 'tsconfig.json',
   },
-  plugins: ['@typescript-eslint'],
+  plugins: ['@typescript-eslint', 'import'],
   root: true,
   rules: {
     'import/extensions': 'off',

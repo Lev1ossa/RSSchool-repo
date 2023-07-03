@@ -5,7 +5,7 @@ import './header.css';
 export class HeaderView extends AppView {
   constructor() {
     const props: ElementCreatorProps = {
-      tag: 'header',
+      tag: 'div',
       classes: ['header'],
       textContent: 'Hello world!',
       listeners: null,

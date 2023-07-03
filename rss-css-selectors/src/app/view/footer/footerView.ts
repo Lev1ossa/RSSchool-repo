@@ -5,7 +5,7 @@ import './footer.css';
 export class FooterView extends AppView {
   constructor() {
     const props: ElementCreatorProps = {
-      tag: 'footer',
+      tag: 'div',
       classes: ['footer'],
       textContent: 'Hello world!',
       listeners: null,

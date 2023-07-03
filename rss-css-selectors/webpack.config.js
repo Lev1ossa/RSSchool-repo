@@ -65,7 +65,7 @@ module.exports = ({ development }) => {
     entry: getEntryPoints(pages),
     context: srcPath,
     output: {
-      filename: 'js/[name].[contenthash].js',
+      filename: '[name].[contenthash].js',
       path: path.resolve(__dirname, 'dist'),
       assetModuleFilename: '[file]',
     },
@@ -99,8 +99,9 @@ module.exports = ({ development }) => {
         }
       ],
     },
+    // stats: { children: true },
     plugins: [
-      new MiniCssExtractPlugin({ filename: 'css/[name].[contenthash].css' }),
+      new MiniCssExtractPlugin({ filename: '[name].[contenthash].css' }),
       ...getHtmlPlugins(pages),
       new CopyPlugin({
         patterns: [
@@ -114,6 +115,7 @@ module.exports = ({ development }) => {
                 '**/*.scss',
                 '**/*.sass',
                 '**/*.html',
+                '**/*.css',
               ],
             },
             noErrorOnMissing: true,

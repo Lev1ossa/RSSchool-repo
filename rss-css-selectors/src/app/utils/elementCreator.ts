@@ -39,4 +39,10 @@ export class ElementCreator {
       element.addEventListener(key, value);
     });
   }
+
+  addElement(newElement: HTMLElement | undefined): void {
+    if (newElement) {
+      this.element.append(newElement);
+    }
+  }
 }
