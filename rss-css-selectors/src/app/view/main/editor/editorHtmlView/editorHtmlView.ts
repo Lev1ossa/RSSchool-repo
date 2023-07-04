@@ -1,7 +1,7 @@
 import hljs from 'highlight.js/lib/core';
 import xmlLanguage from 'highlight.js/lib/languages/xml';
 import { AppView } from '../../../appView';
-import { ElementCreatorProps, HtmlEditorItems, HtmlEditorItem, LevelData } from '../../../../types/types';
+import { ElementCreatorProps, HtmlEditorItems, HtmlEditorItem, LevelData, GameData } from '../../../../types/types';
 import { ElementCreator } from '../../../../utils/elementCreator';
 import './editorHtml.css';
 import 'highlight.js/styles/kimbie-dark.css';
@@ -12,7 +12,7 @@ hljs.registerLanguage('xml', xmlLanguage);
 const DEFAULT_STRINGS_NUMBER = 10;
 
 export class EditorHtmlView extends AppView {
-  constructor(levelData: LevelData) {
+  constructor(gameData: GameData) {
     const props: ElementCreatorProps = {
       tag: 'div',
       classes: ['editor-html'],
@@ -20,10 +20,10 @@ export class EditorHtmlView extends AppView {
       listeners: null,
     };
     super(props);
-    this.constructView(levelData);
+    this.constructView(gameData);
   }
 
-  constructView(levelData: LevelData): void {
+  constructView(gameData: GameData): void {
     const numbersProps: ElementCreatorProps = {
       tag: 'div',
       classes: ['numbers'],
@@ -46,7 +46,7 @@ export class EditorHtmlView extends AppView {
 
     this.elementCreator.addElement(numbers.getElement());
 
-    this.createHTMLItem(this.elementCreator, levelData.htmlEditorItems);
+    this.createHTMLItem(this.elementCreator, gameData.levelsData[gameData.currentLevel].htmlEditorItems);
   }
 
   createHTMLItem(currentEl: ElementCreator, htmlEditorItems: HtmlEditorItems): void {

@@ -8,8 +8,6 @@ import { LevelsView } from './levels/levelsView';
 import { TableWrapperView } from './tableBlock/tableWrapperView';
 import './main.css';
 
-// const defaultLevel = 1;
-
 export class MainView extends AppView {
   gameData: GameData; 
   gameView: ElementCreator | undefined;
@@ -22,8 +20,6 @@ export class MainView extends AppView {
       listeners: null,
     };
     super(props);
-    //TODO add current level load from save
-    // this.currentLevel = gameData.currentLevel;
     const loadedGameData: string | null = localStorage.getItem('lev1ossa-selectors-gameData');
     if (loadedGameData) {
       this.gameData = JSON.parse(loadedGameData);
@@ -88,6 +84,8 @@ export class MainView extends AppView {
           hljs.highlightElement(fakeInput);
           fakeInput.classList.add('help');
           setTimeout(() => fakeInput.classList.remove('help'), 3000);
+          this.gameData.levelsData[this.gameData.currentLevel].helpUsed = true;
+          this.updateGameData();
         },
       },
     }
@@ -100,7 +98,7 @@ export class MainView extends AppView {
 
     const gameView = new ElementCreator(gameProps);
     const tableWrapperView = new TableWrapperView(this.gameData.levelsData[gameData.currentLevel], gameListener);
-    const editorView = new EditorView(this.gameData.levelsData[gameData.currentLevel]);
+    const editorView = new EditorView(this.gameData, gameListener);
     const levelsView = new LevelsView(this.gameData, gameListener);
     const gameTitle = new ElementCreator(titleProps);
 

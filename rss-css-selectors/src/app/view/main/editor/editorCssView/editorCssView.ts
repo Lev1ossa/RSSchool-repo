@@ -2,7 +2,7 @@ import hljs from 'highlight.js/lib/core';
 import cssLanguage from 'highlight.js/lib/languages/css';
 import 'highlight.js/styles/kimbie-dark.css';
 import { AppView } from '../../../appView';
-import { ElementCreatorProps } from '../../../../types/types';
+import { ElementCreatorProps, GameData, Statuses } from '../../../../types/types';
 import './editorCss.css';
 import { ElementCreator } from '../../../../utils/elementCreator';
 
@@ -10,7 +10,7 @@ hljs.registerLanguage('css', cssLanguage);
 
 export class EditorCssView extends AppView {
   inputValue: string;
-  constructor() {
+  constructor(gameData: GameData, gameListener: EventTarget, editorElement: ElementCreator) {
     const props: ElementCreatorProps = {
       tag: 'div',
       classes: ['editor-css'],
@@ -19,10 +19,10 @@ export class EditorCssView extends AppView {
     };
     super(props);
     this.inputValue = '';
-    this.constructView();
+    this.constructView(gameData, gameListener, editorElement);
   }
 
-  constructView(): void {
+  constructView(gameData: GameData, gameListener: EventTarget, editorElement: ElementCreator): void {
     const fakeInputProps = {
       tag: 'div',
       classes: ['fake-css-input', 'language-css'],
@@ -58,14 +58,9 @@ export class EditorCssView extends AppView {
           const eventTarget = event.target;
           if (eventTarget instanceof HTMLInputElement){
             fakeInputEl.innerText = eventTarget.value;
-          }
-          hljs.highlightElement(fakeInputEl);
-        },
-        keyup: (event: Event) => {
-          const eventTarget = event.target;
-          if (eventTarget instanceof HTMLInputElement){
             this.inputValue = eventTarget.value;
           }
+          hljs.highlightElement(fakeInputEl);
         },
       },
     }
@@ -96,7 +91,41 @@ export class EditorCssView extends AppView {
       tag: 'button',
       classes: ['css-editor-button'],
       textContent: 'Enter',
-      listeners: null,
+      listeners: {
+        click: (): void => {
+          let correctSelector = true;
+          try {
+            const winSelectorElements = [...document.querySelectorAll('.skew')];
+            const cssInputEl = cssInput.getElement() as HTMLInputElement;
+            const userSelectorElements = [...document.querySelectorAll(cssInputEl.value)];
+            if (winSelectorElements.length === userSelectorElements.length) {
+              for (let i = 0; i < winSelectorElements.length; i++) {
+                if (winSelectorElements[i] !== userSelectorElements[i]) {
+                  correctSelector = false;
+                }
+              }
+            } else {
+              correctSelector = false;
+            }
+          } catch {
+            correctSelector = false;
+          }
+          if (correctSelector) {
+            const currentLevel = gameData.levelsData[gameData.currentLevel];
+            if (currentLevel.helpUsed) {
+              currentLevel.status = Statuses.statusWinHelp;
+            } else {
+              currentLevel.status = Statuses.statusWin;
+            }
+            gameData.currentLevel = (+gameData.currentLevel + 1).toString();
+            //TODO check for last lvl, add win animation
+            gameListener.dispatchEvent(new CustomEvent('levelChange'));
+          } else {
+            editorElement.getElement().classList.add('loseShake');
+            setTimeout(() => editorElement.getElement().classList.remove('loseShake'), 2000);
+          }
+        }
+      },
     }
     
     const buttonContainer = new ElementCreator(buttonContainerProps);

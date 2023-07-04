@@ -1,11 +1,11 @@
-import { ElementCreatorProps, LevelData } from '../../../types/types';
+import { ElementCreatorProps, GameData, LevelData } from '../../../types/types';
 import { AppView } from '../../appView';
 import './editor.css';
 import { EditorCssView } from './editorCssView/editorCssView';
 import { EditorHtmlView } from './editorHtmlView/editorHtmlView';
 
 export class EditorView extends AppView {
-  constructor(levelData: LevelData) {
+  constructor(gameData: GameData, gameListener: EventTarget) {
     const props: ElementCreatorProps = {
       tag: 'div',
       classes: ['editor'],
@@ -13,12 +13,12 @@ export class EditorView extends AppView {
       listeners: null,
     };
     super(props);
-    this.constructView(levelData);
+    this.constructView(gameData, gameListener);
   }
 
-  constructView(levelData: LevelData): void {
-    const editorHtmlView = new EditorHtmlView(levelData);
-    const editorCssView = new EditorCssView();
+  constructView(gameData: GameData, gameListener: EventTarget): void {
+    const editorHtmlView = new EditorHtmlView(gameData);
+    const editorCssView = new EditorCssView(gameData, gameListener, this.elementCreator);
 
     this.elementCreator.addElement(editorCssView.getElement());
     this.elementCreator.addElement(editorHtmlView.getElement());
