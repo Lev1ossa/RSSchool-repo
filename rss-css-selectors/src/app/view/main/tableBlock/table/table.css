@@ -46,7 +46,12 @@ plate:before {
   transform-origin: bottom;
 }
 
-.item-hovered {
+.table-item {
+  box-shadow: unset;
+  transition: box-shadow 0.3s;
+}
+
+.table-item.item-hovered {
   box-shadow: 0 0 0 5px green;
 }
 

@@ -15,6 +15,7 @@
   align-items: center;
   gap: 10px;
   /* row-gap: 20px; */
+  transition: all 0.3s;
 }
 
 .level-number {
@@ -67,6 +68,7 @@
   background-color: #f0f0f0;
   border: none;
   border-radius: 5px;
+  transition: all .5s;
 }
 
 .game-reset-button:hover {

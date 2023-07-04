@@ -24,6 +24,19 @@
   animation: blink .5s infinite;
 }
 
+.css-input::placeholder {
+  color: #6f6e6e;
+  transition: color 1s;
+}
+
+.editor-css:hover .css-input::placeholder {
+  color: white;
+}
+
+/* .css-input::placeholder:hover {
+  color: white;
+} */
+
 .fake-css-input {
   display: flex;
   align-items: center;
@@ -51,6 +64,7 @@
   width: 40px;
   background-color: #f0f0f0;
   border: none;
+  transition: all .5s;
 }
 
 .css-editor-button:hover {

@@ -29,7 +29,7 @@ export class tableView extends AppView {
     levelData.tableItems.forEach((item: TableItem) => {
       const tableItemProps: ElementCreatorProps = {
         tag: item.tag,
-        classes: [item.class],
+        classes: [item.class, 'table-item'],
         textContent: '',
         listeners: {
           mouseover: (event: Event): void => {
