@@ -2,7 +2,7 @@ import hljs from 'highlight.js/lib/core';
 import cssLanguage from 'highlight.js/lib/languages/css';
 import 'highlight.js/styles/kimbie-dark.css';
 import { AppView } from '../../../appView';
-import { ElementCreatorProps, GameData, Statuses } from '../../../../types/types';
+import { ElementCreatorProps, GameData, KeyboardEventHandler, Statuses } from '../../../../types/types';
 import './editorCss.css';
 import { ElementCreator } from '../../../../utils/elementCreator';
 import { showDialog } from '../../../../utils/showDialog';
@@ -96,45 +96,19 @@ export class EditorCssView extends AppView {
       textContent: 'Enter',
       listeners: {
         click: (): void => {
-          let correctSelector = true;
-          try {
-            const winSelectorElements = [...document.querySelectorAll('.skew')];
-            const cssInputEl = cssInput.getElement() as HTMLInputElement;
-            const userSelectorElements = [...document.querySelectorAll(cssInputEl.value)];
-            if (winSelectorElements.length === userSelectorElements.length) {
-              for (let i = 0; i < winSelectorElements.length; i++) {
-                if (winSelectorElements[i] !== userSelectorElements[i]) {
-                  correctSelector = false;
-                }
-              }
-            } else {
-              correctSelector = false;
-            }
-          } catch {
-            correctSelector = false;
-          }
-          if (correctSelector) {
-            const currentLevel = gameData.levelsData[gameData.currentLevel];
-            if (currentLevel.helpUsed) {
-              currentLevel.status = Statuses.statusWinHelp;
-            } else {
-              currentLevel.status = Statuses.statusWin;
-            }
-            const nextLevel = +gameData.currentLevel + 1;
-            //TODO check for last lvl, add win animation
-            if (nextLevel > this.maxLevel) {
-              showDialog('You have finished last level! You can reset game and try again!');
-            } else {
-              gameData.currentLevel = nextLevel.toString();
-            }
-            gameListener.dispatchEvent(new CustomEvent('levelChange'));
-          } else {
-            editorElement.getElement().classList.add('loseShake');
-            setTimeout(() => editorElement.getElement().classList.remove('loseShake'), 2000);
-          }
+          this.cssInputHandler(gameData, gameListener, editorElement, cssInput);
         }
       },
-    }
+    };
+
+    const keyUpHandler = (event: KeyboardEvent): void => {
+      event.preventDefault();
+      if (event.code === 'Enter' && !(event.repeat)) {
+        this.cssInputHandler(gameData, gameListener, editorElement, cssInput, keyUpHandler);
+      }
+    }; 
+
+    window.addEventListener('keyup', keyUpHandler);
     
     const buttonContainer = new ElementCreator(buttonContainerProps);
     const cssEditorButton = new ElementCreator(cssEditorButtonProps);
@@ -143,5 +117,52 @@ export class EditorCssView extends AppView {
     this.elementCreator.addElement(cssInput.getElement());
     this.elementCreator.addElement(fakeInputPre.getElement());
     this.elementCreator.addElement(buttonContainer.getElement());
+  }
+
+  cssInputHandler(gameData: GameData, gameListener: EventTarget, editorElement: ElementCreator, cssInput: ElementCreator, keyUpHandler?: KeyboardEventHandler): void {
+    let correctSelector = true;
+    const winSelectorElements = [...document.querySelectorAll('.skew')];
+    try {
+      const cssInputEl = cssInput.getElement() as HTMLInputElement;
+      const userSelectorElements = [...document.querySelectorAll(cssInputEl.value)];
+      if (winSelectorElements.length === userSelectorElements.length) {
+        for (let i = 0; i < winSelectorElements.length; i++) {
+          if (winSelectorElements[i] !== userSelectorElements[i]) {
+            correctSelector = false;
+          }
+        }
+      } else {
+        correctSelector = false;
+      }
+    } catch {
+      correctSelector = false;
+    }
+    if (correctSelector) {
+      winSelectorElements.forEach((item) => {
+        item.classList.add('remove');
+      });
+      const currentLevel = gameData.levelsData[gameData.currentLevel];
+      if (currentLevel.helpUsed) {
+        currentLevel.status = Statuses.statusWinHelp;
+      } else {
+        currentLevel.status = Statuses.statusWin;
+      }
+      const nextLevel = +gameData.currentLevel + 1;
+      //TODO check for last lvl, add win animation
+      if (nextLevel > this.maxLevel) {
+        showDialog('You have finished last level! You can reset game and try again!');
+      } else {
+        gameData.currentLevel = nextLevel.toString();
+      }
+      if (keyUpHandler) {
+        window.removeEventListener('keyup', keyUpHandler);
+      }
+      setTimeout(() => {
+        gameListener.dispatchEvent(new CustomEvent('levelChange'));
+      }, 2000);
+    } else {
+      editorElement.getElement().classList.add('loseShake');
+      setTimeout(() => editorElement.getElement().classList.remove('loseShake'), 2000);
+    }
   }
 }

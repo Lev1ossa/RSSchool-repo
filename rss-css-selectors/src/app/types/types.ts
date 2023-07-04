@@ -56,3 +56,5 @@ export type GameData = {
   currentLevel: string,
   levelsData: LevelsData,
 }
+
+export type KeyboardEventHandler = (event: KeyboardEvent) => void;
