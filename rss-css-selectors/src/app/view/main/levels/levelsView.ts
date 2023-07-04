@@ -69,5 +69,33 @@ export class LevelsView extends AppView {
       levelItem.addElement(levelNumber.getElement());
       this.elementCreator.addElement(levelItem.getElement());
     });
+
+    const buttonContainerProps = {
+      tag: 'button',
+      classes: ['reset-button-container'],
+      textContent: '',
+      listeners: null,
+    }
+
+    const resetButtonProps = {
+      tag: 'button',
+      classes: ['game-reset-button'],
+      textContent: 'Reset',
+      listeners: {
+        click: (): void => {
+          gameData.currentLevel = '1';
+          Object.entries(gameData.levelsData).forEach(([key, value]) => {
+            value.status = Statuses.statusUnfinished;
+          });
+          gameListener.dispatchEvent(new CustomEvent('levelChange'));
+        }
+      },
+    }
+    
+    const buttonContainer = new ElementCreator(buttonContainerProps);
+    const resetButton = new ElementCreator(resetButtonProps);
+    buttonContainer.addElement(resetButton.getElement());
+
+    this.elementCreator.addElement(buttonContainer.getElement());
   }
 }
