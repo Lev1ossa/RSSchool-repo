@@ -49,4 +49,9 @@ export type ElAttribute = {
 
 export type ElAttributes = ElAttribute[];
 
-export type LevelsData = Record<number, LevelData>;
+export type LevelsData = Record<string, LevelData>;
+
+export type GameData = {
+  currentLevel: string,
+  levelsData: LevelsData,
+}

@@ -5,7 +5,7 @@ import { tableView } from './table/tableView';
 import './tableWrapper.css';
 
 export class TableWrapperView extends AppView {
-  constructor(levelData: LevelData) {
+  constructor(levelData: LevelData, newEventTarget: EventTarget) {
     const props: ElementCreatorProps = {
       tag: 'div',
       classes: ['table-wrapper'],
@@ -13,10 +13,13 @@ export class TableWrapperView extends AppView {
       listeners: null,
     };
     super(props);
-    this.constructView(levelData);
+    this.constructView(levelData, newEventTarget);
   }
 
-  constructView(levelData: LevelData): void {
+  constructView(levelData: LevelData, newEventTarget: EventTarget): void {
+    // const event = new CustomEvent("hey", { detail: 'HELLO!' });
+    // newEventTarget.dispatchEvent(event);
+    
     const surfaceProps: ElementCreatorProps = {
       tag: 'div',
       classes: ['table-surface'],
