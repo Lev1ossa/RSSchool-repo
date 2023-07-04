@@ -26,7 +26,7 @@
   margin: 0 auto;
   align-items: center;
   /* justify-content: center; */
-  height: 300px;
+  height: 250px;
   border: solid 5px #000;
 }
 
@@ -110,31 +110,109 @@ pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5p
 
 .editor-html {
   display: flex;
+  box-sizing: border-box;
+  height: 200px;
+  width: 100%;
+  background:  #1b1813;
 }
 
 .numbers {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  /* padding: 5px 0px; */
-  /* word-spacing: 25px; */
+  align-items: center;
   color: gray;
-  background:  #1b1813;;
-  height: 200px;
   border: 1px solid black;
-}
-
-.number {
-  height: 16px;
+  gap: 2px;
+  font-size: 16px;
 }
 
 .html-editor-item {
+  flex-direction: column; 
+  font-size: 16px;
   padding-left: 10px;
+}
+
+.hljs-tag {
+  display: inline-block;
+  height: 20px;
+  margin: 0;
 }
 pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{background:#474949;color:#d1d9e1}.hljs-comment,.hljs-quote{color:#969896;font-style:italic}.hljs-addition,.hljs-keyword,.hljs-literal,.hljs-selector-tag,.hljs-type{color:#c9c}.hljs-number,.hljs-selector-attr,.hljs-selector-pseudo{color:#f99157}.hljs-doctag,.hljs-regexp,.hljs-string{color:#8abeb7}.hljs-built_in,.hljs-name,.hljs-section,.hljs-title{color:#b5bd68}.hljs-class .hljs-title,.hljs-selector-id,.hljs-template-variable,.hljs-title.class_,.hljs-variable{color:#fc6}.hljs-name,.hljs-section,.hljs-strong{font-weight:700}.hljs-bullet,.hljs-link,.hljs-meta,.hljs-subst,.hljs-symbol{color:#f99157}.hljs-deletion{color:#dc322f}.hljs-formula{background:#eee8d5}.hljs-attr,.hljs-attribute{color:#81a2be}.hljs-emphasis{font-style:italic}
 .levels {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 20%;
   background-color: #1b1813;
+  font-size: 20px;
+}
+
+.level-item {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  /* row-gap: 20px; */
+}
+
+.level-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+}
+
+.level-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+}
+
+.level-status.win {
+  color: green;
+}
+
+.level-status.win-help {
+  color: yellow;
+}
+
+.level-status.unfinished {
+  color: gray;
+}
+
+.level-item.current-level {
+  background: rgba(255,255,255,.07);
+}
+
+.level-item:hover {
+  background: rgba(255,255,255,.07);
+  cursor: pointer;
+}
+
+.reset-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #2e2a23;
+  border: none;
+  width: 50px;
+}
+
+.game-reset-button {
+  height: 25px;
+  width: 50px;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 5px;
+}
+
+.game-reset-button:hover {
+  height: 20px;
+  width: 45px;
+  cursor: pointer;
 }
 .table {
   display: flex;
