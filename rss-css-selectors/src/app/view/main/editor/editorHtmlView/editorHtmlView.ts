@@ -4,6 +4,8 @@ import { AppView } from '../../../appView';
 import { ElementCreatorProps, HtmlEditorItems, HtmlEditorItem, LevelData } from '../../../../types/types';
 import { ElementCreator } from '../../../../utils/elementCreator';
 import './editorHtml.css';
+import 'highlight.js/styles/kimbie-dark.css';
+import 'highlight.js/styles/rainbow.css';
 
 hljs.registerLanguage('xml', xmlLanguage);
 
