@@ -50,6 +50,11 @@
   overflow: hidden;
 }
 
+.fake-css-input.help {
+  width: 0px;
+  animation: text-smooth 1s steps(30,end) 1s 1 normal both;
+}
+
 .button-container {
   display: flex;
   justify-content: center;
@@ -77,4 +82,9 @@
   50% { 
       border: 2px solid white;
   }
+}
+
+@keyframes text-smooth{
+  from{width: 0px;}
+  to{width: 400px;}
 }

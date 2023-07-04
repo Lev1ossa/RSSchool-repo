@@ -37,6 +37,7 @@ export type LevelData = {
   name: string,
   title: string,
   helpTag: string,
+  helpUsed: boolean,
   status: Statuses,
   tableItems: TableItems,
   htmlEditorItems: HtmlEditorItems,

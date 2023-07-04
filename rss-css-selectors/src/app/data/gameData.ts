@@ -7,6 +7,7 @@ export const gameData = {
       name: 'level1',
       title: 'Select all white plates',
       helpTag: 'plate',
+      helpUsed: false,
       status: Statuses.statusUnfinished,
       tableItems: [
         {
@@ -48,6 +49,7 @@ export const gameData = {
       name: 'level1',
       title: 'Select all white plates',
       helpTag: 'plate',
+      helpUsed: false,
       status: Statuses.statusUnfinished,
       tableItems: [
         {
@@ -89,6 +91,7 @@ export const gameData = {
       name: 'level1',
       title: 'Select all white plates',
       helpTag: 'plate',
+      helpUsed: false,
       status: Statuses.statusUnfinished,
       tableItems: [
         {
@@ -130,6 +133,7 @@ export const gameData = {
       name: 'level1',
       title: 'Select all white plates',
       helpTag: 'plate',
+      helpUsed: false,
       status: Statuses.statusUnfinished,
       tableItems: [
         {
@@ -171,6 +175,7 @@ export const gameData = {
       name: 'level1',
       title: 'Select all white plates',
       helpTag: 'plate',
+      helpUsed: false,
       status: Statuses.statusUnfinished,
       tableItems: [
         {
@@ -212,6 +217,7 @@ export const gameData = {
       name: 'level1',
       title: 'Select all white plates',
       helpTag: 'plate',
+      helpUsed: false,
       status: Statuses.statusUnfinished,
       tableItems: [
         {
@@ -253,6 +259,7 @@ export const gameData = {
       name: 'level1',
       title: 'Select all white plates',
       helpTag: 'plate',
+      helpUsed: false,
       status: Statuses.statusUnfinished,
       tableItems: [
         {
@@ -294,6 +301,7 @@ export const gameData = {
       name: 'level1',
       title: 'Select all white plates',
       helpTag: 'plate',
+      helpUsed: false,
       status: Statuses.statusUnfinished,
       tableItems: [
         {
@@ -335,6 +343,7 @@ export const gameData = {
       name: 'level1',
       title: 'Select all white plates',
       helpTag: 'plate',
+      helpUsed: false,
       status: Statuses.statusUnfinished,
       tableItems: [
         {
@@ -376,6 +385,7 @@ export const gameData = {
       name: 'level1',
       title: 'Select all white plates',
       helpTag: 'plate',
+      helpUsed: false,
       status: Statuses.statusUnfinished,
       tableItems: [
         {

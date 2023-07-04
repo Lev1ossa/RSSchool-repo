@@ -1,3 +1,4 @@
+import hljs from 'highlight.js/lib/core';
 import { gameData } from '../../data/gameData';
 import { ElementCreatorProps, GameData } from '../../types/types';
 import { ElementCreator } from '../../utils/elementCreator';
@@ -65,6 +66,38 @@ export class MainView extends AppView {
       textContent: '',
       listeners: null,
     }
+
+    const helpButtonContainerProps: ElementCreatorProps = {
+      tag: 'div',
+      classes: ['help-button-container'],
+      textContent: '',
+      listeners: null,
+    }
+
+    const helpButtonProps: ElementCreatorProps = {
+      tag: 'button',
+      classes: ['help-button'],
+      textContent: 'HELP!',
+      listeners: {
+        click: (): void => {
+          const helpText = this.gameData.levelsData[this.gameData.currentLevel].helpTag;
+          const cssInput = document.querySelector('.css-input') as HTMLInputElement;
+          cssInput.value = helpText;
+          const fakeInput = document.querySelector('.fake-css-input') as HTMLElement;
+          fakeInput.innerText = helpText;
+          hljs.highlightElement(fakeInput);
+          fakeInput.classList.add('help');
+          setTimeout(() => fakeInput.classList.remove('help'), 3000);
+        },
+      },
+    }
+
+    const helpButtonContainer = new ElementCreator(helpButtonContainerProps);
+    const helpButton = new ElementCreator(helpButtonProps);
+
+    helpButtonContainer.addElement(helpButton.getElement());
+    
+
     const gameView = new ElementCreator(gameProps);
     const tableWrapperView = new TableWrapperView(this.gameData.levelsData[gameData.currentLevel], gameListener);
     const editorView = new EditorView(this.gameData.levelsData[gameData.currentLevel]);
@@ -72,6 +105,7 @@ export class MainView extends AppView {
     const gameTitle = new ElementCreator(titleProps);
 
     gameView.addElement(gameTitle.getElement());
+    gameView.addElement(helpButton.getElement());
     gameView.addElement(tableWrapperView.getElement());
     gameView.addElement(editorView.getElement());
 
