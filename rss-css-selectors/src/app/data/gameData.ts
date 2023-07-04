@@ -15,12 +15,14 @@ export const gameData = {
           tag: 'plate',
           class: 'skew',
           tooltip: '<plate></plate>',
+          children: [],
         },
         {
           id: '2',
           tag: 'plate',
           class: 'skew',
           tooltip: '<plate></plate>',
+          children: [],
         }
       ],
       htmlEditorItems: [
@@ -46,7 +48,7 @@ export const gameData = {
       ]
     },
     2: {
-      name: 'level1',
+      name: 'level2',
       title: 'Select all white plates',
       helpTag: 'plate',
       helpUsed: false,
@@ -57,12 +59,28 @@ export const gameData = {
           tag: 'plate',
           class: 'skew',
           tooltip: '<plate></plate>',
+          children: [],
         },
         {
           id: '2',
+          tag: 'bento',
+          class: 'skew',
+          tooltip: '<bento></bento>',
+          children: [],
+        },
+        {
+          id: '3',
           tag: 'plate',
           class: 'skew',
           tooltip: '<plate></plate>',
+          children: [],
+        },
+        {
+          id: '4',
+          tag: 'apple',
+          class: 'skew',
+          tooltip: '<apple></apple>',
+          children: [],
         }
       ],
       htmlEditorItems: [
@@ -79,6 +97,12 @@ export const gameData = {
             },
             {
               id: '2',
+              tag: 'bento',
+              selector: 'id="heyho"',
+              children: [],
+            },
+            {
+              id: '3',
               tag: 'plate',
               selector: 'id="yeh"',
               children: [],
@@ -88,7 +112,7 @@ export const gameData = {
       ]
     },
     3: {
-      name: 'level1',
+      name: 'level3',
       title: 'Select all white plates',
       helpTag: 'plate',
       helpUsed: false,
@@ -99,12 +123,38 @@ export const gameData = {
           tag: 'plate',
           class: 'skew',
           tooltip: '<plate></plate>',
+          children: [
+            {
+              id: '1-1',
+              tag: 'apple',
+              class: 'skew',
+              tooltip: '<apple></apple>',
+              children: [],
+            }
+          ],
         },
         {
           id: '2',
           tag: 'plate',
           class: 'skew',
           tooltip: '<plate></plate>',
+          children: [
+            {
+              id: '2-1',
+              tag: 'bento',
+              class: 'skew',
+              tooltip: '<bento></bento>',
+              children: [
+                {
+                  id: '2-2',
+                  tag: 'apple',
+                  class: 'skew',
+                  tooltip: '<apple></apple>',
+                  children: [],
+                }
+              ],
+            }
+          ],
         }
       ],
       htmlEditorItems: [
@@ -130,7 +180,7 @@ export const gameData = {
       ]
     },
     4: {
-      name: 'level1',
+      name: 'level4',
       title: 'Select all white plates',
       helpTag: 'plate',
       helpUsed: false,
@@ -141,12 +191,14 @@ export const gameData = {
           tag: 'plate',
           class: 'skew',
           tooltip: '<plate></plate>',
+          children: [],
         },
         {
           id: '2',
           tag: 'plate',
           class: 'skew',
           tooltip: '<plate></plate>',
+          children: [],
         }
       ],
       htmlEditorItems: [
@@ -172,7 +224,7 @@ export const gameData = {
       ]
     },
     5: {
-      name: 'level1',
+      name: 'level5',
       title: 'Select all white plates',
       helpTag: 'plate',
       helpUsed: false,
@@ -183,12 +235,14 @@ export const gameData = {
           tag: 'plate',
           class: 'skew',
           tooltip: '<plate></plate>',
+          children: [],
         },
         {
           id: '2',
           tag: 'plate',
           class: 'skew',
           tooltip: '<plate></plate>',
+          children: [],
         }
       ],
       htmlEditorItems: [
@@ -214,7 +268,7 @@ export const gameData = {
       ]
     },
     6: {
-      name: 'level1',
+      name: 'level6',
       title: 'Select all white plates',
       helpTag: 'plate',
       helpUsed: false,
@@ -225,12 +279,14 @@ export const gameData = {
           tag: 'plate',
           class: 'skew',
           tooltip: '<plate></plate>',
+          children: [],
         },
         {
           id: '2',
           tag: 'plate',
           class: 'skew',
           tooltip: '<plate></plate>',
+          children: [],
         }
       ],
       htmlEditorItems: [
@@ -256,7 +312,7 @@ export const gameData = {
       ]
     },
     7: {
-      name: 'level1',
+      name: 'level7',
       title: 'Select all white plates',
       helpTag: 'plate',
       helpUsed: false,
@@ -267,12 +323,14 @@ export const gameData = {
           tag: 'plate',
           class: 'skew',
           tooltip: '<plate></plate>',
+          children: [],
         },
         {
           id: '2',
           tag: 'plate',
           class: 'skew',
           tooltip: '<plate></plate>',
+          children: [],
         }
       ],
       htmlEditorItems: [
@@ -298,7 +356,7 @@ export const gameData = {
       ]
     },
     8: {
-      name: 'level1',
+      name: 'level8',
       title: 'Select all white plates',
       helpTag: 'plate',
       helpUsed: false,
@@ -309,12 +367,14 @@ export const gameData = {
           tag: 'plate',
           class: 'skew',
           tooltip: '<plate></plate>',
+          children: [],
         },
         {
           id: '2',
           tag: 'plate',
           class: 'skew',
           tooltip: '<plate></plate>',
+          children: [],
         }
       ],
       htmlEditorItems: [
@@ -340,7 +400,7 @@ export const gameData = {
       ]
     },
     9: {
-      name: 'level1',
+      name: 'level9',
       title: 'Select all white plates',
       helpTag: 'plate',
       helpUsed: false,
@@ -351,12 +411,14 @@ export const gameData = {
           tag: 'plate',
           class: 'skew',
           tooltip: '<plate></plate>',
+          children: [],
         },
         {
           id: '2',
           tag: 'plate',
           class: 'skew',
           tooltip: '<plate></plate>',
+          children: [],
         }
       ],
       htmlEditorItems: [
@@ -382,7 +444,7 @@ export const gameData = {
       ]
     },
     10: {
-      name: 'level1',
+      name: 'level10',
       title: 'Select all white plates',
       helpTag: 'plate',
       helpUsed: false,
@@ -393,12 +455,14 @@ export const gameData = {
           tag: 'plate',
           class: 'skew',
           tooltip: '<plate></plate>',
+          children: [],
         },
         {
           id: '2',
           tag: 'plate',
           class: 'skew',
           tooltip: '<plate></plate>',
+          children: [],
         }
       ],
       htmlEditorItems: [

@@ -4,12 +4,16 @@
   align-items: center;
 }
 
-plate {
+plate, bento, apple {
   width: 100px;
   height: 100px;
+}
+
+plate {
   background: whitesmoke;
   border-radius: 100%;
   border-bottom: solid 5px #d7d7d7;
+  z-index: 100;
 }
 
 plate:before {
@@ -24,6 +28,63 @@ plate:before {
   border-top: solid 7px #d7d7d7;
   content: "";
 }
+
+bento {
+  display: block;
+  box-sizing: border-box;
+  background: brown;
+  position: relative;
+  border: solid 3px #711c12;
+  border-width: 20px 2px;
+}
+
+apple,
+orange {
+  position: relative;
+  display: block;
+  width: 50px;
+  height: 50px;
+  border-radius: 100px;
+  border-style: solid;
+}
+
+apple {
+  background: green;
+  border-color: rgb(0, 76, 0);
+}
+
+orange {
+  background: orange;
+  border-color: rgb(132, 90, 13);
+}
+
+tomato {
+  background: #e41919;
+  border-color: #ab1212;
+}
+
+plate bento {
+  width: 70px;
+  height: 70px;
+  z-index: 101;
+  top: -60px;
+  left: 15px;
+}
+
+plate apple,
+plate orange {
+  top: -50px;
+  left: 20px;
+  z-index: 102;
+}
+
+bento apple,
+bento orange {
+  top: -15px;
+  left: 7px;
+  z-index: 102;
+}
+
 
 .tooltip {
   display: inline-block;
@@ -65,10 +126,10 @@ plate:before {
 
 .remove {
   animation: remove .2s 1;
-  transform: translateY(-1000px);
+  transform: translateY(-20000px);
 }
 
 @keyframes remove {
   0% {transform: translateY(0px);}
-  100% {transform: translateY(-1000px);}
+  100% {transform: translateY(-20000px);}
 }

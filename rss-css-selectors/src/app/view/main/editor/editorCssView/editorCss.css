@@ -33,10 +33,6 @@
   color: white;
 }
 
-/* .css-input::placeholder:hover {
-  color: white;
-} */
-
 .fake-css-input {
   display: flex;
   align-items: center;
@@ -48,11 +44,6 @@
   font-family: sans-serif;
   padding: 5px;
   overflow: hidden;
-}
-
-.fake-css-input.help {
-  width: 0px;
-  animation: text-smooth 1s steps(30,end) 1s 1 normal both;
 }
 
 .button-container {
@@ -82,9 +73,4 @@
   50% { 
       border: 2px solid white;
   }
-}
-
-@keyframes text-smooth{
-  from{width: 0px;}
-  to{width: 400px;}
 }

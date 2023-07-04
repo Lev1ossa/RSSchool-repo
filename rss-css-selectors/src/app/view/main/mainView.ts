@@ -76,16 +76,25 @@ export class MainView extends AppView {
       textContent: 'HELP!',
       listeners: {
         click: (): void => {
+          console.log(this.gameData.levelsData[this.gameData.currentLevel]);
           const helpText = this.gameData.levelsData[this.gameData.currentLevel].helpTag;
           const cssInput = document.querySelector('.css-input') as HTMLInputElement;
-          cssInput.value = helpText;
           const fakeInput = document.querySelector('.fake-css-input') as HTMLElement;
-          fakeInput.innerText = helpText;
-          hljs.highlightElement(fakeInput);
-          fakeInput.classList.add('help');
-          setTimeout(() => fakeInput.classList.remove('help'), 3000);
-          this.gameData.levelsData[this.gameData.currentLevel].helpUsed = true;
-          this.updateGameData();
+          if (!cssInput.disabled) {
+            cssInput.disabled = true;
+            cssInput.value = '';
+            fakeInput.innerText = '';
+            helpText.split('').forEach((item, idx) => {
+              setTimeout(() => {
+                cssInput.value += item;
+                fakeInput.innerText += item;
+                hljs.highlightElement(fakeInput);
+              }, 100 * idx);
+            })
+            setTimeout(() => cssInput.disabled = false, helpText.length * 100);
+            this.gameData.levelsData[this.gameData.currentLevel].helpUsed = true;
+            this.updateGameData();
+          }
         },
       },
     }
@@ -97,7 +106,7 @@ export class MainView extends AppView {
     
 
     const gameView = new ElementCreator(gameProps);
-    const tableWrapperView = new TableWrapperView(this.gameData.levelsData[gameData.currentLevel], gameListener);
+    const tableWrapperView = new TableWrapperView(this.gameData.levelsData[this.gameData.currentLevel], gameListener);
     const editorView = new EditorView(this.gameData, gameListener);
     const levelsView = new LevelsView(this.gameData, gameListener);
     const gameTitle = new ElementCreator(titleProps);

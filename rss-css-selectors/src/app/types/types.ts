@@ -20,6 +20,7 @@ export type TableItem = {
   tag: string,
   class: string,
   tooltip: string,
+  children: TableItems,
 }
 
 export type TableItems = TableItem[];

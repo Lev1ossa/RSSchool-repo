@@ -64,7 +64,7 @@ export class EditorCssView extends AppView {
             this.inputValue = eventTarget.value;
           }
           hljs.highlightElement(fakeInputEl);
-        },
+        }
       },
     }
 
@@ -120,49 +120,50 @@ export class EditorCssView extends AppView {
   }
 
   cssInputHandler(gameData: GameData, gameListener: EventTarget, editorElement: ElementCreator, cssInput: ElementCreator, keyUpHandler?: KeyboardEventHandler): void {
-    let correctSelector = true;
-    const winSelectorElements = [...document.querySelectorAll('.skew')];
-    try {
-      const cssInputEl = cssInput.getElement() as HTMLInputElement;
-      const userSelectorElements = [...document.querySelectorAll(cssInputEl.value)];
-      if (winSelectorElements.length === userSelectorElements.length) {
-        for (let i = 0; i < winSelectorElements.length; i++) {
-          if (winSelectorElements[i] !== userSelectorElements[i]) {
-            correctSelector = false;
+    const cssInputEl = cssInput.getElement() as HTMLInputElement;
+    if (!cssInputEl.disabled){  
+      let correctSelector = true;
+      const winSelectorElements = [...document.querySelectorAll('.skew')];
+      try {
+        const userSelectorElements = [...document.querySelectorAll(cssInputEl.value)];
+        if (winSelectorElements.length === userSelectorElements.length) {
+          for (let i = 0; i < winSelectorElements.length; i++) {
+            if (winSelectorElements[i] !== userSelectorElements[i]) {
+              correctSelector = false;
+            }
           }
+        } else {
+          correctSelector = false;
         }
-      } else {
+      } catch {
         correctSelector = false;
       }
-    } catch {
-      correctSelector = false;
-    }
-    if (correctSelector) {
-      winSelectorElements.forEach((item) => {
-        item.classList.add('remove');
-      });
-      const currentLevel = gameData.levelsData[gameData.currentLevel];
-      if (currentLevel.helpUsed) {
-        currentLevel.status = Statuses.statusWinHelp;
+      if (correctSelector) {
+        winSelectorElements.forEach((item) => {
+          item.classList.add('remove');
+        });
+        const currentLevel = gameData.levelsData[gameData.currentLevel];
+        if (currentLevel.helpUsed) {
+          currentLevel.status = Statuses.statusWinHelp;
+        } else {
+          currentLevel.status = Statuses.statusWin;
+        }
+        const nextLevel = +gameData.currentLevel + 1;
+        if (nextLevel > this.maxLevel) {
+          showDialog('You have finished last level! You can reset game and try again!');
+        } else {
+          gameData.currentLevel = nextLevel.toString();
+        }
+        if (keyUpHandler) {
+          window.removeEventListener('keyup', keyUpHandler);
+        }
+        setTimeout(() => {
+          gameListener.dispatchEvent(new CustomEvent('levelChange'));
+        }, 2000);
       } else {
-        currentLevel.status = Statuses.statusWin;
+        editorElement.getElement().classList.add('loseShake');
+        setTimeout(() => editorElement.getElement().classList.remove('loseShake'), 2000);
       }
-      const nextLevel = +gameData.currentLevel + 1;
-      //TODO check for last lvl, add win animation
-      if (nextLevel > this.maxLevel) {
-        showDialog('You have finished last level! You can reset game and try again!');
-      } else {
-        gameData.currentLevel = nextLevel.toString();
-      }
-      if (keyUpHandler) {
-        window.removeEventListener('keyup', keyUpHandler);
-      }
-      setTimeout(() => {
-        gameListener.dispatchEvent(new CustomEvent('levelChange'));
-      }, 2000);
-    } else {
-      editorElement.getElement().classList.add('loseShake');
-      setTimeout(() => editorElement.getElement().classList.remove('loseShake'), 2000);
     }
   }
 }

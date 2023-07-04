@@ -1,9 +1,11 @@
 import { AppView } from '../../../appView';
-import { ElementCreatorProps, LevelData, TableItem } from '../../../../types/types';
+import { ElementCreatorProps, LevelData, TableItem, TableItems } from '../../../../types/types';
 import './table.css';
 import { ElementCreator } from '../../../../utils/elementCreator';
 
 export class tableView extends AppView {
+  levelData: LevelData;
+  tooltip: ElementCreator;
   constructor(levelData: LevelData) {
     const props: ElementCreatorProps = {
       tag: 'div',
@@ -12,10 +14,7 @@ export class tableView extends AppView {
       listeners: null,
     };
     super(props);
-    this.constructView(levelData);
-  }
 
-  constructView(levelData: LevelData): void {
     const tooltipProps = {
       tag: 'div',
       classes: ['tooltip', 'hidden'],
@@ -23,13 +22,24 @@ export class tableView extends AppView {
       listeners: null,
     }
 
-    const tooltip = new ElementCreator(tooltipProps);
-    this.elementCreator.addElement(tooltip.getElement());
+    this.tooltip = new ElementCreator(tooltipProps);
+    this.levelData = levelData;
+    this.constructView();
+  }
 
-    levelData.tableItems.forEach((item: TableItem) => {
+  constructView(): void {
+    
+    this.elementCreator.addElement(this.tooltip.getElement());
+
+    this.createTableItems(this.elementCreator, this.levelData.tableItems);
+    
+  }
+
+  createTableItems(currentEl: ElementCreator, tableItems: TableItems): void {
+    tableItems.forEach((item: TableItem) => {
       const tableItemProps: ElementCreatorProps = {
         tag: item.tag,
-        classes: [item.class, 'table-item'],
+        classes: ['table-item', item.class],
         textContent: '',
         listeners: {
           mouseover: (event: Event): void => {
@@ -37,25 +47,30 @@ export class tableView extends AppView {
             if (hoverTarget) {
               hoverTarget.classList.add('item-hovered');
               const leftCord = hoverTarget.offsetLeft;
-              const tooltipEl = tooltip.getElement();
+              const tooltipEl = this.tooltip.getElement();
               tooltipEl.style.setProperty('left', `${leftCord}px`);
-              tooltip.getElement().classList.remove('hidden');
-              tooltip.getElement().textContent = item.tooltip;
+              this.tooltip.getElement().classList.remove('hidden');
+              this.tooltip.getElement().textContent = item.tooltip;
             }
           },
           mouseout: (event: Event): void => {
-            tooltip.getElement().classList.add('hidden');
+            this.tooltip.getElement().classList.add('hidden');
             const hoverTarget = event.target;
             if (hoverTarget instanceof HTMLElement) {
               hoverTarget.classList.remove('item-hovered');
             }
-            tooltip.getElement().textContent = '';
+            this.tooltip.getElement().textContent = '';
           }
         },
       };
 
       const tableItem = new ElementCreator(tableItemProps);
-      this.elementCreator.addElement(tableItem.getElement());
+
+      if (item.children.length > 0) {
+        this.createTableItems(tableItem, item.children);
+      }
+      // this.elementCreator.addElement(tableItem.getElement());
+      currentEl.addElement(tableItem.getElement());
     });
   }
 }

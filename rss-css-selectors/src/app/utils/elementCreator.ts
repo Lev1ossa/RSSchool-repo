@@ -35,7 +35,11 @@ export class ElementCreator {
   }
 
   setCssClasses(element: HTMLElement, classes: string[]): void {
-    classes.forEach((item) => element.classList.add(item));
+    classes.forEach((item) => {
+      if (item) {
+        element.classList.add(item);
+      }
+    });
   }
 
   setListeners(element: HTMLElement, listeners: ListenersObj): void {
