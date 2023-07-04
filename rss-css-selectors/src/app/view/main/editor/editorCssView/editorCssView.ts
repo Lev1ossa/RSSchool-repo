@@ -5,11 +5,13 @@ import { AppView } from '../../../appView';
 import { ElementCreatorProps, GameData, Statuses } from '../../../../types/types';
 import './editorCss.css';
 import { ElementCreator } from '../../../../utils/elementCreator';
+import { showDialog } from '../../../../utils/showDialog';
 
 hljs.registerLanguage('css', cssLanguage);
 
 export class EditorCssView extends AppView {
   inputValue: string;
+  maxLevel: number;
   constructor(gameData: GameData, gameListener: EventTarget, editorElement: ElementCreator) {
     const props: ElementCreatorProps = {
       tag: 'div',
@@ -19,6 +21,7 @@ export class EditorCssView extends AppView {
     };
     super(props);
     this.inputValue = '';
+    this.maxLevel = Object.entries(gameData.levelsData).length;
     this.constructView(gameData, gameListener, editorElement);
   }
 
@@ -117,8 +120,13 @@ export class EditorCssView extends AppView {
             } else {
               currentLevel.status = Statuses.statusWin;
             }
-            gameData.currentLevel = (+gameData.currentLevel + 1).toString();
+            const nextLevel = +gameData.currentLevel + 1;
             //TODO check for last lvl, add win animation
+            if (nextLevel > this.maxLevel) {
+              showDialog('You have finished last level! You can reset game and try again!');
+            } else {
+              gameData.currentLevel = nextLevel.toString();
+            }
             gameListener.dispatchEvent(new CustomEvent('levelChange'));
           } else {
             editorElement.getElement().classList.add('loseShake');
