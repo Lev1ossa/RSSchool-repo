@@ -119,6 +119,11 @@ pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5p
   overflow: hidden;
 }
 
+.fake-css-input.help {
+  width: 0px;
+  animation: text-smooth 1s steps(30,end) 1s 1 normal both;
+}
+
 .button-container {
   display: flex;
   justify-content: center;
@@ -146,6 +151,11 @@ pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5p
   50% { 
       border: 2px solid white;
   }
+}
+
+@keyframes text-smooth{
+  from{width: 0px;}
+  to{width: 400px;}
 }
 
 .editor-html {
@@ -368,6 +378,31 @@ plate:before {
   font-size: 24px;
   margin: 0 auto;
 }
+
+.help-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #2e2a23;
+  border: none;
+  width: 70px;
+}
+
+.help-button {
+  margin: 0 auto;
+  height: 25px;
+  width: 60px;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 5px;
+  transition: all .5s;
+}
+
+.help-button:hover {
+  height: 20px;
+  width: 55px;
+  cursor: pointer;
+}
 * {
   padding: 0;
   margin: 0;
@@ -383,4 +418,8 @@ html {
   display: flex;
   flex-direction: column;
   color: #f5f5dc;
+}
+
+.hljs {
+  background: #2e2a23;
 }
