@@ -1,11 +1,37 @@
 .footer {
+  width: 100%;
   box-sizing: border-box;
   height: 5vh;
   text-align: left;
   padding: 10px;
   display: flex;
+  justify-content: space-around;
   align-items: center;
   background: #524c41;
+}
+
+.rsschool-link {
+  display: flex;
+  align-items: center;
+  width: 60px;
+  height: 40px;
+  opacity: 100%;
+  transition: opacity 0.3s;
+}
+
+.rsschool-link:hover {
+  opacity: 50%;
+}
+
+.github-link {
+  color: #f5f5dc;
+  text-decoration: none;
+  opacity: 100%;
+  transition: opacity 0.3s;
+}
+
+.github-link:hover {
+  opacity: 50%;
 }
 .header {
   /* max-width: 1000px; */
@@ -67,6 +93,19 @@ pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5p
   animation: blink .5s infinite;
 }
 
+.css-input::placeholder {
+  color: #6f6e6e;
+  transition: color 1s;
+}
+
+.editor-css:hover .css-input::placeholder {
+  color: white;
+}
+
+/* .css-input::placeholder:hover {
+  color: white;
+} */
+
 .fake-css-input {
   display: flex;
   align-items: center;
@@ -94,6 +133,7 @@ pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5p
   width: 40px;
   background-color: #f0f0f0;
   border: none;
+  transition: all .5s;
 }
 
 .css-editor-button:hover {
@@ -155,6 +195,7 @@ pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5p
   align-items: center;
   gap: 10px;
   /* row-gap: 20px; */
+  transition: all 0.3s;
 }
 
 .level-number {
@@ -207,6 +248,7 @@ pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5p
   background-color: #f0f0f0;
   border: none;
   border-radius: 5px;
+  transition: all .5s;
 }
 
 .game-reset-button:hover {
@@ -262,7 +304,12 @@ plate:before {
   transform-origin: bottom;
 }
 
-.item-hovered {
+.table-item {
+  box-shadow: unset;
+  transition: box-shadow 0.3s;
+}
+
+.table-item.item-hovered {
   box-shadow: 0 0 0 5px green;
 }
 
