@@ -330,6 +330,17 @@ plate:before {
   75%   {transform: skew(-1deg,0deg) scaleY(.9);}
   100%  {transform: skew(4deg,0deg)  scaleX(1);}
 }
+
+.remove {
+  animation: remove .2s 1;
+  transform: translateY(-1000px);
+}
+
+@keyframes remove {
+  0% {transform: translateY(0px);}
+  100% {transform: translateY(-1000px);}
+}
+
 .table-wrapper {
   perspective: 250px;
   display: flex;
