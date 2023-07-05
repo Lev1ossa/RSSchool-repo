@@ -53,6 +53,10 @@
   cursor: pointer;
 }
 
+.level-item:active {
+  background: rgba(48, 152, 78, 0.7);
+}
+
 .reset-button-container {
   display: flex;
   justify-content: center;
@@ -75,4 +79,8 @@
   height: 20px;
   width: 45px;
   cursor: pointer;
+}
+
+.game-reset-button:active {
+  background-color: grey;
 }

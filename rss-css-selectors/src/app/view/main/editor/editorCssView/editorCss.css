@@ -69,8 +69,26 @@
   cursor: pointer;
 }
 
+.css-editor-button:active {
+  background-color: grey;
+}
+
 @keyframes blink {
   50% { 
       border: 2px solid white;
+  }
+}
+
+@media (max-width: 700px) {
+  .editor-css {
+    width: 350px;
+  }
+
+  .css-input {
+    width: 300px;
+  }
+
+  .fake-css-input {
+    width: 300px;
   }
 }

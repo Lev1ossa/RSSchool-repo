@@ -47,3 +47,10 @@ html {
   width: 55px;
   cursor: pointer;
 }
+
+.fav-close-button:active {
+  height: 20px;
+  width: 55px;
+  cursor: pointer;
+  background-color: grey;
+}

@@ -45,3 +45,7 @@
   width: 55px;
   cursor: pointer;
 }
+
+.help-button:active {
+  background-color: grey;
+}

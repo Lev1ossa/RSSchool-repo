@@ -34,10 +34,10 @@ export class MainView extends AppView {
 
   constructView(): void {
     const gameListener = new EventTarget();
-    gameListener.addEventListener('gameDataUpdated', ((event: CustomEvent) => {
+    gameListener.addEventListener('gameDataUpdated', (() => {
       this.updateGameData();
     }) as EventListener);
-    gameListener.addEventListener('levelChange', ((event: CustomEvent) => {
+    gameListener.addEventListener('levelChange', (() => {
       this.updateGameData();
       this.clearGame();
       this.setupGame(gameListener);

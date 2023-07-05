@@ -2,9 +2,10 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
+  width: 500px;
 }
 
-plate, bento, apple {
+plate, bento {
   width: 100px;
   height: 100px;
 }
@@ -158,4 +159,66 @@ bento tomato {
 @keyframes remove {
   0% {transform: translateY(0px);}
   100% {transform: translateY(-2000px);}
+}
+
+@media (max-width: 700px) {
+  plate, bento {
+    width: 50px;
+    height: 50px;
+  }
+
+  plate:before {
+    left: 8px;
+    top: 5px;
+    height: 33px;
+    width: 35px;
+  }
+  
+  plate.small {
+    width: 25px;
+    height: 25px;
+  }
+
+  plate.small:before {
+    left: 4px;
+    top: 3px;
+    height: 16px;
+    width: 17px;
+  }
+  
+  bento {
+    border-width: 10px 1px;
+  }
+
+  apple,
+  orange,
+  tomato {
+    width: 25px;
+    height: 25px;
+  }
+
+  plate bento {
+    width: 35px;
+    height: 35px;
+    top: -30px;
+    left: 10px;
+  }
+  
+  bento.small {
+    width: 35px;
+    height: 35px;
+  }
+  
+  plate apple,
+  plate orange,
+  plate tomato {
+    top: -25px;
+    left: 10px;
+  }
+  
+  bento apple,
+  bento orange,
+  bento tomato {
+    left: 10px;
+  }
 }

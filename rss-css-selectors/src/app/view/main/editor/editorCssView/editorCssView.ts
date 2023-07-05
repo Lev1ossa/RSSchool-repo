@@ -2,7 +2,7 @@ import hljs from 'highlight.js/lib/core';
 import cssLanguage from 'highlight.js/lib/languages/css';
 import 'highlight.js/styles/kimbie-dark.css';
 import { AppView } from '../../../appView';
-import { ElementCreatorProps, GameData, KeyboardEventHandler, Statuses } from '../../../../types/types';
+import { ElementCreatorProps, GameData, Statuses } from '../../../../types/types';
 import './editorCss.css';
 import { ElementCreator } from '../../../../utils/elementCreator';
 import { showDialog } from '../../../../utils/showDialog';
@@ -64,6 +64,14 @@ export class EditorCssView extends AppView {
             this.inputValue = eventTarget.value;
           }
           hljs.highlightElement(fakeInputEl);
+        },
+        keyup: (event: Event | KeyboardEvent) => {
+          event.preventDefault();
+          if (event instanceof KeyboardEvent){
+            if (event.code === 'Enter' && !(event.repeat)) {
+              this.cssInputHandler(gameData, gameListener, editorElement, cssInput);
+            }
+          }
         }
       },
     }
@@ -97,18 +105,9 @@ export class EditorCssView extends AppView {
       listeners: {
         click: (): void => {
           this.cssInputHandler(gameData, gameListener, editorElement, cssInput);
-        }
+        },
       },
     };
-
-    const keyUpHandler = (event: KeyboardEvent): void => {
-      event.preventDefault();
-      if (event.code === 'Enter' && !(event.repeat)) {
-        this.cssInputHandler(gameData, gameListener, editorElement, cssInput, keyUpHandler);
-      }
-    }; 
-
-    window.addEventListener('keyup', keyUpHandler);
     
     const buttonContainer = new ElementCreator(buttonContainerProps);
     const cssEditorButton = new ElementCreator(cssEditorButtonProps);
@@ -119,7 +118,7 @@ export class EditorCssView extends AppView {
     this.elementCreator.addElement(buttonContainer.getElement());
   }
 
-  cssInputHandler(gameData: GameData, gameListener: EventTarget, editorElement: ElementCreator, cssInput: ElementCreator, keyUpHandler?: KeyboardEventHandler): void {
+  cssInputHandler(gameData: GameData, gameListener: EventTarget, editorElement: ElementCreator, cssInput: ElementCreator): void {
     const cssInputEl = cssInput.getElement() as HTMLInputElement;
     if (!cssInputEl.disabled){  
       let correctSelector = true;
@@ -140,6 +139,7 @@ export class EditorCssView extends AppView {
       } catch {
         correctSelector = false;
       }
+      console.log(correctSelector);
       if (correctSelector) {
         winSelectorElements.forEach((item) => {
           item.classList.add('remove');
@@ -155,9 +155,6 @@ export class EditorCssView extends AppView {
           showDialog('You have finished last level! You can reset game and try again!');
         } else {
           gameData.currentLevel = nextLevel.toString();
-        }
-        if (keyUpHandler) {
-          window.removeEventListener('keyup', keyUpHandler);
         }
         setTimeout(() => {
           gameListener.dispatchEvent(new CustomEvent('levelChange'));

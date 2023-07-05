@@ -454,13 +454,6 @@ export const gameData = {
           id: '',
           classes: ['skew'],
           children: [
-            {
-              tag: 'tomato',
-              id: '',
-              classes: ['skew'],
-              children: [
-              ],
-            },
           ],
         },
         {
@@ -468,6 +461,13 @@ export const gameData = {
           id: '',
           classes: ['skew'],
           children: [
+            {
+              tag: 'tomato',
+              id: '',
+              classes: ['skew'],
+              children: [
+              ],
+            },
           ],
         },
         {
