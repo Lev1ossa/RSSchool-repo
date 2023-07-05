@@ -14,24 +14,34 @@
   display: flex;
   align-items: center;
   width: 60px;
-  height: 40px;
+  /* height: 40px; */
   opacity: 100%;
-  transition: opacity 0.3s;
+  border: none;
+  transition: all 0.3s;
 }
 
 .rsschool-link:hover {
   opacity: 50%;
 }
 
+.rsschool-link:active {
+  border: 1px solid green;
+}
+
 .github-link {
   color: #f5f5dc;
   text-decoration: none;
   opacity: 100%;
-  transition: opacity 0.3s;
+  transition: all 0.3s;
 }
 
 .github-link:hover {
   opacity: 50%;
+}
+
+.github-link:active {
+  opacity: 50%;
+  border: 1px solid green;
 }
 .header {
   /* max-width: 1000px; */
@@ -65,6 +75,12 @@
   25% {  transform: translateX(-10px); }
   50% {  transform: translateX(0); }
   75% {  transform: translateX(10px); }
+}
+
+@media (max-width: 700px) {
+  .editor {
+    width: 350px;
+  }
 }
 pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{background:#221a0f;color:#d3af86}.hljs-comment,.hljs-quote{color:#d6baad}.hljs-meta,.hljs-name,.hljs-regexp,.hljs-selector-class,.hljs-selector-id,.hljs-tag,.hljs-template-variable,.hljs-variable{color:#dc3958}.hljs-built_in,.hljs-deletion,.hljs-link,.hljs-literal,.hljs-number,.hljs-params,.hljs-type{color:#f79a32}.hljs-addition,.hljs-bullet,.hljs-string,.hljs-symbol{color:#889b4a}.hljs-function,.hljs-keyword,.hljs-selector-tag{color:#98676a}.hljs-attribute,.hljs-section,.hljs-title{color:#f06431}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:700}
 .editor-css {
@@ -138,12 +154,29 @@ pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5p
   cursor: pointer;
 }
 
+.css-editor-button:active {
+  background-color: grey;
+}
+
 @keyframes blink {
   50% { 
       border: 2px solid white;
   }
 }
 
+@media (max-width: 700px) {
+  .editor-css {
+    width: 350px;
+  }
+
+  .css-input {
+    width: 300px;
+  }
+
+  .fake-css-input {
+    width: 300px;
+  }
+}
 .editor-html {
   display: flex;
   box-sizing: border-box;
@@ -233,6 +266,10 @@ pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5p
   cursor: pointer;
 }
 
+.level-item:active {
+  background: rgba(48, 152, 78, 0.7);
+}
+
 .reset-button-container {
   display: flex;
   justify-content: center;
@@ -256,13 +293,18 @@ pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5p
   width: 45px;
   cursor: pointer;
 }
+
+.game-reset-button:active {
+  background-color: grey;
+}
 .table {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  width: 500px;
 }
 
-plate, bento, apple {
+plate, bento {
   width: 100px;
   height: 100px;
 }
@@ -418,6 +460,68 @@ bento tomato {
   100% {transform: translateY(-2000px);}
 }
 
+@media (max-width: 700px) {
+  plate, bento {
+    width: 50px;
+    height: 50px;
+  }
+
+  plate:before {
+    left: 8px;
+    top: 5px;
+    height: 33px;
+    width: 35px;
+  }
+  
+  plate.small {
+    width: 25px;
+    height: 25px;
+  }
+
+  plate.small:before {
+    left: 4px;
+    top: 3px;
+    height: 16px;
+    width: 17px;
+  }
+  
+  bento {
+    border-width: 10px 1px;
+  }
+
+  apple,
+  orange,
+  tomato {
+    width: 25px;
+    height: 25px;
+  }
+
+  plate bento {
+    width: 35px;
+    height: 35px;
+    top: -30px;
+    left: 10px;
+  }
+  
+  bento.small {
+    width: 35px;
+    height: 35px;
+  }
+  
+  plate apple,
+  plate orange,
+  plate tomato {
+    top: -25px;
+    left: 10px;
+  }
+  
+  bento apple,
+  bento orange,
+  bento tomato {
+    left: 10px;
+  }
+}
+
 .table-wrapper {
   perspective: 250px;
   display: flex;
@@ -433,6 +537,9 @@ bento tomato {
   margin: 0 auto;
   box-shadow: 0px 30px 10px rgba(0,0,0, 20%);
   padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .table-edge {
@@ -444,6 +551,16 @@ bento tomato {
   /* transform: perspective(200px) rotateX(-40deg); */
   margin: 0 auto;
   z-index: 0;
+}
+
+@media (max-width: 700px) {
+  .table-surface {
+    width: 330px;
+  }
+
+  .table-edge {
+    width: 370px
+  }
 }
 .main {
   /* width: 100vw; */
@@ -491,6 +608,10 @@ bento tomato {
   height: 20px;
   width: 55px;
   cursor: pointer;
+}
+
+.help-button:active {
+  background-color: grey;
 }
 * {
   padding: 0;
@@ -540,4 +661,11 @@ html {
   height: 20px;
   width: 55px;
   cursor: pointer;
+}
+
+.fav-close-button:active {
+  height: 20px;
+  width: 55px;
+  cursor: pointer;
+  background-color: grey;
 }
