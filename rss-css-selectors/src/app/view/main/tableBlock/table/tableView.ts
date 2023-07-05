@@ -29,10 +29,8 @@ export class tableView extends AppView {
   }
 
   constructView(tableElementsArr: HtmlElements): void {
-    
-    this.elementCreator.addElement(this.tooltip.getElement());
-
     this.createTableItems(this.elementCreator, this.levelData.tableItems, tableElementsArr);
+    this.elementCreator.addElement(this.tooltip.getElement());
     
   }
 
@@ -40,7 +38,7 @@ export class tableView extends AppView {
     tableItems.forEach((item: TableItem) => {
       const tableItemProps: ElementCreatorProps = {
         tag: item.tag,
-        classes: ['table-item', item.class],
+        classes: ['table-item', ...item.classes],
         textContent: '',
         listeners: {
           mouseover: (event: Event): void => {
@@ -52,7 +50,6 @@ export class tableView extends AppView {
               const htmlEditorElementsArr = document.querySelectorAll('.html-editor-item');
               const tableItemIndex = tableElementsArr.indexOf(hoverTarget);
               const htmlEditorElement = htmlEditorElementsArr[tableItemIndex + 1] as HTMLElement;
-              console.log(htmlEditorElement);
               htmlEditorElement.classList.add('html-item-hovered');
               tooltipEl.style.setProperty('left', `${leftCord}px`);
               this.tooltip.getElement().classList.remove('hidden');
@@ -76,6 +73,14 @@ export class tableView extends AppView {
       };
 
       const tableItem = new ElementCreator(tableItemProps);
+      if (item.id) {
+        tableItem.setElementAttributes([
+          {
+            attribute: 'id',
+            value: item.id,
+          }
+        ]);
+      }
       tableElementsArr.push(tableItem.getElement());
       if (item.children.length > 0) {
         this.createTableItems(tableItem, item.children, tableElementsArr);

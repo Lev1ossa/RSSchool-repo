@@ -125,10 +125,12 @@ export class EditorCssView extends AppView {
       let correctSelector = true;
       const winSelectorElements = [...document.querySelectorAll('.skew')];
       try {
-        const userSelectorElements = [...document.querySelectorAll(cssInputEl.value)];
-        if (winSelectorElements.length === userSelectorElements.length) {
+        const tooltip = document.querySelector('.tooltip');
+        const userSelectorElements = [...document.querySelectorAll(`.table ${cssInputEl.value}`)];
+        const userSelectorElementsClean = userSelectorElements.filter((item) => item !== tooltip);
+        if (winSelectorElements.length === userSelectorElementsClean.length) {
           for (let i = 0; i < winSelectorElements.length; i++) {
-            if (winSelectorElements[i] !== userSelectorElements[i]) {
+            if (winSelectorElements[i] !== userSelectorElementsClean[i]) {
               correctSelector = false;
             }
           }

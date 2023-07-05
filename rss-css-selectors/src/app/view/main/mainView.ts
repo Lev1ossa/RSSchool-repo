@@ -21,7 +21,7 @@ export class MainView extends AppView {
       listeners: null,
     };
     super(props);
-    const loadedGameData: string | null = localStorage.getItem('lev1ossa-selectors-gameData');
+    const loadedGameData: string | null = localStorage.getItem('lev1ossa-css-selectors-gameData');
     if (loadedGameData) {
       this.gameData = JSON.parse(loadedGameData);
     } else {
@@ -48,16 +48,17 @@ export class MainView extends AppView {
   }
 
   updateGameData(): void {
-    localStorage.setItem('lev1ossa-selectors-gameData', JSON.stringify(this.gameData));
+    localStorage.setItem('lev1ossa-css-selectors-gameData', JSON.stringify(this.gameData));
   }
 
   setupGame(gameListener: EventTarget): void {
     const titleProps: ElementCreatorProps = {
       tag: 'div',
       classes: ['title'],
-      textContent: this.gameData.levelsData[gameData.currentLevel].title,
+      textContent: this.gameData.levelsData[this.gameData.currentLevel].title,
       listeners: null,
     }
+
     const gameProps: ElementCreatorProps = {
       tag: 'div',
       classes: ['game'],
@@ -78,7 +79,6 @@ export class MainView extends AppView {
       textContent: 'HELP!',
       listeners: {
         click: (): void => {
-          console.log(this.gameData.levelsData[this.gameData.currentLevel]);
           const helpText = this.gameData.levelsData[this.gameData.currentLevel].helpTag;
           const cssInput = document.querySelector('.css-input') as HTMLInputElement;
           const fakeInput = document.querySelector('.fake-css-input') as HTMLElement;
@@ -132,5 +132,6 @@ export class MainView extends AppView {
     if (this.levelsView) {
       this.getElement().removeChild(this.levelsView.getElement());
     }
+    this.tableElementsArr.length = 0;
   }
 }

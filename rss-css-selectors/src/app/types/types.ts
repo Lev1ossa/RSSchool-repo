@@ -16,17 +16,15 @@ export enum Statuses {
 }
 
 export type TableItem = {
-  id: string,
   tag: string,
-  class: string,
-  tooltip: string,
+  id: string,
+  classes: string[],
   children: TableItems,
 }
 
 export type TableItems = TableItem[];
 
 export type HtmlEditorItem = {
-  id: string,
   tag: string,
   selector: string,
   children: HtmlEditorItem[],

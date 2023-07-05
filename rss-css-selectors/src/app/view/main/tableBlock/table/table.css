@@ -17,6 +17,7 @@ plate {
 }
 
 plate:before {
+  background: whitesmoke;
   display: block;
   position: relative;
   z-index: 100;
@@ -29,6 +30,18 @@ plate:before {
   content: "";
 }
 
+plate.small {
+  width: 50px;
+  height: 50px;
+}
+
+plate.small:before {
+  left: 8px;
+  top: 5px;
+  height: 33px;
+  width: 35px;
+}
+
 bento {
   display: block;
   box-sizing: border-box;
@@ -38,8 +51,14 @@ bento {
   border-width: 20px 2px;
 }
 
+bento#green {
+  background: rgb(16, 163, 95);
+  border-color: rgb(8, 81, 47);
+}
+
 apple,
-orange {
+orange,
+tomato {
   position: relative;
   display: block;
   width: 50px;
@@ -71,17 +90,24 @@ plate bento {
   left: 15px;
 }
 
+bento.small {
+  width: 70px;
+  height: 70px;
+}
+
 plate apple,
-plate orange {
+plate orange,
+plate tomato {
   top: -50px;
   left: 20px;
   z-index: 102;
 }
 
 bento apple,
-bento orange {
-  top: -15px;
-  left: 7px;
+bento orange,
+bento tomato {
+  /* top: -15px; */
+  left: 20px;
   z-index: 102;
 }
 
@@ -125,11 +151,11 @@ bento orange {
 }
 
 .remove {
-  animation: remove .2s 1;
-  transform: translateY(-20000px);
+  animation: remove .5s 1;
+  transform: translateY(-2000px);
 }
 
 @keyframes remove {
   0% {transform: translateY(0px);}
-  100% {transform: translateY(-20000px);}
+  100% {transform: translateY(-2000px);}
 }
