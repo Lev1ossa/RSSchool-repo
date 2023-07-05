@@ -89,7 +89,7 @@ bento orange {
 .tooltip {
   display: inline-block;
   position: absolute;
-  z-index: 3;
+  z-index: 200;
   left: 5px;
   top: -50px;
   background: #f2efdf;

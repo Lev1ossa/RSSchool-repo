@@ -1,6 +1,6 @@
 import hljs from 'highlight.js/lib/core';
 import { gameData } from '../../data/gameData';
-import { ElementCreatorProps, GameData } from '../../types/types';
+import { ElementCreatorProps, GameData, HtmlElements } from '../../types/types';
 import { ElementCreator } from '../../utils/elementCreator';
 import { AppView } from '../appView';
 import { EditorView } from './editor/editorView';
@@ -12,6 +12,7 @@ export class MainView extends AppView {
   gameData: GameData; 
   gameView: ElementCreator | undefined;
   levelsView: LevelsView | undefined;
+  tableElementsArr: HtmlElements;
   constructor() {
     const props: ElementCreatorProps = {
       tag: 'div',
@@ -27,6 +28,7 @@ export class MainView extends AppView {
       this.gameData = gameData;
       this.updateGameData();
     }
+    this.tableElementsArr = [];
     this.constructView();
   }
 
@@ -106,8 +108,8 @@ export class MainView extends AppView {
     
 
     const gameView = new ElementCreator(gameProps);
-    const tableWrapperView = new TableWrapperView(this.gameData.levelsData[this.gameData.currentLevel], gameListener);
-    const editorView = new EditorView(this.gameData, gameListener);
+    const tableWrapperView = new TableWrapperView(this.gameData.levelsData[this.gameData.currentLevel], gameListener, this.tableElementsArr);
+    const editorView = new EditorView(this.gameData, gameListener, this.tableElementsArr);
     const levelsView = new LevelsView(this.gameData, gameListener);
     const gameTitle = new ElementCreator(titleProps);
 

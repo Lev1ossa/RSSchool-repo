@@ -30,17 +30,20 @@ export const gameData = {
           id: '0',
           tag: 'div',
           selector: 'class="table"',
+          tooltip: '<plate></plate>',
           children: [
             {
               id: '1',
               tag: 'plate',
               selector: 'id="hey"',
+              tooltip: '<plate></plate>',
               children: [],
             },
             {
               id: '2',
               tag: 'plate',
               selector: 'id="yeh"',
+              tooltip: '<plate></plate>',
               children: [],
             }
           ]
@@ -167,13 +170,34 @@ export const gameData = {
               id: '1',
               tag: 'plate',
               selector: 'id="hey"',
-              children: [],
+              children: [
+                {
+                  id: '1-1',
+                  tag: 'apple',
+                  selector: 'id="hey"',
+                  children: [],
+                },
+              ],
             },
             {
               id: '2',
               tag: 'plate',
               selector: 'id="yeh"',
-              children: [],
+              children: [
+                {
+                  id: '2-1',
+                  tag: 'bento',
+                  selector: 'id="yeh"',
+                  children: [
+                    {
+                      id: '2-2',
+                      tag: 'apple',
+                      selector: 'id="yeh"',
+                      children: [],
+                    }
+                  ],
+                }
+              ],
             }
           ]
         }

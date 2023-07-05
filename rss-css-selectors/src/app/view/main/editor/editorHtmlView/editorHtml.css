@@ -27,3 +27,7 @@
   height: 20px;
   margin: 0;
 }
+
+.html-item-hovered {
+  background: rgba(109, 47, 3, 0.403);
+}

@@ -59,3 +59,5 @@ export type GameData = {
 }
 
 export type KeyboardEventHandler = (event: KeyboardEvent) => void;
+
+export type HtmlElements = HTMLElement[];

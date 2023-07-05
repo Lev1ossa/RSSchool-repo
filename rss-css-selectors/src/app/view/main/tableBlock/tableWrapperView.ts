@@ -1,11 +1,11 @@
-import { ElementCreatorProps, LevelData } from '../../../types/types';
+import { ElementCreatorProps, HtmlElements, LevelData } from '../../../types/types';
 import { ElementCreator } from '../../../utils/elementCreator';
 import { AppView } from '../../appView';
 import { tableView } from './table/tableView';
 import './tableWrapper.css';
 
 export class TableWrapperView extends AppView {
-  constructor(levelData: LevelData, newEventTarget: EventTarget) {
+  constructor(levelData: LevelData, newEventTarget: EventTarget, tableElementsArr: HtmlElements) {
     const props: ElementCreatorProps = {
       tag: 'div',
       classes: ['table-wrapper'],
@@ -13,10 +13,10 @@ export class TableWrapperView extends AppView {
       listeners: null,
     };
     super(props);
-    this.constructView(levelData, newEventTarget);
+    this.constructView(levelData, newEventTarget, tableElementsArr);
   }
 
-  constructView(levelData: LevelData, newEventTarget: EventTarget): void {
+  constructView(levelData: LevelData, newEventTarget: EventTarget, tableElementsArr: HtmlElements): void {
     // const event = new CustomEvent("hey", { detail: 'HELLO!' });
     // newEventTarget.dispatchEvent(event);
     
@@ -36,7 +36,7 @@ export class TableWrapperView extends AppView {
     }
     const tableEdge = new ElementCreator(edgeProps);
 
-    const table = new tableView(levelData);
+    const table = new tableView(levelData, tableElementsArr);
     tableSurface.addElement(table.getElement());
 
     this.elementCreator.addElement(tableSurface.getElement());

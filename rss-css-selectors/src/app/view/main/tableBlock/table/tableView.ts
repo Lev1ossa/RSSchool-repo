@@ -1,12 +1,13 @@
 import { AppView } from '../../../appView';
-import { ElementCreatorProps, LevelData, TableItem, TableItems } from '../../../../types/types';
+import { ElementCreatorProps, HtmlElements, LevelData, TableItem, TableItems } from '../../../../types/types';
 import './table.css';
 import { ElementCreator } from '../../../../utils/elementCreator';
+import { getOffSet } from '../../../../utils/getOffSet';
 
 export class tableView extends AppView {
   levelData: LevelData;
   tooltip: ElementCreator;
-  constructor(levelData: LevelData) {
+  constructor(levelData: LevelData, tableElementsArr: HtmlElements) {
     const props: ElementCreatorProps = {
       tag: 'div',
       classes: ['table'],
@@ -24,18 +25,18 @@ export class tableView extends AppView {
 
     this.tooltip = new ElementCreator(tooltipProps);
     this.levelData = levelData;
-    this.constructView();
+    this.constructView(tableElementsArr);
   }
 
-  constructView(): void {
+  constructView(tableElementsArr: HtmlElements): void {
     
     this.elementCreator.addElement(this.tooltip.getElement());
 
-    this.createTableItems(this.elementCreator, this.levelData.tableItems);
+    this.createTableItems(this.elementCreator, this.levelData.tableItems, tableElementsArr);
     
   }
 
-  createTableItems(currentEl: ElementCreator, tableItems: TableItems): void {
+  createTableItems(currentEl: ElementCreator, tableItems: TableItems, tableElementsArr: HtmlElements): void {
     tableItems.forEach((item: TableItem) => {
       const tableItemProps: ElementCreatorProps = {
         tag: item.tag,
@@ -46,17 +47,27 @@ export class tableView extends AppView {
             const hoverTarget = event.target as HTMLElement;
             if (hoverTarget) {
               hoverTarget.classList.add('item-hovered');
-              const leftCord = hoverTarget.offsetLeft;
+              const leftCord = getOffSet(hoverTarget);
               const tooltipEl = this.tooltip.getElement();
+              const htmlEditorElementsArr = document.querySelectorAll('.html-editor-item');
+              const tableItemIndex = tableElementsArr.indexOf(hoverTarget);
+              const htmlEditorElement = htmlEditorElementsArr[tableItemIndex + 1] as HTMLElement;
+              console.log(htmlEditorElement);
+              htmlEditorElement.classList.add('html-item-hovered');
               tooltipEl.style.setProperty('left', `${leftCord}px`);
               this.tooltip.getElement().classList.remove('hidden');
-              this.tooltip.getElement().textContent = item.tooltip;
+              // this.tooltip.getElement().textContent = item.tooltip;
+              this.tooltip.getElement().textContent = htmlEditorElement.innerText;
             }
           },
           mouseout: (event: Event): void => {
             this.tooltip.getElement().classList.add('hidden');
-            const hoverTarget = event.target;
-            if (hoverTarget instanceof HTMLElement) {
+            const hoverTarget = event.target as HTMLElement;
+            if (hoverTarget) {
+              const htmlEditorElementsArr = document.querySelectorAll('.html-editor-item');
+              const tableItemIndex = tableElementsArr.indexOf(hoverTarget);
+              const htmlEditorElement = htmlEditorElementsArr[tableItemIndex + 1];
+              htmlEditorElement.classList.remove('html-item-hovered');
               hoverTarget.classList.remove('item-hovered');
             }
             this.tooltip.getElement().textContent = '';
@@ -65,9 +76,9 @@ export class tableView extends AppView {
       };
 
       const tableItem = new ElementCreator(tableItemProps);
-
+      tableElementsArr.push(tableItem.getElement());
       if (item.children.length > 0) {
-        this.createTableItems(tableItem, item.children);
+        this.createTableItems(tableItem, item.children, tableElementsArr);
       }
       // this.elementCreator.addElement(tableItem.getElement());
       currentEl.addElement(tableItem.getElement());
