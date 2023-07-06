@@ -16,7 +16,7 @@ export class LevelsView extends AppView {
   }
 
   constructView(gameData: GameData, gameListener: EventTarget): void {
-    Object.entries(gameData.levelsData).forEach(([key, value]) => {
+    Object.entries(gameData.levelsData).forEach(([key]) => {
       const thisLevel = gameData.levelsData[key];
       const levelItemProps: ElementCreatorProps = {
         tag: 'div',
@@ -26,11 +26,8 @@ export class LevelsView extends AppView {
           click: (event: Event): void => {
             const eventTarget = event.target as HTMLElement;
             if (eventTarget) {
-              // if (!(eventTarget.classList.contains(`level-item-${key}`))) {
-
                   gameData.currentLevel = key;
                   gameListener.dispatchEvent(new CustomEvent('levelChange'));
-              // }
             }
           }
         }

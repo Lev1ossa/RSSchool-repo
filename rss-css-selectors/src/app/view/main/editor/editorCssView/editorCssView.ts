@@ -2,7 +2,7 @@ import hljs from 'highlight.js/lib/core';
 import cssLanguage from 'highlight.js/lib/languages/css';
 import 'highlight.js/styles/kimbie-dark.css';
 import { AppView } from '../../../appView';
-import { ElementCreatorProps, GameData, Statuses } from '../../../../types/types';
+import { ElementCreatorProps, GameData, HtmlElements, Statuses } from '../../../../types/types';
 import './editorCss.css';
 import { ElementCreator } from '../../../../utils/elementCreator';
 import { showDialog } from '../../../../utils/showDialog';
@@ -120,27 +120,9 @@ export class EditorCssView extends AppView {
 
   cssInputHandler(gameData: GameData, gameListener: EventTarget, editorElement: ElementCreator, cssInput: ElementCreator): void {
     const cssInputEl = cssInput.getElement() as HTMLInputElement;
+    const winSelectorElements = [...document.querySelectorAll('.skew')] as HtmlElements;
     if (!cssInputEl.disabled){  
-      let correctSelector = true;
-      const winSelectorElements = [...document.querySelectorAll('.skew')];
-      try {
-        const tooltip = document.querySelector('.tooltip');
-        const userSelectorElements = [...document.querySelectorAll(`.table ${cssInputEl.value}`)];
-        const userSelectorElementsClean = userSelectorElements.filter((item) => item !== tooltip);
-        if (winSelectorElements.length === userSelectorElementsClean.length) {
-          for (let i = 0; i < winSelectorElements.length; i++) {
-            if (winSelectorElements[i] !== userSelectorElementsClean[i]) {
-              correctSelector = false;
-            }
-          }
-        } else {
-          correctSelector = false;
-        }
-      } catch {
-        correctSelector = false;
-      }
-      console.log(correctSelector);
-      if (correctSelector) {
+      if (this.сheckWin(cssInput, winSelectorElements)) {
         winSelectorElements.forEach((item) => {
           item.classList.add('remove');
         });
@@ -164,5 +146,27 @@ export class EditorCssView extends AppView {
         setTimeout(() => editorElement.getElement().classList.remove('loseShake'), 2000);
       }
     }
+  }
+
+  сheckWin(cssInput: ElementCreator, winSelectorElements: HtmlElements): boolean {
+    const cssInputEl = cssInput.getElement() as HTMLInputElement;
+    let win = true;
+    try {
+      const tooltip = document.querySelector('.tooltip');
+      const userSelectorElements = [...document.querySelectorAll(`.table ${cssInputEl.value}`)];
+      const userSelectorElementsClean = userSelectorElements.filter((item) => item !== tooltip);
+      if (winSelectorElements.length === userSelectorElementsClean.length) {
+        for (let i = 0; i < winSelectorElements.length; i++) {
+          if (winSelectorElements[i] !== userSelectorElementsClean[i]) {
+            win = false;
+          }
+        }
+      } else {
+        win = false;
+      }
+    } catch {
+      win = false;
+    }
+    return win;
   }
 }
