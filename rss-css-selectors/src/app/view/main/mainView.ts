@@ -1,12 +1,13 @@
 import hljs from 'highlight.js/lib/core';
 import { gameData } from '../../data/gameData';
-import { ElementCreatorProps, GameData, HtmlElements } from '../../types/types';
+import { GameData, HtmlElements } from '../../types/types';
 import { ElementCreator } from '../../utils/elementCreator';
 import { AppView } from '../appView';
 import { EditorView } from './editor/editorView';
 import { LevelsView } from './levels/levelsView';
 import { TableWrapperView } from './tableBlock/tableWrapperView';
 import './main.css';
+import { gameProps, helpButtonContainerProps, helpButtonProps, mainProps, titleProps } from '../../utils/elementsProps';
 
 export class MainView extends AppView {
   gameData: GameData; 
@@ -14,13 +15,7 @@ export class MainView extends AppView {
   levelsView: LevelsView | undefined;
   tableElementsArr: HtmlElements;
   constructor() {
-    const props: ElementCreatorProps = {
-      tag: 'div',
-      classes: ['main'],
-      textContent: '',
-      listeners: null,
-    };
-    super(props);
+    super(mainProps);
     const loadedGameData: string | null = localStorage.getItem('lev1ossa-css-selectors-gameData');
     if (loadedGameData) {
       this.gameData = JSON.parse(loadedGameData);
@@ -52,32 +47,9 @@ export class MainView extends AppView {
   }
 
   setupGame(gameListener: EventTarget): void {
-    const titleProps: ElementCreatorProps = {
-      tag: 'div',
-      classes: ['title'],
-      textContent: this.gameData.levelsData[this.gameData.currentLevel].title,
-      listeners: null,
-    }
-
-    const gameProps: ElementCreatorProps = {
-      tag: 'div',
-      classes: ['game'],
-      textContent: '',
-      listeners: null,
-    }
-
-    const helpButtonContainerProps: ElementCreatorProps = {
-      tag: 'div',
-      classes: ['help-button-container'],
-      textContent: '',
-      listeners: null,
-    }
-
-    const helpButtonProps: ElementCreatorProps = {
-      tag: 'button',
-      classes: ['help-button'],
-      textContent: 'HELP!',
-      listeners: {
+    const helpButtonContainer = new ElementCreator(helpButtonContainerProps);
+    const helpButton = new ElementCreator(helpButtonProps);
+    helpButton.addListeners({
         click: (): void => {
           const helpText = this.gameData.levelsData[this.gameData.currentLevel].helpTag;
           const cssInput = document.querySelector('.css-input') as HTMLInputElement;
@@ -99,10 +71,7 @@ export class MainView extends AppView {
           }
         },
       },
-    }
-
-    const helpButtonContainer = new ElementCreator(helpButtonContainerProps);
-    const helpButton = new ElementCreator(helpButtonProps);
+    );
 
     helpButtonContainer.addElement(helpButton.getElement());
     
@@ -111,7 +80,9 @@ export class MainView extends AppView {
     const tableWrapperView = new TableWrapperView(this.gameData.levelsData[this.gameData.currentLevel], gameListener, this.tableElementsArr);
     const editorView = new EditorView(this.gameData, gameListener, this.tableElementsArr);
     const levelsView = new LevelsView(this.gameData, gameListener);
+
     const gameTitle = new ElementCreator(titleProps);
+    gameTitle.getElement().textContent = this.gameData.levelsData[this.gameData.currentLevel].title;
 
     gameView.addElement(gameTitle.getElement());
     gameView.addElement(helpButton.getElement());

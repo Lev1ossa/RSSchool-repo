@@ -1,49 +1,35 @@
-import { ElementCreatorProps, GameData, Statuses } from '../../../types/types';
+import { GameData, Statuses } from '../../../types/types';
 import { ElementCreator } from '../../../utils/elementCreator';
+import { levelItemProps, levelNumberProps, levelStatusProps, levelsProps, resetButtonProps, resetbuttonContainerProps } from '../../../utils/elementsProps';
 import { AppView } from '../../appView';
 import './levels.css';
 
 export class LevelsView extends AppView {
   constructor(gameData: GameData, newEventTarget: EventTarget) {
-    const props: ElementCreatorProps = {
-      tag: 'div',
-      classes: ['levels'],
-      textContent: 'Levels',
-      listeners: null,
-    };
-    super(props);
+    super(levelsProps);
     this.constructView(gameData, newEventTarget);
   }
 
   constructView(gameData: GameData, gameListener: EventTarget): void {
     Object.entries(gameData.levelsData).forEach(([key]) => {
       const thisLevel = gameData.levelsData[key];
-      const levelItemProps: ElementCreatorProps = {
-        tag: 'div',
-        classes: [`level-item-${key}`, 'level-item'],
-        textContent: '',
-        listeners: {
+      const levelItem = new ElementCreator(levelItemProps);
+      levelItem.getElement().classList.add(`level-item-${key}`);
+      levelItem.addListeners({
           click: (event: Event): void => {
             const eventTarget = event.target as HTMLElement;
             if (eventTarget) {
-                  gameData.currentLevel = key;
-                  gameListener.dispatchEvent(new CustomEvent('levelChange'));
+              gameData.currentLevel = key;
+              gameListener.dispatchEvent(new CustomEvent('levelChange'));
             }
           }
         }
-      };
-      const levelItem = new ElementCreator(levelItemProps);
+      );
 
       if (gameData.currentLevel === key) {
         levelItem.getElement().classList.add('current-level');
       }
       
-      const levelStatusProps: ElementCreatorProps = {
-        tag: 'span',
-        classes: [`level-status`],
-        textContent: '∨',
-        listeners: null,
-      }
       const levelStatus = new ElementCreator(levelStatusProps);
 
       if (thisLevel.status === Statuses.statusWin) {
@@ -54,43 +40,27 @@ export class LevelsView extends AppView {
         levelStatus.getElement().classList.add('unfinished');
       }
 
-      const levelNumberProps: ElementCreatorProps = {
-        tag: 'span',
-        classes: [`level-number`],
-        textContent: `${key}`,
-        listeners: null,
-      } 
       const levelNumber = new ElementCreator(levelNumberProps);
+      levelNumber.getElement().textContent = `${key}`;
 
       levelItem.addElement(levelStatus.getElement());
       levelItem.addElement(levelNumber.getElement());
       this.elementCreator.addElement(levelItem.getElement());
     });
 
-    const buttonContainerProps = {
-      tag: 'button',
-      classes: ['reset-button-container'],
-      textContent: '',
-      listeners: null,
-    }
-
-    const resetButtonProps = {
-      tag: 'button',
-      classes: ['game-reset-button'],
-      textContent: 'Reset',
-      listeners: {
+    const buttonContainer = new ElementCreator(resetbuttonContainerProps);
+    const resetButton = new ElementCreator(resetButtonProps);
+    resetButton.addListeners({
         click: (): void => {
           gameData.currentLevel = '1';
-          Object.entries(gameData.levelsData).forEach(([key, value]) => {
+          Object.entries(gameData.levelsData).forEach(([, value]) => {
             value.status = Statuses.statusUnfinished;
+            value.helpUsed = false;
           });
           gameListener.dispatchEvent(new CustomEvent('levelChange'));
         }
-      },
-    }
-    
-    const buttonContainer = new ElementCreator(buttonContainerProps);
-    const resetButton = new ElementCreator(resetButtonProps);
+      }
+    );
     buttonContainer.addElement(resetButton.getElement());
 
     this.elementCreator.addElement(buttonContainer.getElement());

@@ -1,4 +1,5 @@
-import { ElementCreatorProps, GameData, HtmlElements, LevelData } from '../../../types/types';
+import { GameData, HtmlElements } from '../../../types/types';
+import { editorProps } from '../../../utils/elementsProps';
 import { AppView } from '../../appView';
 import './editor.css';
 import { EditorCssView } from './editorCssView/editorCssView';
@@ -6,13 +7,7 @@ import { EditorHtmlView } from './editorHtmlView/editorHtmlView';
 
 export class EditorView extends AppView {
   constructor(gameData: GameData, gameListener: EventTarget, tableElementsArr: HtmlElements) {
-    const props: ElementCreatorProps = {
-      tag: 'div',
-      classes: ['editor'],
-      textContent: '',
-      listeners: null,
-    };
-    super(props);
+    super(editorProps);
     this.constructView(gameData, gameListener, tableElementsArr);
   }
 

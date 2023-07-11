@@ -1,12 +1,13 @@
 import hljs from 'highlight.js/lib/core';
 import xmlLanguage from 'highlight.js/lib/languages/xml';
 import { AppView } from '../../../appView';
-import { ElementCreatorProps, HtmlEditorItems, HtmlEditorItem, LevelData, GameData, HtmlElements } from '../../../../types/types';
+import { HtmlEditorItems, HtmlEditorItem, GameData, HtmlElements } from '../../../../types/types';
 import { ElementCreator } from '../../../../utils/elementCreator';
 import './editorHtml.css';
 import 'highlight.js/styles/kimbie-dark.css';
 import 'highlight.js/styles/rainbow.css';
 import { getOffSet } from '../../../../utils/getOffSet';
+import { editorHtmlProps, newElProps, numberProps, numbersProps } from '../../../../utils/elementsProps';
 
 hljs.registerLanguage('xml', xmlLanguage);
 
@@ -14,34 +15,15 @@ const DEFAULT_STRINGS_NUMBER = 10;
 
 export class EditorHtmlView extends AppView {
   constructor(gameData: GameData, tableElementsArr: HtmlElements) {
-    const props: ElementCreatorProps = {
-      tag: 'div',
-      classes: ['editor-html'],
-      textContent: '',
-      listeners: null,
-    };
-    super(props);
+    super(editorHtmlProps);
     this.constructView(gameData, tableElementsArr);
   }
 
   constructView(gameData: GameData, tableElementsArr: HtmlElements): void {
-    const numbersProps: ElementCreatorProps = {
-      tag: 'div',
-      classes: ['numbers'],
-      textContent: '',
-      listeners: null,
-    }
-
     const numbers = new ElementCreator(numbersProps);
-
     for (let i = 0; i < DEFAULT_STRINGS_NUMBER; i += 1) {
-      const numberProps: ElementCreatorProps = {
-        tag: 'div',
-        classes: ['number'],
-        textContent: `${i + 1}`,
-        listeners: null,
-      }
       const number = new ElementCreator(numberProps);
+      number.getElement().textContent = `${i + 1}`;
       numbers.addElement(number.getElement());
     }
 
@@ -51,12 +33,9 @@ export class EditorHtmlView extends AppView {
   }
 
   createHTMLItem(currentEl: ElementCreator, htmlEditorItems: HtmlEditorItems, tableElementsArr: HtmlElements): void {
-    htmlEditorItems.forEach((item: HtmlEditorItem, idx) => {
-      const newElProps: ElementCreatorProps = {
-        tag: 'div',
-        classes: ['html-editor-item'],
-        textContent: '',
-        listeners: {
+    htmlEditorItems.forEach((item: HtmlEditorItem) => {
+      const newEl = new ElementCreator(newElProps);
+      newEl.addListeners({
           mouseover: (event: Event): void => {
             event.stopPropagation;
             const hoverTarget = event.target as HTMLElement;
@@ -88,17 +67,12 @@ export class EditorHtmlView extends AppView {
                 tableElement.classList.remove('item-hovered');
                 HtmlEditorElement.classList.remove('html-item-hovered');
               }
-              // const tableItemIndex = tableElementsArr.indexOf(hoverTarget);
-              // const htmlEditorElement = htmlEditorElementsArr[tableItemIndex + 1];
-              // htmlEditorElement.classList.remove('html-item-hovered');
-              // hoverTarget.classList.remove('item-hovered');
             }
             tooltipEl.classList.add('hidden');
             tooltipEl.textContent = '';
           }
         },
-      }
-      const newEl = new ElementCreator(newElProps);
+      );
 
       if (item.children.length > 0) {
         this.createHTMLItem(newEl, item.children, tableElementsArr);

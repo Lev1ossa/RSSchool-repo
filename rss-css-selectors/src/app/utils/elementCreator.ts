@@ -2,8 +2,6 @@ import { ListenersObj, ElementCreatorProps, ElAttributes, ElAttribute } from '..
 
 export class ElementCreator {
   element: HTMLElement;
-  innerHtml: string | undefined;
-
   constructor(props: ElementCreatorProps) {
     this.element = this.createElement(props);
   }
@@ -45,6 +43,12 @@ export class ElementCreator {
   setListeners(element: HTMLElement, listeners: ListenersObj): void {
     Object.entries(listeners).forEach(([key, value]) => {
       element.addEventListener(key, value);
+    });
+  }
+
+  addListeners(listeners: ListenersObj): void {
+    Object.entries(listeners).forEach(([key, value]) => {
+      this.element.addEventListener(key, value);
     });
   }
 

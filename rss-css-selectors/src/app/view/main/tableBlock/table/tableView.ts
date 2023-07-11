@@ -3,26 +3,13 @@ import { ElementCreatorProps, HtmlElements, LevelData, TableItem, TableItems } f
 import './table.css';
 import { ElementCreator } from '../../../../utils/elementCreator';
 import { getOffSet } from '../../../../utils/getOffSet';
+import { tableProps, tooltipProps } from '../../../../utils/elementsProps';
 
 export class tableView extends AppView {
   levelData: LevelData;
   tooltip: ElementCreator;
   constructor(levelData: LevelData, tableElementsArr: HtmlElements) {
-    const props: ElementCreatorProps = {
-      tag: 'div',
-      classes: ['table'],
-      textContent: '',
-      listeners: null,
-    };
-    super(props);
-
-    const tooltipProps = {
-      tag: 'div',
-      classes: ['tooltip', 'hidden'],
-      textContent: '',
-      listeners: null,
-    }
-
+    super(tableProps);
     this.tooltip = new ElementCreator(tooltipProps);
     this.levelData = levelData;
     this.constructView(tableElementsArr);
@@ -53,7 +40,6 @@ export class tableView extends AppView {
               htmlEditorElement.classList.add('html-item-hovered');
               tooltipEl.style.setProperty('left', `${leftCord}px`);
               this.tooltip.getElement().classList.remove('hidden');
-              // this.tooltip.getElement().textContent = item.tooltip;
               this.tooltip.getElement().textContent = htmlEditorElement.innerText;
             }
           },
@@ -85,7 +71,6 @@ export class tableView extends AppView {
       if (item.children.length > 0) {
         this.createTableItems(tableItem, item.children, tableElementsArr);
       }
-      // this.elementCreator.addElement(tableItem.getElement());
       currentEl.addElement(tableItem.getElement());
     });
   }

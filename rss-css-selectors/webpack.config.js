@@ -99,7 +99,6 @@ module.exports = ({ development }) => {
         }
       ],
     },
-    // stats: { children: true },
     plugins: [
       new MiniCssExtractPlugin({ filename: '[name].[contenthash].css' }),
       ...getHtmlPlugins(pages),
