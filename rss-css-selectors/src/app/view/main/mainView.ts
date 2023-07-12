@@ -8,6 +8,7 @@ import { LevelsView } from './levels/levelsView';
 import { TableWrapperView } from './tableBlock/tableWrapperView';
 import './main.css';
 import { gameProps, helpButtonContainerProps, helpButtonProps, mainProps, titleProps } from '../../utils/elementsProps';
+import { getGameData, setGameData } from '../../utils/gameDataUtils';
 
 export class MainView extends AppView {
   gameData: GameData; 
@@ -16,13 +17,8 @@ export class MainView extends AppView {
   tableElementsArr: HtmlElements;
   constructor() {
     super(mainProps);
-    const loadedGameData: string | null = localStorage.getItem('lev1ossa-css-selectors-gameData');
-    if (loadedGameData) {
-      this.gameData = JSON.parse(loadedGameData);
-    } else {
-      this.gameData = gameData;
-      this.updateGameData();
-    }
+    this.gameData = getGameData(gameData);
+    this.updateGameData();
     this.tableElementsArr = [];
     this.constructView();
   }
@@ -43,7 +39,7 @@ export class MainView extends AppView {
   }
 
   updateGameData(): void {
-    localStorage.setItem('lev1ossa-css-selectors-gameData', JSON.stringify(this.gameData));
+    setGameData(this.gameData);
   }
 
   setupGame(gameListener: EventTarget): void {
@@ -64,7 +60,7 @@ export class MainView extends AppView {
                 fakeInput.innerText += item;
                 hljs.highlightElement(fakeInput);
               }, 100 * idx);
-            })
+            });
             setTimeout(() => cssInput.disabled = false, helpText.length * 100);
             this.gameData.levelsData[this.gameData.currentLevel].helpUsed = true;
             this.updateGameData();
@@ -72,6 +68,8 @@ export class MainView extends AppView {
         },
       },
     );
+
+    console.log(typeof(helpButton));
 
     helpButtonContainer.addElement(helpButton.getElement());
     
