@@ -38,10 +38,9 @@ export class EditorCssView extends AppView {
         },
         keyup: (event: Event | KeyboardEvent) => {
           event.preventDefault();
-          if (event instanceof KeyboardEvent){
-            if (event.code === 'Enter' && !(event.repeat)) {
-              this.cssInputHandler(gameData, gameListener, editorElement, cssInput);
-            }
+          const isEnterCode = event instanceof KeyboardEvent && event.code === 'Enter' && !(event.repeat);
+          if (isEnterCode) {
+            this.cssInputHandler(gameData, gameListener, editorElement, cssInput);
           }
         }
       },

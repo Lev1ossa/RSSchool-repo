@@ -1,6 +1,6 @@
 import { showDialog } from "../app/utils/showDialog";
 
-describe('getGameData', () => {
+describe('showDialog', () => {
   test('should return nothing', () => {
     expect(showDialog('test')).toBeUndefined();
   });

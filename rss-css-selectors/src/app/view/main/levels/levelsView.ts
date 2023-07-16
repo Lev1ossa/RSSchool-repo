@@ -32,12 +32,15 @@ export class LevelsView extends AppView {
       
       const levelStatus = new ElementCreator(levelStatusProps);
 
-      if (thisLevel.status === Statuses.statusWin) {
-        levelStatus.getElement().classList.add('win');
-      } else if (thisLevel.status === Statuses.statusWinHelp) {
-        levelStatus.getElement().classList.add('win-help');
-      } else {
-        levelStatus.getElement().classList.add('unfinished');
+      switch (thisLevel.status) {
+        case Statuses.statusWin:
+          levelStatus.getElement().classList.add('win');
+          break;
+        case Statuses.statusWinHelp:
+          levelStatus.getElement().classList.add('win-help');
+          break;
+        default:
+          levelStatus.getElement().classList.add('unfinished');
       }
 
       const levelNumber = new ElementCreator(levelNumberProps);
