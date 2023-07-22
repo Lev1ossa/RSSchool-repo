@@ -1,0 +1,51 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  min-height: 100vh;
+}
+
+.body {
+  background-color: #2e2a23;
+  display: flex;
+  flex-direction: column;
+  color: #f5f5dc;
+}
+
+.fav-dialog {
+  position: absolute;
+  margin: auto;
+  padding: 10px;
+  background: #2e2a23;
+  color: #f5f5dc;
+}
+
+.fav-menu {
+  width: 50px;
+  margin: 0 auto;
+}
+
+.fav-close-button {
+  margin: 0 auto;
+  height: 25px;
+  width: 60px;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 5px;
+  transition: all .5s;
+}
+
+.fav-close-button:hover {
+  height: 20px;
+  width: 55px;
+  cursor: pointer;
+}
+
+.fav-close-button:active {
+  height: 20px;
+  width: 55px;
+  cursor: pointer;
+  background-color: grey;
+}

@@ -4,8 +4,9 @@ module.exports = {
     es2021: true,
   },
   extends: [
-    'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
+    'airbnb-base',
+    'airbnb-typescript-base',
+    'plugin:@typescript-eslint/eslint-plugin',
   ],
   overrides: [],
   parser: '@typescript-eslint/parser',
