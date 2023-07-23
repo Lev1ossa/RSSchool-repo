@@ -1,5 +1,7 @@
 import { ElementCreator } from '../../utils/elementCreator';
-import { footerProps, githubLinkProps, githubProps, rsSchoolLinkProps, rsSchoolProps, thisYearProps } from '../../utils/elementsProps';
+import {
+  footerProps, githubLinkProps, githubProps, rsSchoolLinkProps, rsSchoolProps, thisYearProps,
+} from '../../utils/elementsProps';
 import { AppView } from '../appView';
 import './footer.css';
 
@@ -44,9 +46,8 @@ export class FooterView extends AppView {
       {
         attribute: 'href',
         value: 'https://rs.school/js/',
-      }
+      },
     ]);
-
     rsSchoolLink.addElement(rsSchool.getElement());
     this.elementCreator.addElement(rsSchoolLink.getElement());
   }

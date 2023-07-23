@@ -1,48 +1,44 @@
-import { ListenersObj, ElementCreatorProps, ElAttributes, ElAttribute } from '../types/types';
+import {
+  ListenersObj, ElementCreatorProps, ElAttributes, ElAttribute,
+} from '../types/types';
 
 export class ElementCreator {
   element: HTMLElement;
   constructor(props: ElementCreatorProps) {
-    this.element = this.createElement(props);
-  }
-
-  createElement(props: ElementCreatorProps): HTMLElement {
     const {
       tag, classes, textContent, listeners,
     } = props;
-    const element = document.createElement(tag);
-    this.setTextContent(element, textContent);
-    this.setCssClasses(element, classes);
+    this.element = this.createElement(tag);
+    this.setTextContent(textContent);
+    this.setCssClasses(classes);
     if (listeners) {
-      this.setListeners(element, listeners);
+      this.addListeners(listeners);
     }
+  }
 
-    return element;
+  createElement(tag: string): HTMLElement {
+    return document.createElement(tag);
   }
 
   getElement(): HTMLElement | HTMLInputElement {
-      return this.element;
+    return this.element;
   }
 
   setElementAttributes(attributes: ElAttributes): void {
-    attributes.forEach((item: ElAttribute) => this.element.setAttribute(item.attribute, item.value));
+    attributes.forEach(
+      (item: ElAttribute) => this.element.setAttribute(item.attribute, item.value),
+    );
   }
 
-  setTextContent(element: HTMLElement, textContent: string): void {
-    element.textContent = textContent;
+  setTextContent(textContent: string): void {
+    this.element.textContent = textContent;
   }
 
-  setCssClasses(element: HTMLElement, classes: string[]): void {
+  setCssClasses(classes: string[]): void {
     classes.forEach((item) => {
       if (item) {
-        element.classList.add(item);
+        this.element.classList.add(item);
       }
-    });
-  }
-
-  setListeners(element: HTMLElement, listeners: ListenersObj): void {
-    Object.entries(listeners).forEach(([key, value]) => {
-      element.addEventListener(key, value);
     });
   }
 

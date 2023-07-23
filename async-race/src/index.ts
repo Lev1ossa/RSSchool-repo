@@ -1,4 +1,5 @@
 import { App } from './app/app';
 import './style.css';
 
-const app = new App();
+const createNewApp = (): App => new App();
+createNewApp();

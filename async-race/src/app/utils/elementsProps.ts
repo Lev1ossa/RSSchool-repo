@@ -1,9 +1,23 @@
-import { ElementCreatorProps } from "../types/types";
+import { ElementCreatorProps, InputElementCreatorProps } from '../types/types';
 
 export const headerProps: ElementCreatorProps = {
   tag: 'div',
   classes: ['header'],
-  textContent: 'Async Race',
+  textContent: '',
+  listeners: null,
+};
+
+export const garageButtonProps: ElementCreatorProps = {
+  tag: 'button',
+  classes: ['garage-button'],
+  textContent: 'To garage',
+  listeners: null,
+};
+
+export const winnersButtonProps: ElementCreatorProps = {
+  tag: 'button',
+  classes: ['winners-button'],
+  textContent: 'To winners',
   listeners: null,
 };
 
@@ -89,4 +103,104 @@ export const mainProps: ElementCreatorProps = {
   classes: ['main'],
   textContent: '',
   listeners: null,
+};
+
+export const garageProps: ElementCreatorProps = {
+  tag: 'div',
+  classes: ['garage'],
+  textContent: '',
+  listeners: null,
+};
+
+export const controlPanelProps: ElementCreatorProps = {
+  tag: 'div',
+  classes: ['control-panel'],
+  textContent: '',
+  listeners: null,
+};
+
+export const raceProps: ElementCreatorProps = {
+  tag: 'div',
+  classes: ['race'],
+  textContent: '',
+  listeners: null,
+};
+
+export const raceTrackProps: ElementCreatorProps = {
+  tag: 'div',
+  classes: ['race-track'],
+  textContent: '',
+  listeners: null,
+};
+
+export const inputBlockCreateProps: ElementCreatorProps = {
+  tag: 'div',
+  classes: ['input-block', 'input-block-create'],
+  textContent: '',
+  listeners: null,
+};
+
+export const inputNameCreateProps: ElementCreatorProps = {
+  tag: 'input',
+  classes: ['input-name', 'input-name-create'],
+  textContent: '',
+  listeners: null,
+};
+
+export const inputColorCreateProps: ElementCreatorProps = {
+  tag: 'input',
+  classes: ['input-color', 'input-color-create'],
+  textContent: '',
+  listeners: null,
+};
+
+export const buttonCreateProps: ElementCreatorProps = {
+  tag: 'button',
+  classes: ['input-button', 'button-create'],
+  textContent: '',
+  listeners: null,
+};
+
+export const InputElementCreatorCreateProps: InputElementCreatorProps = {
+  blockProps: inputBlockCreateProps,
+  inputProps: inputNameCreateProps,
+  inputColorProps: inputColorCreateProps,
+  buttonProps: buttonCreateProps,
+  buttonName: 'Create',
+};
+
+export const inputBlockUpdateProps: ElementCreatorProps = {
+  tag: 'div',
+  classes: ['input-block', 'input-block-update'],
+  textContent: '',
+  listeners: null,
+};
+
+export const inputNameUpdateProps: ElementCreatorProps = {
+  tag: 'input',
+  classes: ['input-name', 'input-name-update'],
+  textContent: '',
+  listeners: null,
+};
+
+export const inputColorUpdateProps: ElementCreatorProps = {
+  tag: 'input',
+  classes: ['input-color', 'input-color-update'],
+  textContent: '',
+  listeners: null,
+};
+
+export const buttonUpdateProps: ElementCreatorProps = {
+  tag: 'button',
+  classes: ['input-button', 'button-update'],
+  textContent: '',
+  listeners: null,
+};
+
+export const InputElementCreatorUpdateProps: InputElementCreatorProps = {
+  blockProps: inputBlockUpdateProps,
+  inputProps: inputNameUpdateProps,
+  inputColorProps: inputColorUpdateProps,
+  buttonProps: buttonUpdateProps,
+  buttonName: 'Update',
 };

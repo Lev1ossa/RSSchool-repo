@@ -12,6 +12,14 @@ export interface ElementCreatorProps {
 export type ElAttribute = {
   attribute: string,
   value: string,
-}
+};
 
 export type ElAttributes = ElAttribute[];
+
+export interface InputElementCreatorProps {
+  blockProps: ElementCreatorProps,
+  inputProps: ElementCreatorProps,
+  inputColorProps: ElementCreatorProps,
+  buttonProps: ElementCreatorProps,
+  buttonName: string,
+}
