@@ -2,12 +2,7 @@ import { carBrands, carModels } from '../data/data';
 import { CarData } from '../types/types';
 import { createCar } from './requests';
 
-export const getRandomCarName = (): string => carBrands[
-  Math.floor(Math.random() * carBrands.length)
-]
-+ carModels[
-  Math.floor(Math.random() * carModels.length)
-];
+export const getRandomCarName = (): string => `${carBrands[Math.floor(Math.random() * carBrands.length)]} ${carModels[Math.floor(Math.random() * carModels.length)]}`;
 
 export const getRandomCarColor = (): string => {
   const colorStrLength = 6;

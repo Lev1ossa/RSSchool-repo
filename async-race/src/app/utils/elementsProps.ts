@@ -295,3 +295,10 @@ export const raceRoadFlagProps: ElementCreatorProps = {
   textContent: '',
   listeners: null,
 };
+
+export const winnersProps: ElementCreatorProps = {
+  tag: 'div',
+  classes: ['winners'],
+  textContent: '',
+  listeners: null,
+};

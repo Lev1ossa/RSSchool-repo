@@ -1,4 +1,5 @@
-import { CarData, GameData } from '../../../../../types/types';
+import { carEngineStatuses } from '../../../../../data/data';
+import { CarData, CarMoveProps, GameData } from '../../../../../types/types';
 import { ElementCreator } from '../../../../../utils/elementCreator';
 import {
   raceRoadCarProps,
@@ -12,7 +13,7 @@ import {
   raceTrackRoadProps,
 } from '../../../../../utils/elementsProps';
 import { getCarSvg } from '../../../../../utils/getCarSvg';
-import { deleteCar } from '../../../../../utils/requests';
+import { deleteCar, patchCarEngine } from '../../../../../utils/requests';
 import { AppView } from '../../../../appView';
 import './raceTrack.css';
 
@@ -54,8 +55,10 @@ export class RaceTrackView extends AppView {
     // this.elementCreator.addElement(this.buttonDelete.getElement());
     this.createButtonDelete();
     this.elementCreator.addElement(this.carNameTitle.getElement());
-    this.road.addElement(this.buttonStart.getElement());
-    this.road.addElement(this.buttonStop.getElement());
+    this.createButtonStart();
+    // this.road.addElement(this.buttonStart.getElement())
+    this.createButtonStop();
+    // this.road.addElement(this.buttonStop.getElement());
     this.road.addElement(this.raceCar.getElement());
     this.road.addElement(this.raceFlag.getElement());
     this.elementCreator.addElement(this.road.getElement());
@@ -86,5 +89,89 @@ export class RaceTrackView extends AppView {
       },
     });
     this.elementCreator.addElement(this.buttonDelete.getElement());
+  }
+
+  createButtonStart(): void {
+    this.buttonStart.addListeners({
+      click: () => {
+        this.startCarEngine();
+      },
+    });
+    this.road.addElement(this.buttonStart.getElement());
+  }
+
+  createButtonStop(): void {
+    this.buttonStop.addListeners({
+      click: () => {
+        this.stopCarEngine();
+      },
+    });
+    this.road.addElement(this.buttonStop.getElement());
+  }
+
+  startCarEngine(): void {
+    patchCarEngine(this.carData.id, carEngineStatuses.start).then(
+      (carMoveProps: CarMoveProps) => {
+        const carRaceTime = (
+          carMoveProps.engineProps.distance / carMoveProps.engineProps.velocity
+        );
+        this.startCarAnimation(carRaceTime);
+      },
+      () => {},
+    );
+  }
+
+  stopCarEngine(): void {
+    patchCarEngine(this.carData.id, carEngineStatuses.start).then(
+      () => {
+        this.gameListener.dispatchEvent(
+          new CustomEvent('carStop', { detail: { carId: this.carData.id } }),
+        );
+        this.stopCarAnimation();
+      },
+      () => {},
+    );
+  }
+
+  setCarEngineDriveMode(): void {
+    patchCarEngine(this.carData.id, carEngineStatuses.drive).then(
+      (carMoveProps: CarMoveProps) => {
+        const carRaceTime = (
+          carMoveProps.engineProps.distance / carMoveProps.engineProps.velocity
+        );
+        this.startCarAnimation(carRaceTime);
+      },
+      () => {},
+    );
+  }
+
+  startCarAnimation(carRaceTime: number): void {
+    const animationDistance = this.road.getElement().offsetWidth - this.gameData.carLength;
+    const animationStepInterval = animationDistance / carRaceTime;
+    const carElement = this.raceCar.getElement();
+    carElement.style.left = '0px';
+    let carPosition = 0;
+    const carAnimation = setInterval(() => {
+      if (carPosition < animationDistance) {
+        carPosition += 1;
+        carElement.style.left = `${carPosition}px`;
+      }
+    }, animationStepInterval);
+    this.gameListener.addEventListener('carStop', (event) => {
+      const customEvent = event as CustomEvent;
+      if (customEvent.detail.carId === this.carData.id) {
+        clearInterval(carAnimation);
+      }
+    }, { once: true });
+    this.gameListener.addEventListener('allCarsStop', () => {
+      clearInterval(carAnimation);
+      carElement.style.left = '0px';
+    }, { once: true });
+  }
+
+  stopCarAnimation(): void {
+    this.gameListener.dispatchEvent(
+      new CustomEvent('gameDataUpdated', { detail: { carId: this.carData.id } }),
+    );
   }
 }

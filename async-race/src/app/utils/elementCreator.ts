@@ -53,4 +53,10 @@ export class ElementCreator {
       this.element.append(newElement);
     }
   }
+
+  removeChildren():void {
+    while (this.element.firstChild) {
+      this.element.firstChild.remove();
+    }
+  }
 }

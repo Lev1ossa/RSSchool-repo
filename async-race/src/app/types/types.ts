@@ -30,6 +30,7 @@ export type GameData = {
   selectedCarName: string,
   selectedCarColor: string,
   numberOfRandomCars: number,
+  carLength: number,
 };
 
 export type CarData = {

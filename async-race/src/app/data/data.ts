@@ -8,6 +8,12 @@ export const path = {
   winners: '/winners',
 };
 
+export const carEngineStatuses = {
+  start: 'started',
+  stop: 'stopped',
+  drive: 'drive',
+};
+
 export const carBrands: string[] = [
   'Porsche',
   'Lamborgini',
@@ -38,4 +44,5 @@ export const gameData: GameData = {
   selectedCarName: '',
   selectedCarColor: '#000000',
   numberOfRandomCars: 100,
+  carLength: 60,
 };
