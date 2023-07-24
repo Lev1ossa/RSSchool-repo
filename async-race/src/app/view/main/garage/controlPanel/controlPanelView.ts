@@ -1,4 +1,5 @@
 import { GameData } from '../../../../types/types';
+import { createRandomCars } from '../../../../utils/createRandomCars';
 import { ElementCreator } from '../../../../utils/elementCreator';
 import {
   InputElementCreatorCreateProps,
@@ -30,8 +31,7 @@ export class ControlPanelView extends AppView {
     this.elementCreator.addElement(buttonRace.getElement());
     const buttonReset = new ElementCreator(buttonResetProps);
     this.elementCreator.addElement(buttonReset.getElement());
-    const buttonGenerateCars = new ElementCreator(buttonGenerateCarsProps);
-    this.elementCreator.addElement(buttonGenerateCars.getElement());
+    this.CreateButtonGenerateCars();
   }
 
   createInputCarCreate(): void {
@@ -46,7 +46,7 @@ export class ControlPanelView extends AppView {
             () => {
               this.gameListener.dispatchEvent(new CustomEvent('carsUpdated'));
               nameInput.value = '';
-              colorInput.value = '#000';
+              colorInput.value = '#000000';
             },
             () => {},
           );
@@ -69,14 +69,36 @@ export class ControlPanelView extends AppView {
             () => {
               this.gameListener.dispatchEvent(new CustomEvent('carsUpdated'));
               this.gameData.selectedCarID = 0;
+              this.gameData.selectedCarName = '';
               nameInput.value = '';
-              colorInput.value = '#000';
+              colorInput.value = '#000000';
             },
             () => {},
           );
         }
       },
     });
+    this.gameListener.addEventListener('carSelected', () => {
+      const nameInput = inputCarUpdate.input.getElement() as HTMLInputElement;
+      const colorInput = inputCarUpdate.inputColor.getElement() as HTMLInputElement;
+      nameInput.value = this.gameData.selectedCarName;
+      colorInput.value = this.gameData.selectedCarColor;
+    });
     this.elementCreator.addElement(inputCarUpdate.getElement());
+  }
+
+  CreateButtonGenerateCars(): void {
+    const buttonGenerateCars = new ElementCreator(buttonGenerateCarsProps);
+    buttonGenerateCars.addListeners({
+      click: () => {
+        createRandomCars().then(
+          () => {
+            this.gameListener.dispatchEvent(new CustomEvent('carsUpdated'));
+          },
+          () => {},
+        );
+      },
+    });
+    this.elementCreator.addElement(buttonGenerateCars.getElement());
   }
 }

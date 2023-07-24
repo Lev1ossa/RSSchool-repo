@@ -27,6 +27,9 @@ export interface InputElementCreatorProps {
 export type GameData = {
   currentPage: number,
   selectedCarID: number,
+  selectedCarName: string,
+  selectedCarColor: string,
+  numberOfRandomCars: number,
 };
 
 export type CarData = {
@@ -41,4 +44,14 @@ export type GarageData = {
   cars: CarsData,
   carsNumber: number,
   carsPagesNumber: number,
+};
+
+export type EngineProps = {
+  velocity: number,
+  distance: number,
+};
+
+export type CarMoveProps = {
+  engineProps: EngineProps,
+  carId: number,
 };

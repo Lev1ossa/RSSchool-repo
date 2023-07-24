@@ -35,4 +35,7 @@ export const carModels: string[] = [
 export const gameData: GameData = {
   currentPage: 1,
   selectedCarID: 0,
+  selectedCarName: '',
+  selectedCarColor: '#000000',
+  numberOfRandomCars: 100,
 };

@@ -28,7 +28,7 @@ export class RaceView extends AppView {
           this.elementCreator.addElement(raceTitle.getElement());
           this.elementCreator.addElement(raceSubtitle.getElement());
           cars.forEach((carData) => {
-            const raceTrack = new RaceTrackView(carData);
+            const raceTrack = new RaceTrackView(carData, this.gameListener, this.gameData);
             this.elementCreator.addElement(raceTrack.getElement());
           });
         }
