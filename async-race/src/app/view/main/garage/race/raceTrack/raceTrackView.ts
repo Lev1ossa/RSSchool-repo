@@ -116,13 +116,17 @@ export class RaceTrackView extends AppView {
           carMoveProps.engineProps.distance / carMoveProps.engineProps.velocity
         );
         this.startCarAnimation(carRaceTime);
+        this.setCarEngineDriveMode().then(
+          (result) => dispatchEvent(new CustomEvent('carFinish', { detail: { carId: this.carData.id, carTime: result } })),
+          () => {},
+        );
       },
       () => {},
     );
   }
 
   stopCarEngine(): void {
-    patchCarEngine(this.carData.id, carEngineStatuses.start).then(
+    patchCarEngine(this.carData.id, carEngineStatuses.stop).then(
       () => {
         this.gameListener.dispatchEvent(
           new CustomEvent('carStop', { detail: { carId: this.carData.id } }),
@@ -133,21 +137,28 @@ export class RaceTrackView extends AppView {
     );
   }
 
-  setCarEngineDriveMode(): void {
-    patchCarEngine(this.carData.id, carEngineStatuses.drive).then(
+  async setCarEngineDriveMode(): Promise<number | void> {
+    return patchCarEngine(this.carData.id, carEngineStatuses.drive).then(
       (carMoveProps: CarMoveProps) => {
+        if (carMoveProps.status === 500) {
+          this.gameListener.dispatchEvent(new CustomEvent('carStop', { detail: { carId: this.carData.id } }));
+        }
         const carRaceTime = (
           carMoveProps.engineProps.distance / carMoveProps.engineProps.velocity
         );
-        this.startCarAnimation(carRaceTime);
+        return (carRaceTime);
       },
-      () => {},
+      (err) => {
+        if (err.message === '500') {
+          this.gameListener.dispatchEvent(new CustomEvent('carStop', { detail: { carId: this.carData.id } }));
+        }
+      },
     );
   }
 
   startCarAnimation(carRaceTime: number): void {
     const animationDistance = this.road.getElement().offsetWidth - this.gameData.carLength;
-    const animationStepInterval = animationDistance / carRaceTime;
+    const animationStepInterval = (carRaceTime / animationDistance);
     const carElement = this.raceCar.getElement();
     carElement.style.left = '0px';
     let carPosition = 0;
@@ -162,7 +173,7 @@ export class RaceTrackView extends AppView {
       if (customEvent.detail.carId === this.carData.id) {
         clearInterval(carAnimation);
       }
-    }, { once: true });
+    });
     this.gameListener.addEventListener('allCarsStop', () => {
       clearInterval(carAnimation);
       carElement.style.left = '0px';

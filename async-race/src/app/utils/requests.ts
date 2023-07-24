@@ -78,15 +78,23 @@ export const deleteCar = async (carId: number): Promise<void> => {
 export const patchCarEngine = async (carId: number, carStatus: string): Promise<CarMoveProps> => fetch(`${requestUrl}${path.engine}?id=${carId}&status=${carStatus}`, {
   method: 'PATCH',
 }).then(
-  (response) => response.json().then(
-    (engineProps: EngineProps) => {
-      const carMoveProps: CarMoveProps = { engineProps, carId };
-      return carMoveProps;
-    },
-    (err) => {
-      throw new Error(err);
-    },
-  ),
+  (response) => {
+    // if (response.status === 500) {
+
+    // }
+    const { status } = response;
+    return response.json().then(
+      (engineProps: EngineProps) => {
+        const carMoveProps: CarMoveProps = { engineProps, carId, status };
+        return carMoveProps;
+      },
+      (err) => {
+        const error = new Error(err);
+        error.message = '500';
+        throw error;
+      },
+    );
+  },
   (err) => {
     throw new Error(err);
   },

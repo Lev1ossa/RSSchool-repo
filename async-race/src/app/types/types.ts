@@ -55,4 +55,5 @@ export type EngineProps = {
 export type CarMoveProps = {
   engineProps: EngineProps,
   carId: number,
+  status: number,
 };
