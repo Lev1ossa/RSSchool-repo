@@ -26,6 +26,7 @@ export interface InputElementCreatorProps {
 
 export type GameData = {
   currentPage: number,
+  selectedCarID: number,
 };
 
 export type CarData = {

@@ -34,4 +34,5 @@ export const carModels: string[] = [
 
 export const gameData: GameData = {
   currentPage: 1,
+  selectedCarID: 0,
 };

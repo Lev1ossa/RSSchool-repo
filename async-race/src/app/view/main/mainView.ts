@@ -8,14 +8,16 @@ import './main.css';
 
 export class MainView extends AppView {
   gameData: GameData;
+  gameListener: EventTarget;
   constructor() {
     super(mainProps);
     this.gameData = gameData;
+    this.gameListener = new EventTarget();
     this.constructView();
   }
 
   constructView(): void {
-    const garage = new GarageView(this.gameData);
+    const garage = new GarageView(this.gameData, this.gameListener);
     this.elementCreator.addElement(garage.getElement());
   }
 }

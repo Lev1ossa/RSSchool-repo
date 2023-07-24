@@ -8,25 +8,32 @@ import { RaceTrackView } from './raceTrack/raceTrackView';
 
 export class RaceView extends AppView {
   gameData: GameData;
-  constructor(data: GameData) {
+  gameListener: EventTarget;
+  constructor(data: GameData, gameListener: EventTarget) {
     super(raceProps);
+    this.gameListener = gameListener;
     this.gameData = data;
     this.constructView();
   }
 
   async constructView(): Promise<void> {
-    const { cars, carsNumber } = await getGarageData(this.gameData.currentPage);
-    const raceTitle = new ElementCreator(raceTitleProps);
-    raceTitle.setTextContent(`Garage(${carsNumber})`);
-    const raceSubtitle = new ElementCreator(raceSubtitleProps);
-    raceSubtitle.setTextContent(`Page #(${this.gameData.currentPage})`);
-    this.elementCreator.addElement(raceTitle.getElement());
-    this.elementCreator.addElement(raceSubtitle.getElement());
-    // this.elementCreator.addElement(raceTrack.getElement());
-    cars.forEach((carData) => {
-      const raceTrack = new RaceTrackView(carData);
-      this.elementCreator.addElement(raceTrack.getElement());
-    });
-    // const raceTrack = new RaceTrackView();
+    getGarageData(this.gameData.currentPage).then(
+      (result) => {
+        if (result) {
+          const { cars, carsNumber } = result;
+          const raceTitle = new ElementCreator(raceTitleProps);
+          raceTitle.setTextContent(`Garage(${carsNumber})`);
+          const raceSubtitle = new ElementCreator(raceSubtitleProps);
+          raceSubtitle.setTextContent(`Page #(${this.gameData.currentPage})`);
+          this.elementCreator.addElement(raceTitle.getElement());
+          this.elementCreator.addElement(raceSubtitle.getElement());
+          cars.forEach((carData) => {
+            const raceTrack = new RaceTrackView(carData);
+            this.elementCreator.addElement(raceTrack.getElement());
+          });
+        }
+      },
+      () => {},
+    );
   }
 }
