@@ -1,3 +1,4 @@
+import { CarData } from '../../../../../types/types';
 import { ElementCreator } from '../../../../../utils/elementCreator';
 import {
   raceRoadCarProps,
@@ -23,9 +24,11 @@ export class RaceTrackView extends AppView {
   buttonStop: ElementCreator;
   raceCar: ElementCreator;
   raceFlag: ElementCreator;
+  carData: CarData;
 
-  constructor() {
+  constructor(carData: CarData) {
     super(raceTrackProps);
+    this.carData = carData;
     this.buttonSelect = new ElementCreator(raceTrackButtonSelectProps);
     this.buttonDelete = new ElementCreator(raceTrackButtonDeleteProps);
     this.carNameTitle = new ElementCreator(raceTrackCarNameProps);
@@ -38,9 +41,9 @@ export class RaceTrackView extends AppView {
   }
 
   constructView(): void {
-    this.raceCar.getElement().innerHTML = getCarSvg('#fff');
+    this.raceCar.getElement().innerHTML = getCarSvg(this.carData.color);
     this.raceCar.element = this.raceCar.getElement().firstElementChild as HTMLElement;
-
+    this.carNameTitle.setTextContent(this.carData.name);
     this.elementCreator.addElement(this.buttonSelect.getElement());
     this.elementCreator.addElement(this.buttonDelete.getElement());
     this.elementCreator.addElement(this.carNameTitle.getElement());

@@ -23,3 +23,21 @@ export interface InputElementCreatorProps {
   buttonProps: ElementCreatorProps,
   buttonName: string,
 }
+
+export type GameData = {
+  currentPage: number,
+};
+
+export type CarData = {
+  name: string,
+  color: string,
+  id: number,
+};
+
+export type CarsData = CarData[];
+
+export type GarageData = {
+  cars: CarsData,
+  carsNumber: number,
+  carsPagesNumber: number,
+};

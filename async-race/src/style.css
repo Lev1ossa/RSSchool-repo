@@ -49,3 +49,7 @@ html {
   cursor: pointer;
   background-color: grey;
 }
+
+button {
+  cursor: pointer;
+}
