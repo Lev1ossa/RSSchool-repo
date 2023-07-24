@@ -1,5 +1,6 @@
 .footer {
-  width: 100%;
+  width: 90vw;
+  margin: 0 auto;
   box-sizing: border-box;
   height: 5vh;
   text-align: left;
@@ -7,7 +8,7 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background: #524c41;
+  background: #2e2a23;
 }
 
 .rsschool-link {

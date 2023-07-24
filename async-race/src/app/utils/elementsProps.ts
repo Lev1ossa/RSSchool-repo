@@ -204,3 +204,94 @@ export const InputElementCreatorUpdateProps: InputElementCreatorProps = {
   buttonProps: buttonUpdateProps,
   buttonName: 'Update',
 };
+
+export const buttonRaceProps: ElementCreatorProps = {
+  tag: 'button',
+  classes: ['control-button', 'button-race'],
+  textContent: 'Race',
+  listeners: null,
+};
+
+export const buttonResetProps: ElementCreatorProps = {
+  tag: 'button',
+  classes: ['control-button', 'button-reset'],
+  textContent: 'Reset',
+  listeners: null,
+};
+
+export const buttonGenerateCarsProps: ElementCreatorProps = {
+  tag: 'button',
+  classes: ['control-button', 'button-generate-cars'],
+  textContent: 'Generate-cars',
+  listeners: null,
+};
+
+export const raceTitleProps: ElementCreatorProps = {
+  tag: 'h1',
+  classes: ['race-title'],
+  textContent: 'Garage()',
+  listeners: null,
+};
+
+export const raceSubtitleProps: ElementCreatorProps = {
+  tag: 'h2',
+  classes: ['race-subtitle'],
+  textContent: 'Page #',
+  listeners: null,
+};
+
+export const raceTrackButtonSelectProps: ElementCreatorProps = {
+  tag: 'button',
+  classes: ['race-track-button-select'],
+  textContent: 'Select',
+  listeners: null,
+};
+
+export const raceTrackButtonDeleteProps: ElementCreatorProps = {
+  tag: 'button',
+  classes: ['race-track-button-delete'],
+  textContent: 'Delete',
+  listeners: null,
+};
+
+export const raceTrackCarNameProps: ElementCreatorProps = {
+  tag: 'span',
+  classes: ['race-track-car-name'],
+  textContent: 'Car name',
+  listeners: null,
+};
+
+export const raceTrackRoadProps: ElementCreatorProps = {
+  tag: 'div',
+  classes: ['race-track-road'],
+  textContent: '',
+  listeners: null,
+};
+
+export const raceRoadStartButtonProps: ElementCreatorProps = {
+  tag: 'button',
+  classes: ['race-road-start-button'],
+  textContent: 'Start',
+  listeners: null,
+};
+
+export const raceRoadStopButtonProps: ElementCreatorProps = {
+  tag: 'button',
+  classes: ['race-road-stop-button'],
+  textContent: 'Stop',
+  listeners: null,
+};
+
+export const raceRoadCarProps: ElementCreatorProps = {
+  tag: 'svg',
+  classes: ['race-road-car'],
+  textContent: '',
+  listeners: null,
+};
+
+export const raceRoadFlagProps: ElementCreatorProps = {
+  tag: 'div',
+  classes: ['race-road-flag'],
+  textContent: '',
+  listeners: null,
+};

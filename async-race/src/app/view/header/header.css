@@ -1,6 +1,8 @@
 .header {
   /* max-width: 1000px; */
   /* margin: 0 auto; */
+  width: 90vw;
+  margin: 0 auto;
   box-sizing: border-box;
   height: 5vh;
   text-align: left;
@@ -8,5 +10,6 @@
   font-size: 32px;
   display: flex;
   align-items: center;
-  background: #524c41;
+  /* background: #524c41; */
+  background: #2e2a23;
 }

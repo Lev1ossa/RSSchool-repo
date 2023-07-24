@@ -1,0 +1,25 @@
+.race-road-flag {
+  background: url('../../../../../../images/race-flag.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  width: 20px;
+  height: 30px;
+  position: absolute;
+  bottom: 0;
+  right: 70px;
+}
+
+.race-track-road {
+  border-bottom: 2px dashed white;
+  position: relative;
+  height: 50px;
+  left: 0;
+  display: flex;
+  align-items: flex-start;
+}
+
+svg {
+  position: absolute;
+  bottom: 0;
+}
