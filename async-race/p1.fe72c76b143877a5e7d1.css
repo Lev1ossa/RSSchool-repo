@@ -64,6 +64,27 @@
   width: 100%;
 }
 
+.modal-window {
+  max-width: 400px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  color: aqua;
+  text-shadow: 1px 1px 2px red, 0 0 1em blue, 0 0 0.2em blue;
+  /* font-size: 12px; */
+}
+
+.modal-window.hidden {
+  display: none;
+}
+
 .race-road-flag {
   background: url(./images/race-flag.svg);
   background-repeat: no-repeat;
@@ -111,42 +132,6 @@ html {
   display: flex;
   flex-direction: column;
   color: #f5f5dc;
-}
-
-.fav-dialog {
-  position: absolute;
-  margin: auto;
-  padding: 10px;
-  background: #2e2a23;
-  color: #f5f5dc;
-}
-
-.fav-menu {
-  width: 50px;
-  margin: 0 auto;
-}
-
-.fav-close-button {
-  margin: 0 auto;
-  height: 25px;
-  width: 60px;
-  background-color: #f0f0f0;
-  border: none;
-  border-radius: 5px;
-  transition: all .5s;
-}
-
-.fav-close-button:hover {
-  height: 20px;
-  width: 55px;
-  cursor: pointer;
-}
-
-.fav-close-button:active {
-  height: 20px;
-  width: 55px;
-  cursor: pointer;
-  background-color: grey;
 }
 
 button {
