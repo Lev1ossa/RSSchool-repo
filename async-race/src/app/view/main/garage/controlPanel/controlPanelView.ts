@@ -104,8 +104,8 @@ export class ControlPanelView extends AppView {
     const buttonRace = new ElementCreator(buttonRaceProps);
     buttonRace.addListeners({
       click: () => {
-        this.gameData.raceActive = true;
-        this.gameData.currentWinnerID = 0;
+        // this.gameData.raceActive = true;
+        // this.gameData.currentWinnerID = 0;
         const carStartEnginePromises = this.gameData.carsOnPage.map(
           async (car) => car.startCarEngine(),
         );
@@ -116,9 +116,6 @@ export class ControlPanelView extends AppView {
                 const carData = carMoveProps.find(
                   (item) => item.carId === car.carData.id,
                 ) as CarMoveProps;
-                // if (!carData) {
-                //   return false;
-                // }
                 const carRaceTime = carData.engineProps.distance
                   / carData.engineProps.velocity;
                 car.startCarAnimation(carRaceTime);
@@ -139,32 +136,26 @@ export class ControlPanelView extends AppView {
     });
     this.elementCreator.addElement(buttonRace.getElement());
   }
-  // async carMove(): Promise<WinnerProps> {
-  //   return this.startCarEngine().then(
-  //     (carMoveProps) => {
-  // const carRaceTime = carMoveProps.engineProps.distance
-  // carMoveProps.engineProps.velocity;
-  //       this.startCarAnimation(carRaceTime);
-  //       return this.setCarEngineDriveMode(carRaceTime).then(
-  //         (result) => ({ carId: this.carData.id, carTime: result }),
-  //         (err) => { throw new Error(err); },
-  //       );
-  //     },
-  //     (err) => { throw new Error(err); },
-  //   );
-  // }
 
   CreateButtonReset(): void {
     const buttonReset = new ElementCreator(buttonResetProps);
     buttonReset.addListeners({
       click: () => {
-        this.gameData.raceActive = false;
-        this.gameData.currentWinnerID = 0;
-        this.gameData.carsOnPage.forEach(async (car) => {
-          car.stopCarEngine();
-        });
+        // this.gameData.raceActive = false;
+        // this.gameData.currentWinnerID = 0;
+        // this.gameData.carsOnPage.forEach(async (car) => {
+        //   car.stopCarEngine();
+        // });
+        const carStopEnginePromises = this.gameData.carsOnPage.map(
+          async (car) => car.stopCarEngine(),
+        );
+        Promise.all(carStopEnginePromises).then(
+          (cars) => { cars.forEach(async (car) => car.stopCarAnimation()); },
+          () => {},
+        );
       },
     });
+    // carStopEnginePromises
     this.elementCreator.addElement(buttonReset.getElement());
   }
 }

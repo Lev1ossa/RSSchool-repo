@@ -105,7 +105,10 @@ export class RaceTrackView extends AppView {
   createButtonStop(): void {
     this.buttonStop.addListeners({
       click: () => {
-        this.stopCarEngine();
+        this.CarStop().then(
+          () => {},
+          () => {},
+        );
       },
     });
     this.road.addElement(this.buttonStop.getElement());
@@ -134,20 +137,17 @@ export class RaceTrackView extends AppView {
     );
   }
 
-  // startDriveMode(): void {
-  //   this.setCarEngineDriveMode().then(
-  //     (result) => dispatchEvent(new CustomEvent('carFinish',
-  // { detail: { carId: this.carData.id, carTime: result } })),
-  //     () => {},
-  //   );
-  // }
-
-  stopCarEngine(): void {
-    patchCarEngine(this.carData.id, carEngineStatuses.stop).then(
-      () => {
-        this.stopCarAnimation();
-      },
+  async CarStop(): Promise<void> {
+    return this.stopCarEngine().then(
+      () => { this.stopCarAnimation(); },
       () => {},
+    );
+  }
+
+  async stopCarEngine(): Promise<RaceTrackView> {
+    return patchCarEngine(this.carData.id, carEngineStatuses.stop).then(
+      () => this,
+      (err) => { throw new Error(err); },
     );
   }
 
