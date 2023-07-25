@@ -1,3 +1,5 @@
+import type { RaceTrackView } from '../view/main/garage/race/raceTrack/raceTrackView';
+
 export type Callback = (event: Event) => void;
 
 export type ListenersObj = Record<string, Callback>;
@@ -31,6 +33,9 @@ export type GameData = {
   selectedCarColor: string,
   numberOfRandomCars: number,
   carLength: number,
+  carsOnPage: RaceTrackView[],
+  raceActive: boolean,
+  currentWinnerID: number,
 };
 
 export type CarData = {
@@ -56,4 +61,9 @@ export type CarMoveProps = {
   engineProps: EngineProps,
   carId: number,
   status: number,
+};
+
+export type WinnerProps = {
+  carId: number,
+  carTime: number,
 };

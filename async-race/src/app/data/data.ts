@@ -45,4 +45,7 @@ export const gameData: GameData = {
   selectedCarColor: '#000000',
   numberOfRandomCars: 100,
   carLength: 60,
+  carsOnPage: [],
+  raceActive: false,
+  currentWinnerID: 0,
 };

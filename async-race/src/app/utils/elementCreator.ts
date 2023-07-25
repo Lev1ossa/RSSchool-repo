@@ -1,4 +1,4 @@
-import {
+import type {
   ListenersObj, ElementCreatorProps, ElAttributes, ElAttribute,
 } from '../types/types';
 

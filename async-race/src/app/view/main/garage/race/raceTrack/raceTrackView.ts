@@ -1,5 +1,7 @@
 import { carEngineStatuses } from '../../../../../data/data';
-import { CarData, CarMoveProps, GameData } from '../../../../../types/types';
+import {
+  CarData, CarMoveProps, GameData, WinnerProps,
+} from '../../../../../types/types';
 import { ElementCreator } from '../../../../../utils/elementCreator';
 import {
   raceRoadCarProps,
@@ -47,18 +49,15 @@ export class RaceTrackView extends AppView {
   }
 
   constructView(): void {
+    this.stopCarAnimation();
     this.raceCar.getElement().innerHTML = getCarSvg(this.carData.color);
     this.raceCar.element = this.raceCar.getElement().firstElementChild as HTMLElement;
     this.carNameTitle.setTextContent(this.carData.name);
-    // this.elementCreator.addElement(this.buttonSelect.getElement());
     this.createButtonSelect();
-    // this.elementCreator.addElement(this.buttonDelete.getElement());
     this.createButtonDelete();
     this.elementCreator.addElement(this.carNameTitle.getElement());
     this.createButtonStart();
-    // this.road.addElement(this.buttonStart.getElement())
     this.createButtonStop();
-    // this.road.addElement(this.buttonStop.getElement());
     this.road.addElement(this.raceCar.getElement());
     this.road.addElement(this.raceFlag.getElement());
     this.elementCreator.addElement(this.road.getElement());
@@ -94,7 +93,10 @@ export class RaceTrackView extends AppView {
   createButtonStart(): void {
     this.buttonStart.addListeners({
       click: () => {
-        this.startCarEngine();
+        this.carMove().then(
+          () => {},
+          () => {},
+        );
       },
     });
     this.road.addElement(this.buttonStart.getElement());
@@ -109,49 +111,54 @@ export class RaceTrackView extends AppView {
     this.road.addElement(this.buttonStop.getElement());
   }
 
-  startCarEngine(): void {
-    patchCarEngine(this.carData.id, carEngineStatuses.start).then(
-      (carMoveProps: CarMoveProps) => {
-        const carRaceTime = (
-          carMoveProps.engineProps.distance / carMoveProps.engineProps.velocity
-        );
+  async carMove(): Promise<WinnerProps> {
+    return this.startCarEngine().then(
+      (carMoveProps) => {
+        const carRaceTime = carMoveProps.engineProps.distance / carMoveProps.engineProps.velocity;
         this.startCarAnimation(carRaceTime);
-        this.setCarEngineDriveMode().then(
-          (result) => dispatchEvent(new CustomEvent('carFinish', { detail: { carId: this.carData.id, carTime: result } })),
-          () => {},
+        return this.setCarEngineDriveMode(carRaceTime).then(
+          (result) => ({ carId: this.carData.id, carTime: result }),
+          (err) => { throw new Error(err); },
         );
       },
-      () => {},
+      (err) => { throw new Error(err); },
     );
   }
+
+  async startCarEngine(): Promise<CarMoveProps> {
+    return patchCarEngine(this.carData.id, carEngineStatuses.start).then(
+      (carMoveProps: CarMoveProps) => carMoveProps,
+      () => {
+        throw new Error();
+      },
+    );
+  }
+
+  // startDriveMode(): void {
+  //   this.setCarEngineDriveMode().then(
+  //     (result) => dispatchEvent(new CustomEvent('carFinish',
+  // { detail: { carId: this.carData.id, carTime: result } })),
+  //     () => {},
+  //   );
+  // }
 
   stopCarEngine(): void {
     patchCarEngine(this.carData.id, carEngineStatuses.stop).then(
       () => {
-        this.gameListener.dispatchEvent(
-          new CustomEvent('carStop', { detail: { carId: this.carData.id } }),
-        );
         this.stopCarAnimation();
       },
       () => {},
     );
   }
 
-  async setCarEngineDriveMode(): Promise<number | void> {
+  async setCarEngineDriveMode(carRaceTime: number): Promise<number> {
     return patchCarEngine(this.carData.id, carEngineStatuses.drive).then(
-      (carMoveProps: CarMoveProps) => {
-        if (carMoveProps.status === 500) {
-          this.gameListener.dispatchEvent(new CustomEvent('carStop', { detail: { carId: this.carData.id } }));
-        }
-        const carRaceTime = (
-          carMoveProps.engineProps.distance / carMoveProps.engineProps.velocity
-        );
-        return (carRaceTime);
-      },
+      () => (carRaceTime),
       (err) => {
         if (err.message === '500') {
           this.gameListener.dispatchEvent(new CustomEvent('carStop', { detail: { carId: this.carData.id } }));
         }
+        throw new Error(err);
       },
     );
   }
@@ -174,6 +181,13 @@ export class RaceTrackView extends AppView {
         clearInterval(carAnimation);
       }
     });
+    this.gameListener.addEventListener('carStopAnimation', (event) => {
+      const customEvent = event as CustomEvent;
+      if (customEvent.detail.carId === this.carData.id) {
+        clearInterval(carAnimation);
+        carElement.style.left = '0px';
+      }
+    });
     this.gameListener.addEventListener('allCarsStop', () => {
       clearInterval(carAnimation);
       carElement.style.left = '0px';
@@ -182,7 +196,7 @@ export class RaceTrackView extends AppView {
 
   stopCarAnimation(): void {
     this.gameListener.dispatchEvent(
-      new CustomEvent('gameDataUpdated', { detail: { carId: this.carData.id } }),
+      new CustomEvent('carStopAnimation', { detail: { carId: this.carData.id } }),
     );
   }
 }

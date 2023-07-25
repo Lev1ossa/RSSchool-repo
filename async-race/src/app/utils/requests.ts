@@ -86,6 +86,7 @@ export const patchCarEngine = async (carId: number, carStatus: string): Promise<
     return response.json().then(
       (engineProps: EngineProps) => {
         const carMoveProps: CarMoveProps = { engineProps, carId, status };
+        console.log(carMoveProps);
         return carMoveProps;
       },
       (err) => {

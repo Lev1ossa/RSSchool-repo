@@ -20,6 +20,7 @@ export class RaceView extends AppView {
     getGarageData(this.gameData.currentPage).then(
       (result) => {
         if (result) {
+          this.gameData.carsOnPage.length = 0;
           const { cars, carsNumber } = result;
           const raceTitle = new ElementCreator(raceTitleProps);
           raceTitle.setTextContent(`Garage(${carsNumber})`);
@@ -29,6 +30,7 @@ export class RaceView extends AppView {
           this.elementCreator.addElement(raceSubtitle.getElement());
           cars.forEach((carData) => {
             const raceTrack = new RaceTrackView(carData, this.gameListener, this.gameData);
+            this.gameData.carsOnPage.push(raceTrack);
             this.elementCreator.addElement(raceTrack.getElement());
           });
         }
