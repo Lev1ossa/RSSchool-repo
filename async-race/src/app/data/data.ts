@@ -46,4 +46,5 @@ export const gameData: GameData = {
   numberOfRandomCars: 100,
   carLength: 60,
   carsOnPage: [],
+  maxPage: 1,
 };

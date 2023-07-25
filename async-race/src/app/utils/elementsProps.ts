@@ -274,3 +274,17 @@ export const modalWindowProps: ElementCreatorProps = {
   textContent: '',
   listeners: null,
 };
+
+export const buttonPrevPageProps: ElementCreatorProps = {
+  tag: 'button',
+  classes: ['button-prev'],
+  textContent: 'Prev page',
+  listeners: null,
+};
+
+export const buttonNextPageProps: ElementCreatorProps = {
+  tag: 'button',
+  classes: ['button-next'],
+  textContent: 'Next page',
+  listeners: null,
+};

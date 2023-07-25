@@ -20,6 +20,7 @@ export class RaceView extends AppView {
     getGarageData(this.gameData.currentPage).then(
       (result) => {
         if (result) {
+          this.gameData.maxPage = result.carsPagesNumber;
           this.gameData.carsOnPage.length = 0;
           const { cars, carsNumber } = result;
           const raceTitle = new ElementCreator(raceTitleProps);
