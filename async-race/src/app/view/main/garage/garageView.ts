@@ -45,10 +45,24 @@ export class GarageView extends AppView {
     this.elementCreator.addElement(modalWindow.getElement());
     this.createPrevPage();
     this.createNextPage();
+    const prevButtonElement = this.prevButton.getElement() as HTMLButtonElement;
+    const nextButtonElement = this.nextButton.getElement() as HTMLButtonElement;
+    this.gameListener.addEventListener('garagePaginationBlock', () => {
+      prevButtonElement.disabled = true;
+      nextButtonElement.disabled = true;
+    });
+    this.gameListener.addEventListener('garagePaginationUnblock', () => {
+      this.resetButtons();
+    });
   }
 
   createPrevPage(): void {
     const prevButtonElement = this.prevButton.getElement() as HTMLButtonElement;
+    // const nextButtonElement = this.nextButton.getElement() as HTMLButtonElement;
+    // this.gameListener.addEventListener('garagePaginationBlock', () => {
+    //   prevButtonElement.disabled = true;
+    //   nextButtonElement.disabled = true;
+    // });
     this.prevButton.addListeners({
       click: () => {
         if (this.gameData.currentPage === 1) {
@@ -64,7 +78,12 @@ export class GarageView extends AppView {
   }
 
   createNextPage(): void {
+    // const prevButtonElement = this.prevButton.getElement() as HTMLButtonElement;
     const nextButtonElement = this.nextButton.getElement() as HTMLButtonElement;
+    // this.gameListener.addEventListener('garagePaginationBlock', () => {
+    //   prevButtonElement.disabled = true;
+    //   nextButtonElement.disabled = true;
+    // });
     this.nextButton.addListeners({
       click: () => {
         if (this.gameData.currentPage === this.gameData.maxPage) {

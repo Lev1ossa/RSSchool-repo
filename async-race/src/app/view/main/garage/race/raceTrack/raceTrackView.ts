@@ -81,8 +81,8 @@ export class RaceTrackView extends AppView {
       click: () => {
         deleteCar(this.carData.id).then(
           () => {
-            this.gameListener.dispatchEvent(new CustomEvent('carsUpdated'));
             deleteWinner(this.carData.id);
+            this.gameListener.dispatchEvent(new CustomEvent('carsUpdated'));
           },
           () => {},
         );
@@ -104,6 +104,8 @@ export class RaceTrackView extends AppView {
   }
 
   createButtonStop(): void {
+    const buttonStopElement = this.buttonStop.getElement() as HTMLButtonElement;
+    buttonStopElement.disabled = true;
     this.buttonStop.addListeners({
       click: () => {
         this.CarStop().then(
@@ -116,6 +118,8 @@ export class RaceTrackView extends AppView {
   }
 
   async carMove(): Promise<WinnerProps> {
+    const buttonStartElement = this.buttonStart.getElement() as HTMLButtonElement;
+    buttonStartElement.disabled = true;
     return this.startCarEngine().then(
       (carMoveProps) => {
         const carRaceTime = carMoveProps.engineProps.distance / carMoveProps.engineProps.velocity;
@@ -131,7 +135,11 @@ export class RaceTrackView extends AppView {
 
   async startCarEngine(): Promise<CarMoveProps> {
     return patchCarEngine(this.carData.id, carEngineStatuses.start).then(
-      (carMoveProps: CarMoveProps) => carMoveProps,
+      (carMoveProps: CarMoveProps) => {
+        const buttonStopElement = this.buttonStop.getElement() as HTMLButtonElement;
+        buttonStopElement.disabled = false;
+        return carMoveProps;
+      },
       () => {
         throw new Error();
       },
@@ -139,6 +147,8 @@ export class RaceTrackView extends AppView {
   }
 
   async CarStop(): Promise<void> {
+    const buttonStopElement = this.buttonStop.getElement() as HTMLButtonElement;
+    buttonStopElement.disabled = true;
     return this.stopCarEngine().then(
       () => { this.stopCarAnimation(); },
       () => {},
@@ -147,7 +157,11 @@ export class RaceTrackView extends AppView {
 
   async stopCarEngine(): Promise<RaceTrackView> {
     return patchCarEngine(this.carData.id, carEngineStatuses.stop).then(
-      () => this,
+      () => {
+        const buttonStartElement = this.buttonStart.getElement() as HTMLButtonElement;
+        buttonStartElement.disabled = false;
+        return this;
+      },
       (err) => { throw new Error(err); },
     );
   }
