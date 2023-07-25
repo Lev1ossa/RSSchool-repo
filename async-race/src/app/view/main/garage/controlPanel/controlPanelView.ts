@@ -10,7 +10,9 @@ import {
   controlPanelProps,
 } from '../../../../utils/elementsProps';
 import { InputElementCreator } from '../../../../utils/inputElementCreator';
-import { createCar, updateCar } from '../../../../utils/requests';
+import {
+  createCar, getCar, getWinner, updateCar, updateWinner,
+} from '../../../../utils/requests';
 import { AppView } from '../../../appView';
 import './controlPanel.css';
 
@@ -104,8 +106,6 @@ export class ControlPanelView extends AppView {
     const buttonRace = new ElementCreator(buttonRaceProps);
     buttonRace.addListeners({
       click: () => {
-        // this.gameData.raceActive = true;
-        // this.gameData.currentWinnerID = 0;
         const carStartEnginePromises = this.gameData.carsOnPage.map(
           async (car) => car.startCarEngine(),
         );
@@ -116,8 +116,7 @@ export class ControlPanelView extends AppView {
                 const carData = carMoveProps.find(
                   (item) => item.carId === car.carData.id,
                 ) as CarMoveProps;
-                const carRaceTime = carData.engineProps.distance
-                  / carData.engineProps.velocity;
+                const carRaceTime = carData.engineProps.distance / carData.engineProps.velocity;
                 car.startCarAnimation(carRaceTime);
                 return car.setCarEngineDriveMode(carRaceTime).then(
                   (result) => ({ carId: car.carData.id, carTime: result }),
@@ -126,7 +125,9 @@ export class ControlPanelView extends AppView {
               },
             );
             Promise.any(carStartDrivePromises).then(
-              (carRaceTime: WinnerProps) => { console.log(carRaceTime); },
+              (carRaceTime: WinnerProps) => {
+                this.winHandler(carRaceTime);
+              },
               () => {},
             );
           },
@@ -137,25 +138,40 @@ export class ControlPanelView extends AppView {
     this.elementCreator.addElement(buttonRace.getElement());
   }
 
+  winHandler(carRaceTime: WinnerProps): void {
+    getCar(carRaceTime.carId).then((carData) => {
+      const winTime = +(carRaceTime.carTime / 1000).toFixed(2);
+      const modalText = `${carData.name} win race in ${winTime}`;
+      this.gameListener.dispatchEvent(new CustomEvent('modal-show', { detail: { modalText } }));
+      getWinner(carData.id).then(
+        (winner) => {
+          if (winTime > winner.carTime) {
+            updateWinner(winner.carId, winner.carWins + 1, carRaceTime.carTime);
+          }
+        },
+        () => {
+          updateWinner(carData.id, 1, winTime);
+        },
+      );
+    }, () => {});
+  }
+
   CreateButtonReset(): void {
     const buttonReset = new ElementCreator(buttonResetProps);
     buttonReset.addListeners({
       click: () => {
-        // this.gameData.raceActive = false;
-        // this.gameData.currentWinnerID = 0;
-        // this.gameData.carsOnPage.forEach(async (car) => {
-        //   car.stopCarEngine();
-        // });
         const carStopEnginePromises = this.gameData.carsOnPage.map(
           async (car) => car.stopCarEngine(),
         );
         Promise.all(carStopEnginePromises).then(
-          (cars) => { cars.forEach(async (car) => car.stopCarAnimation()); },
+          (cars) => {
+            cars.forEach(async (car) => car.stopCarAnimation());
+            this.gameListener.dispatchEvent(new CustomEvent('modal-hide'));
+          },
           () => {},
         );
       },
     });
-    // carStopEnginePromises
     this.elementCreator.addElement(buttonReset.getElement());
   }
 }

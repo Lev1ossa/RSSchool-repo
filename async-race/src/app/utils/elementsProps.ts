@@ -63,41 +63,6 @@ export const rsSchoolLinkProps: ElementCreatorProps = {
   listeners: null,
 };
 
-export const dialogProps: ElementCreatorProps = {
-  tag: 'dialog',
-  classes: ['fav-dialog'],
-  textContent: '',
-  listeners: null,
-};
-
-export const formDialogProps: ElementCreatorProps = {
-  tag: 'form',
-  classes: [],
-  textContent: '',
-  listeners: null,
-};
-
-export const dialogBlockProps: ElementCreatorProps = {
-  tag: 'div',
-  classes: ['fav-dialog-block'],
-  textContent: '',
-  listeners: null,
-};
-
-export const menuProps: ElementCreatorProps = {
-  tag: 'menu',
-  classes: ['fav-menu'],
-  textContent: '',
-  listeners: null,
-};
-
-export const closeButtonProps: ElementCreatorProps = {
-  tag: 'button',
-  classes: ['fav-close-button'],
-  textContent: 'Close',
-  listeners: null,
-};
-
 export const mainProps: ElementCreatorProps = {
   tag: 'div',
   classes: ['main'],
@@ -299,6 +264,13 @@ export const raceRoadFlagProps: ElementCreatorProps = {
 export const winnersProps: ElementCreatorProps = {
   tag: 'div',
   classes: ['winners'],
+  textContent: '',
+  listeners: null,
+};
+
+export const modalWindowProps: ElementCreatorProps = {
+  tag: 'div',
+  classes: ['modal-window', 'hidden'],
   textContent: '',
   listeners: null,
 };

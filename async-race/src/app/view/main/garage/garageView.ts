@@ -1,5 +1,6 @@
 import { GameData } from '../../../types/types';
-import { garageProps } from '../../../utils/elementsProps';
+import { ElementCreator } from '../../../utils/elementCreator';
+import { garageProps, modalWindowProps } from '../../../utils/elementsProps';
 import { AppView } from '../../appView';
 import { ControlPanelView } from './controlPanel/controlPanelView';
 import './garage.css';
@@ -19,12 +20,22 @@ export class GarageView extends AppView {
 
   constructView(): void {
     const controlPanel = new ControlPanelView(this.gameData, this.gameListener);
+    const modalWindow = new ElementCreator(modalWindowProps);
     this.elementCreator.addElement(controlPanel.getElement());
     this.elementCreator.addElement(this.raceView.getElement());
     this.redrawRaceView();
     this.gameListener.addEventListener('carsUpdated', () => {
       this.redrawRaceView();
     });
+    this.gameListener.addEventListener('modal-hide', () => {
+      modalWindow.getElement().classList.add('hidden');
+    });
+    this.gameListener.addEventListener('modal-show', (event) => {
+      const customEvent = event as CustomEvent;
+      modalWindow.getElement().textContent = customEvent.detail.modalText;
+      modalWindow.getElement().classList.remove('hidden');
+    });
+    this.elementCreator.addElement(modalWindow.getElement());
   }
 
   redrawRaceView(): void {

@@ -15,7 +15,7 @@ import {
   raceTrackRoadProps,
 } from '../../../../../utils/elementsProps';
 import { getCarSvg } from '../../../../../utils/getCarSvg';
-import { deleteCar, patchCarEngine } from '../../../../../utils/requests';
+import { deleteCar, deleteWinner, patchCarEngine } from '../../../../../utils/requests';
 import { AppView } from '../../../../appView';
 import './raceTrack.css';
 
@@ -82,6 +82,7 @@ export class RaceTrackView extends AppView {
         deleteCar(this.carData.id).then(
           () => {
             this.gameListener.dispatchEvent(new CustomEvent('carsUpdated'));
+            deleteWinner(this.carData.id);
           },
           () => {},
         );

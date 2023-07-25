@@ -1,6 +1,6 @@
 import { path, requestUrl } from '../data/data';
 import {
-  CarData, CarMoveProps, CarsData, EngineProps, GarageData,
+  CarData, CarMoveProps, CarsData, EngineProps, GarageData, Winner,
 } from '../types/types';
 
 export const getGarageData = async (currentPage: number): Promise<GarageData> => fetch(`${requestUrl}${path.garage}?_page=${currentPage}&_limit=7`).then(
@@ -99,4 +99,60 @@ export const patchCarEngine = async (carId: number, carStatus: string): Promise<
   (err) => {
     throw new Error(err);
   },
+);
+
+export const getCar = async (carId: number): Promise<CarData> => fetch(`${requestUrl}${path.garage}/${carId}`, {
+  method: 'GET',
+}).then(
+  (response) => response.json().then(
+    (carData: CarData) => carData,
+    (err) => { throw new Error(err); },
+  ),
+  (err) => { throw new Error(err); },
+);
+
+export const getWinner = async (carId: number): Promise<Winner> => fetch(`${requestUrl}${path.winners}/${carId}`, {
+  method: 'GET',
+}).then(
+  (response) => response.json().then(
+    (winner: Winner) => winner,
+    (err) => { throw new Error(err); },
+  ),
+  (err) => { throw new Error(err); },
+);
+
+export const deleteWinner = async (carId: number): Promise<void> => fetch(`${requestUrl}${path.winners}/${carId}`, {
+  method: 'DELETE',
+}).then(
+  () => {},
+  (err) => { throw new Error(err); },
+);
+
+export const CreateWinner = async (carId: number, carWins: number, carTime: number): Promise<void> => fetch(`${requestUrl}${path.winners}/${carId}`, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    id: carId,
+    wins: carWins,
+    time: carTime,
+  }),
+}).then(
+  () => {},
+  (err) => { throw new Error(err); },
+);
+
+export const updateWinner = async (carId: number, carWins: number, carTime: number): Promise<void> => fetch(`${requestUrl}${path.winners}/${carId}`, {
+  method: 'PUT',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    wins: carWins,
+    time: carTime,
+  }),
+}).then(
+  () => {},
+  (err) => { throw new Error(err); },
 );

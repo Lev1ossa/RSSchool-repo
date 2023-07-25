@@ -34,8 +34,6 @@ export type GameData = {
   numberOfRandomCars: number,
   carLength: number,
   carsOnPage: RaceTrackView[],
-  raceActive: boolean,
-  currentWinnerID: number,
 };
 
 export type CarData = {
@@ -65,5 +63,11 @@ export type CarMoveProps = {
 
 export type WinnerProps = {
   carId: number,
+  carTime: number,
+};
+
+export type Winner = {
+  carId: number,
+  carWins: number,
   carTime: number,
 };
