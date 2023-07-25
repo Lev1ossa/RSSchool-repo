@@ -192,14 +192,16 @@ export class RaceTrackView extends AppView {
   }
 
   startCarAnimation(carRaceTime: number): void {
+    const animationStepInterval = 10;
     const animationDistance = this.road.getElement().offsetWidth - this.gameData.carLength;
-    const animationStepInterval = (carRaceTime / animationDistance);
+    const animationStep = animationDistance / (carRaceTime / animationStepInterval);
+    console.log(this.carData.id, carRaceTime);
     const carElement = this.raceCar.getElement();
     carElement.style.left = '0px';
     let carPosition = 0;
     const carAnimation = setInterval(() => {
       if (carPosition < animationDistance) {
-        carPosition += 1;
+        carPosition += animationStep;
         carElement.style.left = `${carPosition}px`;
       }
     }, animationStepInterval);
