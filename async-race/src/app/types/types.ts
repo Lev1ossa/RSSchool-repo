@@ -34,6 +34,8 @@ export type GameData = {
   numberOfRandomCars: number,
   carLength: number,
   carsOnPage: RaceTrackView[],
+  carsActive: number[],
+  raceActive: boolean,
   maxPage: number,
 };
 

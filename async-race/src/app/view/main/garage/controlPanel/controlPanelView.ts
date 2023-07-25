@@ -110,6 +110,7 @@ export class ControlPanelView extends AppView {
   }
 
   CreateButtonRace(): void {
+    this.setRaceDisableHandlers();
     this.buttonRace.addListeners({
       click: () => this.startRaceHandler(),
     });
@@ -117,9 +118,8 @@ export class ControlPanelView extends AppView {
   }
 
   startRaceHandler(): void {
+    this.gameData.raceActive = true;
     const buttonResetElement = this.buttonReset.getElement() as HTMLButtonElement;
-    // const buttonCreateElement = this.inputCarCreate.button.getElement() as HTMLButtonElement;
-    // const buttonUpdateElement = this.inputCarUpdate.button.getElement() as HTMLButtonElement;
     this.raceStartDisableButtons();
     const carStartEnginePromises = this.gameData.carsOnPage.map(
       async (car) => car.startCarEngine(),
@@ -142,13 +142,7 @@ export class ControlPanelView extends AppView {
         Promise.any(carStartDrivePromises).then(
           (carRaceTime: WinnerProps) => {
             buttonResetElement.disabled = false;
-            // buttonCreateElement.disabled = false;
-            // buttonUpdateElement.disabled = false;
             this.winHandler(carRaceTime);
-            // this.gameData.carsOnPage.forEach((car) => {
-            //   const buttonDeleteElement = car.buttonDelete.getElement() as HTMLButtonElement;
-            //   buttonDeleteElement.disabled = false;
-            // });
           },
           () => {},
         );
@@ -176,6 +170,16 @@ export class ControlPanelView extends AppView {
       buttonDeleteElement.disabled = true;
     });
     this.gameListener.dispatchEvent(new CustomEvent('garagePaginationBlock'));
+  }
+
+  setRaceDisableHandlers(): void {
+    const buttonRaceElement = this.buttonRace.getElement() as HTMLButtonElement;
+    this.gameListener.addEventListener(('blockRace'), () => {
+      buttonRaceElement.disabled = true;
+    });
+    this.gameListener.addEventListener(('unblockRace'), () => {
+      buttonRaceElement.disabled = false;
+    });
   }
 
   winHandler(carRaceTime: WinnerProps): void {
@@ -206,6 +210,8 @@ export class ControlPanelView extends AppView {
   }
 
   resetRaceHandler(): void {
+    this.gameData.raceActive = false;
+    this.gameData.carsActive.splice(0, this.gameData.carsActive.length);
     const buttonCreateElement = this.inputCarCreate.button.getElement() as HTMLButtonElement;
     const buttonUpdateElement = this.inputCarUpdate.button.getElement() as HTMLButtonElement;
     const buttonGenerateCars = this.buttonGenerateCars.getElement() as HTMLButtonElement;

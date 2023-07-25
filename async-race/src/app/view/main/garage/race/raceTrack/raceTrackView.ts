@@ -81,8 +81,10 @@ export class RaceTrackView extends AppView {
       click: () => {
         deleteCar(this.carData.id).then(
           () => {
-            deleteWinner(this.carData.id);
-            this.gameListener.dispatchEvent(new CustomEvent('carsUpdated'));
+            deleteWinner(this.carData.id).then(
+              () => { this.gameListener.dispatchEvent(new CustomEvent('carsUpdated')); },
+              () => {},
+            );
           },
           () => {},
         );
@@ -94,6 +96,8 @@ export class RaceTrackView extends AppView {
   createButtonStart(): void {
     this.buttonStart.addListeners({
       click: () => {
+        this.gameData.carsActive.push(this.carData.id);
+        this.gameListener.dispatchEvent(new CustomEvent('blockRace'));
         this.carMove().then(
           () => {},
           () => {},
@@ -150,7 +154,16 @@ export class RaceTrackView extends AppView {
     const buttonStopElement = this.buttonStop.getElement() as HTMLButtonElement;
     buttonStopElement.disabled = true;
     return this.stopCarEngine().then(
-      () => { this.stopCarAnimation(); },
+      () => {
+        // this.gameData.carsActive.push(this.carData.id);
+        this.gameData.carsActive.splice(this.gameData.carsActive.findIndex(
+          (item) => item === this.carData.id,
+        ), 1);
+        if (this.gameData.carsActive.length === 0 && !(this.gameData.raceActive)) {
+          this.gameListener.dispatchEvent(new CustomEvent('unblockRace'));
+        }
+        this.stopCarAnimation();
+      },
       () => {},
     );
   }

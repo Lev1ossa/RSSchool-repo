@@ -21,6 +21,7 @@ export class GarageView extends AppView {
     this.raceView = new RaceView(this.gameData, this.gameListener);
     this.prevButton = new ElementCreator(buttonPrevPageProps);
     this.nextButton = new ElementCreator(buttonNextPageProps);
+    this.resetButtons();
     this.constructView();
   }
 
