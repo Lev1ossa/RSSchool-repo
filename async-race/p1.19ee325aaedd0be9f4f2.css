@@ -65,7 +65,7 @@
 }
 
 .race-road-flag {
-  background: url(../images/race-flag.svg);
+  background: url(./images/race-flag.svg);
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
