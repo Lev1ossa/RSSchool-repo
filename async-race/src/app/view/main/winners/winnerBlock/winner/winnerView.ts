@@ -23,7 +23,12 @@ export class WinnerView extends AppView {
   winnersWins: ElementCreator;
   winnersTime: ElementCreator;
   winnerData: Winner;
-  constructor(gameData: GameData, gameListener: EventTarget, winnerData: Winner) {
+  constructor(
+    gameData: GameData,
+    gameListener: EventTarget,
+    winnerData: Winner,
+    winnerNumber: number,
+  ) {
     super(winnerProps);
     this.gameData = gameData;
     this.gameListener = gameListener;
@@ -33,15 +38,13 @@ export class WinnerView extends AppView {
     this.winnersName = new ElementCreator(winnersNameProps);
     this.winnersWins = new ElementCreator(winnersWinsProps);
     this.winnersTime = new ElementCreator(winnersTimeProps);
-    this.constructView();
+    this.constructView(winnerNumber);
   }
 
-  constructView(): void {
-    let counter = 0;
+  constructView(winnerNumber: number): void {
     getCar(this.winnerData.id).then(
       (car: CarData) => {
-        counter += 1;
-        this.winnersNumber.setTextContent(`${counter}`);
+        this.winnersNumber.setTextContent(`${winnerNumber}`);
         this.winnersCar.getElement().innerHTML = getCarSvg(car.color);
         this.winnersCar.element = this.winnersCar.getElement().firstElementChild as HTMLElement;
         this.winnersCar.element.style.width = '30px';

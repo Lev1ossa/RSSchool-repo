@@ -196,7 +196,7 @@ export class WinnersView extends AppView {
       prevButtonElement.disabled = false;
     }
 
-    if (this.gameData.winnersCurrentPage === this.gameData.winnersMaxPage) {
+    if (this.gameData.winnersCurrentPage >= this.gameData.winnersMaxPage) {
       nextButtonElement.disabled = true;
     } else {
       nextButtonElement.disabled = false;

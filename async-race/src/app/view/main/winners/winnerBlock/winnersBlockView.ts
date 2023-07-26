@@ -25,8 +25,9 @@ export class WinnersBlockView extends AppView {
         this.gameData.winnersMaxPage = winnersData.winnersPagesNumber;
         this.gameListener.dispatchEvent(new CustomEvent('winnersChangeTitle', { detail: { winners: winnersData.winnersNumber } }));
         this.gameListener.dispatchEvent(new CustomEvent('winnersResetButtons'));
-        winnersData.winnersCarsData.forEach((winnerData) => {
-          const winner = new WinnerView(this.gameData, this.gameListener, winnerData);
+        winnersData.winnersCarsData.forEach((winnerData, idx) => {
+          const winnerNumber = idx + 1 + (this.gameData.winnersCurrentPage - 1) * 10;
+          const winner = new WinnerView(this.gameData, this.gameListener, winnerData, winnerNumber);
           this.elementCreator.addElement(winner.getElement());
         });
       },
