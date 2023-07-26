@@ -101,7 +101,6 @@ export class WinnersView extends AppView {
     this.winnersHead.addElement(this.winnersHeadName.getElement());
     this.winnersHead.addElement(this.winnersHeadWins.getElement());
     this.winnersHead.addElement(this.winnersHeadTime.getElement());
-    // this.elementCreator.addElement(this.winnersHead.getElement());
   }
 
   setWinnersHeadWinsHandler(): void {
@@ -125,7 +124,6 @@ export class WinnersView extends AppView {
             this.winnersHeadWins.setTextContent('Wins ↑');
           }
         }
-        console.log(this.gameData.sortProp, this.gameData.orderProp);
         this.redrawWinnersBlockView();
       },
     });
@@ -152,7 +150,6 @@ export class WinnersView extends AppView {
             this.winnersHeadTime.setTextContent('Time ↑');
           }
         }
-        console.log(this.gameData.sortProp, this.gameData.orderProp);
         this.redrawWinnersBlockView();
       },
     });

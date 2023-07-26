@@ -200,15 +200,12 @@ export class ControlPanelView extends AppView {
   winHandler(carRaceTime: WinnerProps): void {
     getCar(carRaceTime.carId).then((carData) => {
       if (this.gameData.carsInRace.includes(carData.id)) {
-        console.log('winner update!!!');
         const winTime = +(carRaceTime.carTime / 1000).toFixed(2);
         const modalText = `${carData.name} win race in ${winTime}`;
         this.gameListener.dispatchEvent(new CustomEvent('modal-show', { detail: { modalText } }));
         getWinner(carData.id).then(
           (winner) => {
             if (winner.id) {
-              console.log(winner);
-              console.log(winner.time);
               if (winTime < winner.time) {
                 updateWinner(winner.id, +winner.wins + 1, winTime).then(
                   () => {

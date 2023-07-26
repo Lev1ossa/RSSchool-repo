@@ -45,7 +45,6 @@ export class RaceTrackView extends AppView {
     this.raceFlag = new ElementCreator(raceRoadFlagProps);
     this.gameListener = gameListener;
     this.gameData = gameData;
-    // this.gameListener.dispatchEvent(new CustomEvent('allCarsStop'));
     this.constructView();
   }
 
@@ -158,7 +157,6 @@ export class RaceTrackView extends AppView {
     buttonStopElement.disabled = true;
     return this.stopCarEngine().then(
       () => {
-        // this.gameData.carsActive.push(this.carData.id);
         this.gameData.carsActive.splice(this.gameData.carsActive.findIndex(
           (item) => item === this.carData.id,
         ), 1);
@@ -200,36 +198,37 @@ export class RaceTrackView extends AppView {
   }
 
   startCarAnimation(carRaceTime: number): void {
-    const animationStepInterval = 10;
-    const animationDistance = this.road.getElement().offsetWidth - this.gameData.carLength;
-    const animationStep = animationDistance / (carRaceTime / animationStepInterval);
-    console.log(this.carData.id, carRaceTime);
+    const animationDistance = -(this.road.getElement().offsetWidth - this.gameData.carLength);
     const carElement = this.raceCar.getElement();
-    carElement.style.left = '0px';
-    let carPosition = 0;
-    const carAnimation = setInterval(() => {
-      if (carPosition < animationDistance) {
-        carPosition += animationStep;
-        carElement.style.left = `${carPosition}px`;
-      }
-    }, animationStepInterval);
+    const animation = carElement.animate(
+      [
+        {
+          transform: `rotate(0deg) matrix(-1, 0, 0, 1, 0, 0) translateX(${animationDistance}px)`,
+        },
+      ],
+      {
+        duration: carRaceTime,
+        fill: 'forwards',
+      },
+    );
+
     this.gameListener.addEventListener('carStop', (event) => {
       const customEvent = event as CustomEvent;
       if (customEvent.detail.carId === this.carData.id) {
-        clearInterval(carAnimation);
+        animation.pause();
       }
     });
     this.gameListener.addEventListener('carStopAnimation', (event) => {
       const customEvent = event as CustomEvent;
       if (customEvent.detail.carId === this.carData.id) {
-        clearInterval(carAnimation);
         carElement.style.left = '0px';
+        animation.cancel();
       }
     });
     this.gameListener.addEventListener('allCarsStop', () => {
-      clearInterval(carAnimation);
       carElement.style.left = '0px';
       this.stopCarEngine();
+      animation.cancel();
     });
   }
 
