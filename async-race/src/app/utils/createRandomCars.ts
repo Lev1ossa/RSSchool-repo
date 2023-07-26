@@ -20,8 +20,6 @@ export const createRandomCars = async (): Promise<void> => {
   );
   Promise.all(randomCars).then(
     () => {},
-    (err) => {
-      throw new Error(err);
-    },
+    () => {},
   );
 };
