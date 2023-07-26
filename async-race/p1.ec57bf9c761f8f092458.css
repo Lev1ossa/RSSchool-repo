@@ -106,7 +106,7 @@
   align-items: flex-start;
 }
 
-svg {
+.race-car-svg {
   position: absolute;
   bottom: 0;
 }
@@ -117,7 +117,77 @@ svg {
   justify-content: space-between;
   margin: 0 auto;
 }
+.winner {
+  display: flex;
+  /* width: 470px; */
+  /* justify-content: space-between; */
+  align-items: center;
+}
 
+.winners-number {
+  width: 40px;
+  text-align: center;
+}
+
+.winners-car-container {
+  width: 40px;
+  text-align: center;
+}
+
+.winners-name {
+  width: 200px;
+  text-align: center;
+}
+
+.winners-wins {
+  width: 90px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.winners-time {
+  width: 100px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.winners {
+  width: 100%;
+}
+
+.winners-head {
+  display: flex;
+  /* width: 470px; */
+  /* justify-content: space-between; */
+  align-items: center;
+}
+
+.winners-head-number {
+  width: 40px;
+  text-align: center;
+}
+
+.winners-head-car {
+  width: 40px;
+  text-align: center;
+}
+
+.winners-head-name {
+  width: 200px;
+  text-align: center;
+}
+
+.winners-head-wins {
+  width: 90px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.winners-head-time {
+  width: 100px;
+  cursor: pointer;
+  text-align: center;
+}
 * {
   padding: 0;
   margin: 0;
