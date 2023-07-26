@@ -3,11 +3,14 @@ import {
   CarData, CarMoveProps, CarsData, EngineProps, GarageData, Winner, WinnersCarsData, WinnersData,
 } from '../types/types';
 
+const WINNERS_PER_PAGE = 10;
+const CARS_PER_PAGE = 7;
+
 export const getGarageData = async (currentPage: number): Promise<GarageData> => fetch(`${requestUrl}${path.garage}?_page=${currentPage}&_limit=7`).then(
   (response) => response.json().then(
     (cars: CarsData) => {
       const carsNumber = Number(response.headers.get('X-Total-Count'));
-      const carsPagesNumber = Math.ceil(carsNumber / 7);
+      const carsPagesNumber = Math.ceil(carsNumber / CARS_PER_PAGE);
       return { cars, carsNumber, carsPagesNumber };
     },
     (err: string) => {
@@ -79,9 +82,6 @@ export const patchCarEngine = async (carId: number, carStatus: string): Promise<
   method: 'PATCH',
 }).then(
   (response) => {
-    // if (response.status === 500) {
-
-    // }
     const { status } = response;
     return response.json().then(
       (engineProps: EngineProps) => {
@@ -160,7 +160,7 @@ export const getWinnersData = async (currentPage: number, sortProp: string, orde
   (response) => response.json().then(
     (winnersCarsData: WinnersCarsData) => {
       const winnersNumber = Number(response.headers.get('X-Total-Count'));
-      const winnersPagesNumber = Math.ceil(winnersNumber / 10);
+      const winnersPagesNumber = Math.ceil(winnersNumber / WINNERS_PER_PAGE);
       return { winnersCarsData, winnersNumber, winnersPagesNumber };
     },
     (err: string) => {
