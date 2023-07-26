@@ -17,7 +17,7 @@ export class MainView extends AppView {
     this.gameData = gameData;
     this.gameListener = gameListener;
     this.garage = new GarageView(this.gameData, this.gameListener);
-    this.winners = new WinnersView();
+    this.winners = new WinnersView(this.gameData, this.gameListener);
     this.constructView();
     this.setChangeViewListeners();
   }
@@ -34,6 +34,7 @@ export class MainView extends AppView {
     this.gameListener.addEventListener('pageWinners', () => {
       this.elementCreator.removeChildren();
       this.elementCreator.addElement(this.winners.getElement());
+      this.gameListener.dispatchEvent(new CustomEvent('winnersUpdated'));
     });
   }
 }

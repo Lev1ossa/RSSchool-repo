@@ -21,6 +21,7 @@ export class GarageView extends AppView {
     this.raceView = new RaceView(this.gameData, this.gameListener);
     this.prevButton = new ElementCreator(buttonPrevPageProps);
     this.nextButton = new ElementCreator(buttonNextPageProps);
+    this.setPagesDisableHandlers();
     this.resetButtons();
     this.constructView();
   }
@@ -33,6 +34,9 @@ export class GarageView extends AppView {
     this.redrawRaceView();
     this.gameListener.addEventListener('carsUpdated', () => {
       this.redrawRaceView();
+      this.resetButtons();
+    });
+    this.gameListener.addEventListener('carsResetPageButtons', () => {
       this.resetButtons();
     });
     this.gameListener.addEventListener('modal-hide', () => {
@@ -59,11 +63,6 @@ export class GarageView extends AppView {
 
   createPrevPage(): void {
     const prevButtonElement = this.prevButton.getElement() as HTMLButtonElement;
-    // const nextButtonElement = this.nextButton.getElement() as HTMLButtonElement;
-    // this.gameListener.addEventListener('garagePaginationBlock', () => {
-    //   prevButtonElement.disabled = true;
-    //   nextButtonElement.disabled = true;
-    // });
     this.prevButton.addListeners({
       click: () => {
         if (this.gameData.currentPage === 1) {
@@ -79,12 +78,7 @@ export class GarageView extends AppView {
   }
 
   createNextPage(): void {
-    // const prevButtonElement = this.prevButton.getElement() as HTMLButtonElement;
     const nextButtonElement = this.nextButton.getElement() as HTMLButtonElement;
-    // this.gameListener.addEventListener('garagePaginationBlock', () => {
-    //   prevButtonElement.disabled = true;
-    //   nextButtonElement.disabled = true;
-    // });
     this.nextButton.addListeners({
       click: () => {
         if (this.gameData.currentPage === this.gameData.maxPage) {
@@ -97,6 +91,18 @@ export class GarageView extends AppView {
       },
     });
     this.elementCreator.addElement(this.nextButton.getElement());
+  }
+
+  setPagesDisableHandlers(): void {
+    const prevButtonElement = this.prevButton.getElement() as HTMLButtonElement;
+    const nextButtonElement = this.nextButton.getElement() as HTMLButtonElement;
+    this.gameListener.addEventListener(('blockCarsPages'), () => {
+      prevButtonElement.disabled = true;
+      nextButtonElement.disabled = true;
+    });
+    this.gameListener.addEventListener(('unblockCarsPages'), () => {
+      this.resetButtons();
+    });
   }
 
   resetButtons(): void {

@@ -1,6 +1,6 @@
 import { path, requestUrl } from '../data/data';
 import {
-  CarData, CarMoveProps, CarsData, EngineProps, GarageData, Winner,
+  CarData, CarMoveProps, CarsData, EngineProps, GarageData, Winner, WinnersCarsData, WinnersData,
 } from '../types/types';
 
 export const getGarageData = async (currentPage: number): Promise<GarageData> => fetch(`${requestUrl}${path.garage}?_page=${currentPage}&_limit=7`).then(
@@ -86,7 +86,6 @@ export const patchCarEngine = async (carId: number, carStatus: string): Promise<
     return response.json().then(
       (engineProps: EngineProps) => {
         const carMoveProps: CarMoveProps = { engineProps, carId, status };
-        console.log(carMoveProps);
         return carMoveProps;
       },
       (err) => {
@@ -128,15 +127,15 @@ export const deleteWinner = async (carId: number): Promise<void> => fetch(`${req
   (err) => { throw new Error(err); },
 );
 
-export const CreateWinner = async (carId: number, carWins: number, carTime: number): Promise<void> => fetch(`${requestUrl}${path.winners}/${carId}`, {
+export const CreateWinner = async (carId: number, carWins: number, carTime: number): Promise<void> => fetch(`${requestUrl}${path.winners}`, {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
   },
   body: JSON.stringify({
-    id: carId,
-    wins: carWins,
-    time: carTime,
+    id: `${carId}`,
+    wins: `${carWins}`,
+    time: `${carTime}`,
   }),
 }).then(
   () => {},
@@ -149,10 +148,26 @@ export const updateWinner = async (carId: number, carWins: number, carTime: numb
     'Content-Type': 'application/json',
   },
   body: JSON.stringify({
-    wins: carWins,
-    time: carTime,
+    wins: `${carWins}`,
+    time: `${carTime}`,
   }),
 }).then(
   () => {},
   (err) => { throw new Error(err); },
+);
+
+export const getWinnersData = async (currentPage: number, sortProp: string, orderProp: string): Promise<WinnersData> => fetch(`${requestUrl}${path.winners}?_page=${currentPage}&_limit=10&_sort=${sortProp}&_order=${orderProp}`).then(
+  (response) => response.json().then(
+    (winnersCarsData: WinnersCarsData) => {
+      const winnersNumber = Number(response.headers.get('X-Total-Count'));
+      const winnersPagesNumber = Math.ceil(winnersNumber / 10);
+      return { winnersCarsData, winnersNumber, winnersPagesNumber };
+    },
+    (err: string) => {
+      throw new Error(err);
+    },
+  ),
+  (err: string) => {
+    throw new Error(err);
+  },
 );

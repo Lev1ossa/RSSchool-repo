@@ -35,8 +35,14 @@ export type GameData = {
   carLength: number,
   carsOnPage: RaceTrackView[],
   carsActive: number[],
+  carsInRace: number[],
+  carsEngineBroken: number[],
   raceActive: boolean,
   maxPage: number,
+  winnersCurrentPage: number,
+  winnersMaxPage: number,
+  sortProp: string,
+  orderProp: string,
 };
 
 export type CarData = {
@@ -70,7 +76,15 @@ export type WinnerProps = {
 };
 
 export type Winner = {
-  carId: number,
-  carWins: number,
-  carTime: number,
+  id: number,
+  wins: number,
+  time: number,
+};
+
+export type WinnersCarsData = Winner[];
+
+export type WinnersData = {
+  winnersCarsData: WinnersCarsData,
+  winnersNumber: number,
+  winnersPagesNumber: number,
 };

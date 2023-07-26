@@ -19,7 +19,7 @@
   align-items: flex-start;
 }
 
-svg {
+.race-car-svg {
   position: absolute;
   bottom: 0;
 }

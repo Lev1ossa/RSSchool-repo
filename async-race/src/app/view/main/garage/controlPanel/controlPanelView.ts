@@ -11,6 +11,7 @@ import {
 } from '../../../../utils/elementsProps';
 import { InputElementCreator } from '../../../../utils/inputElementCreator';
 import {
+  CreateWinner,
   createCar, getCar, getWinner, updateCar, updateWinner,
 } from '../../../../utils/requests';
 import { AppView } from '../../../appView';
@@ -119,10 +120,14 @@ export class ControlPanelView extends AppView {
 
   startRaceHandler(): void {
     this.gameData.raceActive = true;
+    this.gameData.carsEngineBroken.splice(0, this.gameData.carsEngineBroken.length);
     const buttonResetElement = this.buttonReset.getElement() as HTMLButtonElement;
     this.raceStartDisableButtons();
     const carStartEnginePromises = this.gameData.carsOnPage.map(
-      async (car) => car.startCarEngine(),
+      async (car) => {
+        this.gameData.carsInRace.push(car.carData.id);
+        return car.startCarEngine();
+      },
     );
     Promise.all(carStartEnginePromises).then(
       (carMoveProps: CarMoveProps[]) => {
@@ -182,25 +187,58 @@ export class ControlPanelView extends AppView {
     });
   }
 
+  setResetDisableHandlers(): void {
+    const buttonResetElement = this.buttonReset.getElement() as HTMLButtonElement;
+    this.gameListener.addEventListener(('blockReset'), () => {
+      buttonResetElement.disabled = true;
+    });
+    this.gameListener.addEventListener(('unblockReset'), () => {
+      buttonResetElement.disabled = false;
+    });
+  }
+
   winHandler(carRaceTime: WinnerProps): void {
     getCar(carRaceTime.carId).then((carData) => {
-      const winTime = +(carRaceTime.carTime / 1000).toFixed(2);
-      const modalText = `${carData.name} win race in ${winTime}`;
-      this.gameListener.dispatchEvent(new CustomEvent('modal-show', { detail: { modalText } }));
-      getWinner(carData.id).then(
-        (winner) => {
-          if (winTime > winner.carTime) {
-            updateWinner(winner.carId, winner.carWins + 1, carRaceTime.carTime);
-          }
-        },
-        () => {
-          updateWinner(carData.id, 1, winTime);
-        },
-      );
+      if (this.gameData.carsInRace.includes(carData.id)) {
+        console.log('winner update!!!');
+        const winTime = +(carRaceTime.carTime / 1000).toFixed(2);
+        const modalText = `${carData.name} win race in ${winTime}`;
+        this.gameListener.dispatchEvent(new CustomEvent('modal-show', { detail: { modalText } }));
+        getWinner(carData.id).then(
+          (winner) => {
+            if (winner.id) {
+              console.log(winner);
+              console.log(winner.time);
+              if (winTime < winner.time) {
+                updateWinner(winner.id, +winner.wins + 1, winTime).then(
+                  () => {
+                    this.gameListener.dispatchEvent(new CustomEvent('winnersUpdated'));
+                  },
+                );
+              } else {
+                updateWinner(winner.id, +winner.wins + 1, winner.time).then(
+                  () => {
+                    this.gameListener.dispatchEvent(new CustomEvent('winnersUpdated'));
+                  },
+                );
+              }
+            } else {
+              CreateWinner(carData.id, 1, winTime).then(
+                () => {
+                  this.gameListener.dispatchEvent(new CustomEvent('winnersUpdated'));
+                },
+              );
+            }
+          },
+          () => {
+          },
+        );
+      }
     }, () => {});
   }
 
   CreateButtonReset(): void {
+    this.setResetDisableHandlers();
     this.buttonReset.addListeners({
       click: () => {
         this.resetRaceHandler();
@@ -212,6 +250,7 @@ export class ControlPanelView extends AppView {
   resetRaceHandler(): void {
     this.gameData.raceActive = false;
     this.gameData.carsActive.splice(0, this.gameData.carsActive.length);
+    this.gameData.carsInRace.splice(0, this.gameData.carsActive.length);
     const buttonCreateElement = this.inputCarCreate.button.getElement() as HTMLButtonElement;
     const buttonUpdateElement = this.inputCarUpdate.button.getElement() as HTMLButtonElement;
     const buttonGenerateCars = this.buttonGenerateCars.getElement() as HTMLButtonElement;

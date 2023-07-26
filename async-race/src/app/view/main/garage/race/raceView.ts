@@ -21,12 +21,13 @@ export class RaceView extends AppView {
       (result) => {
         if (result) {
           this.gameData.maxPage = result.carsPagesNumber;
+          this.gameListener.dispatchEvent(new CustomEvent('carsResetPageButtons'));
           this.gameData.carsOnPage.length = 0;
           const { cars, carsNumber } = result;
           const raceTitle = new ElementCreator(raceTitleProps);
           raceTitle.setTextContent(`Garage(${carsNumber})`);
           const raceSubtitle = new ElementCreator(raceSubtitleProps);
-          raceSubtitle.setTextContent(`Page #(${this.gameData.currentPage})`);
+          raceSubtitle.setTextContent(`Page #${this.gameData.currentPage}`);
           this.elementCreator.addElement(raceTitle.getElement());
           this.elementCreator.addElement(raceSubtitle.getElement());
           cars.forEach((carData) => {

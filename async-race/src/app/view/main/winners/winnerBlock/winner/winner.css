@@ -1,36 +1,32 @@
-.winners {
-  width: 100%;
-}
-
-.winners-head {
+.winner {
   display: flex;
   /* width: 470px; */
   /* justify-content: space-between; */
   align-items: center;
 }
 
-.winners-head-number {
+.winners-number {
   width: 40px;
   text-align: center;
 }
 
-.winners-head-car {
+.winners-car-container {
   width: 40px;
   text-align: center;
 }
 
-.winners-head-name {
+.winners-name {
   width: 200px;
   text-align: center;
 }
 
-.winners-head-wins {
+.winners-wins {
   width: 90px;
   cursor: pointer;
   text-align: center;
 }
 
-.winners-head-time {
+.winners-time {
   width: 100px;
   cursor: pointer;
   text-align: center;

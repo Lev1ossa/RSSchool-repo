@@ -45,6 +45,7 @@ export class RaceTrackView extends AppView {
     this.raceFlag = new ElementCreator(raceRoadFlagProps);
     this.gameListener = gameListener;
     this.gameData = gameData;
+    // this.gameListener.dispatchEvent(new CustomEvent('allCarsStop'));
     this.constructView();
   }
 
@@ -52,6 +53,7 @@ export class RaceTrackView extends AppView {
     this.stopCarAnimation();
     this.raceCar.getElement().innerHTML = getCarSvg(this.carData.color);
     this.raceCar.element = this.raceCar.getElement().firstElementChild as HTMLElement;
+    this.raceCar.setCssClasses(['race-car-svg']);
     this.carNameTitle.setTextContent(this.carData.name);
     this.createButtonSelect();
     this.createButtonDelete();
@@ -98,6 +100,7 @@ export class RaceTrackView extends AppView {
       click: () => {
         this.gameData.carsActive.push(this.carData.id);
         this.gameListener.dispatchEvent(new CustomEvent('blockRace'));
+        this.gameListener.dispatchEvent(new CustomEvent('blockCarsPages'));
         this.carMove().then(
           () => {},
           () => {},
@@ -161,6 +164,7 @@ export class RaceTrackView extends AppView {
         ), 1);
         if (this.gameData.carsActive.length === 0 && !(this.gameData.raceActive)) {
           this.gameListener.dispatchEvent(new CustomEvent('unblockRace'));
+          this.gameListener.dispatchEvent(new CustomEvent('unblockCarsPages'));
         }
         this.stopCarAnimation();
       },
@@ -184,6 +188,10 @@ export class RaceTrackView extends AppView {
       () => (carRaceTime),
       (err) => {
         if (err.message === '500') {
+          this.gameData.carsEngineBroken.push(this.carData.id);
+          if (this.gameData.carsEngineBroken.length === this.gameData.carsOnPage.length) {
+            this.gameListener.dispatchEvent(new CustomEvent('unblockReset'));
+          }
           this.gameListener.dispatchEvent(new CustomEvent('carStop', { detail: { carId: this.carData.id } }));
         }
         throw new Error(err);
@@ -221,7 +229,8 @@ export class RaceTrackView extends AppView {
     this.gameListener.addEventListener('allCarsStop', () => {
       clearInterval(carAnimation);
       carElement.style.left = '0px';
-    }, { once: true });
+      this.stopCarEngine();
+    });
   }
 
   stopCarAnimation(): void {

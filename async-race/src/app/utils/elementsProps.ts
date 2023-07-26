@@ -192,14 +192,14 @@ export const buttonGenerateCarsProps: ElementCreatorProps = {
 };
 
 export const raceTitleProps: ElementCreatorProps = {
-  tag: 'h1',
+  tag: 'h2',
   classes: ['race-title'],
   textContent: 'Garage()',
   listeners: null,
 };
 
 export const raceSubtitleProps: ElementCreatorProps = {
-  tag: 'h2',
+  tag: 'h3',
   classes: ['race-subtitle'],
   textContent: 'Page #',
   listeners: null,
@@ -286,5 +286,145 @@ export const buttonNextPageProps: ElementCreatorProps = {
   tag: 'button',
   classes: ['button-next'],
   textContent: 'Next page',
+  listeners: null,
+};
+
+export const winnersPageProps: ElementCreatorProps = {
+  tag: 'div',
+  classes: ['page-winners'],
+  textContent: '',
+  listeners: null,
+};
+
+export const buttonWinnerPrevPageProps: ElementCreatorProps = {
+  tag: 'button',
+  classes: ['button-prev-winners'],
+  textContent: 'Prev page',
+  listeners: null,
+};
+
+export const buttonWinnersNextPageProps: ElementCreatorProps = {
+  tag: 'button',
+  classes: ['button-next-winners'],
+  textContent: 'Next page',
+  listeners: null,
+};
+
+export const winnersBlockProps: ElementCreatorProps = {
+  tag: 'div',
+  classes: ['winners-block'],
+  textContent: '',
+  listeners: null,
+};
+
+export const winnersTableProps: ElementCreatorProps = {
+  tag: 'div',
+  classes: ['winners-table'],
+  textContent: '',
+  listeners: null,
+};
+
+export const winnerProps: ElementCreatorProps = {
+  tag: 'div',
+  classes: ['winner'],
+  textContent: '',
+  listeners: null,
+};
+
+export const winnersTitleProps: ElementCreatorProps = {
+  tag: 'h2',
+  classes: ['winners-title'],
+  textContent: 'Winners()',
+  listeners: null,
+};
+
+export const winnersSubtitleProps: ElementCreatorProps = {
+  tag: 'h3',
+  classes: ['winners-subtitle'],
+  textContent: 'Page #',
+  listeners: null,
+};
+
+export const winnersHeadProps: ElementCreatorProps = {
+  tag: 'div',
+  classes: ['winners-head'],
+  textContent: '',
+  listeners: null,
+};
+
+export const winnersHeadNumberProps: ElementCreatorProps = {
+  tag: 'div',
+  classes: ['winners-head-number'],
+  textContent: '№',
+  listeners: null,
+};
+
+export const winnersHeadCarProps: ElementCreatorProps = {
+  tag: 'div',
+  classes: ['winners-head-car'],
+  textContent: 'Car',
+  listeners: null,
+};
+
+export const winnersHeadNameProps: ElementCreatorProps = {
+  tag: 'div',
+  classes: ['winners-head-name'],
+  textContent: 'Name',
+  listeners: null,
+};
+
+export const winnersHeadWinsProps: ElementCreatorProps = {
+  tag: 'div',
+  classes: ['winners-head-wins'],
+  textContent: 'Wins',
+  listeners: null,
+};
+
+export const winnersHeadTimeProps: ElementCreatorProps = {
+  tag: 'div',
+  classes: ['winners-head-time'],
+  textContent: 'Time',
+  listeners: null,
+};
+
+export const winnersNumberProps: ElementCreatorProps = {
+  tag: 'div',
+  classes: ['winners-number'],
+  textContent: '',
+  listeners: null,
+};
+
+export const winnersCarProps: ElementCreatorProps = {
+  tag: 'svg',
+  classes: ['winners-car'],
+  textContent: '',
+  listeners: null,
+};
+
+export const winnersNameProps: ElementCreatorProps = {
+  tag: 'div',
+  classes: ['winners-name'],
+  textContent: '',
+  listeners: null,
+};
+
+export const winnersWinsProps: ElementCreatorProps = {
+  tag: 'div',
+  classes: ['winners-wins'],
+  textContent: '',
+  listeners: null,
+};
+
+export const winnersTimeProps: ElementCreatorProps = {
+  tag: 'div',
+  classes: ['winners-time'],
+  textContent: '',
+  listeners: null,
+};
+
+export const carContainerProps: ElementCreatorProps = {
+  tag: 'div',
+  classes: ['car-container'],
+  textContent: '',
   listeners: null,
 };

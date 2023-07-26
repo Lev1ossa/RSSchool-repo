@@ -14,6 +14,16 @@ export const carEngineStatuses = {
   drive: 'drive',
 };
 
+export const sortProps = {
+  wins: 'wins',
+  time: 'time',
+};
+
+export const orderProps = {
+  ASC: 'ASC',
+  DESC: 'DESC',
+};
+
 export const carBrands: string[] = [
   'Porsche',
   'Lamborgini',
@@ -47,6 +57,12 @@ export const gameData: GameData = {
   carLength: 60,
   carsOnPage: [],
   carsActive: [],
+  carsInRace: [],
+  carsEngineBroken: [],
   raceActive: false,
   maxPage: 1,
+  winnersCurrentPage: 1,
+  winnersMaxPage: 1,
+  sortProp: sortProps.time,
+  orderProp: orderProps.DESC,
 };
