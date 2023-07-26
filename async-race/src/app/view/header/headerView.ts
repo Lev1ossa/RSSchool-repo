@@ -38,6 +38,14 @@ export class HeaderView extends AppView {
       },
     });
 
+    this.gameListener.addEventListener('pageWinnersBlock', () => {
+      winnersButtonElement.disabled = true;
+    });
+
+    this.gameListener.addEventListener('pageWinnersUnblock', () => {
+      winnersButtonElement.disabled = false;
+    });
+
     this.elementCreator.addElement(garageButton.getElement());
     this.elementCreator.addElement(winnersButton.getElement());
   }

@@ -119,6 +119,7 @@ export class ControlPanelView extends AppView {
   }
 
   startRaceHandler(): void {
+    this.gameListener.dispatchEvent(new CustomEvent('pageWinnersBlock'));
     this.gameData.raceActive = true;
     this.gameData.carsEngineBroken.splice(0, this.gameData.carsEngineBroken.length);
     const buttonResetElement = this.buttonReset.getElement() as HTMLButtonElement;
@@ -131,6 +132,7 @@ export class ControlPanelView extends AppView {
     );
     Promise.all(carStartEnginePromises).then(
       (carMoveProps: CarMoveProps[]) => {
+        this.gameListener.dispatchEvent(new CustomEvent('pageWinnersUnblock'));
         const carStartDrivePromises = this.gameData.carsOnPage.map(
           async (car) => {
             const carData = carMoveProps.find(
