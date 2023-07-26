@@ -119,9 +119,6 @@ export class GarageView extends AppView {
     } else {
       nextButtonElement.disabled = false;
     }
-
-    console.log(this.gameData.currentPage);
-    console.log(this.gameData.maxPage);
   }
 
   redrawRaceView(): void {
