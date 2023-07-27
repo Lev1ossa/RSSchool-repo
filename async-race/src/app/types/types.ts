@@ -88,3 +88,9 @@ export type WinnersData = {
   winnersNumber: number,
   winnersPagesNumber: number,
 };
+
+export type EventDetail = {
+  modalText?: string,
+  carId?: number,
+  winners?: number,
+};

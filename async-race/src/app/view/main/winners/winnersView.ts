@@ -1,5 +1,5 @@
 import { orderProps, sortProps } from '../../../data/data';
-import { GameData } from '../../../types/types';
+import { EventDetail, GameData } from '../../../types/types';
 import { ElementCreator } from '../../../utils/elementCreator';
 import {
   buttonWinnerPrevPageProps,
@@ -58,7 +58,7 @@ export class WinnersView extends AppView {
     this.winnersTitle.setTextContent('Winners()');
     this.winnersSubtitle.setTextContent(`Page #${this.gameData.winnersCurrentPage}`);
     this.gameListener.addEventListener('winnersChangeTitle', (event) => {
-      const customEvent = event as CustomEvent;
+      const customEvent = event as CustomEvent<EventDetail>;
       this.winnersTitle.setTextContent(`Winners(${customEvent.detail.winners})`);
       this.winnersSubtitle.setTextContent(`Page #${this.gameData.winnersCurrentPage}`);
     });

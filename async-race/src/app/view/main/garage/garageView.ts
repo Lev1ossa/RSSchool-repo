@@ -1,4 +1,4 @@
-import { GameData } from '../../../types/types';
+import { EventDetail, GameData } from '../../../types/types';
 import { ElementCreator } from '../../../utils/elementCreator';
 import {
   buttonNextPageProps, buttonPrevPageProps, garageProps, modalWindowProps,
@@ -43,8 +43,10 @@ export class GarageView extends AppView {
       modalWindow.getElement().classList.add('hidden');
     });
     this.gameListener.addEventListener('modal-show', (event) => {
-      const customEvent = event as CustomEvent;
-      modalWindow.getElement().textContent = customEvent.detail.modalText;
+      const customEvent = event as CustomEvent<EventDetail>;
+      if (customEvent.detail.modalText) {
+        modalWindow.getElement().textContent = customEvent.detail.modalText;
+      }
       modalWindow.getElement().classList.remove('hidden');
     });
     this.elementCreator.addElement(modalWindow.getElement());

@@ -1,6 +1,6 @@
 import { carEngineStatuses } from '../../../../../data/data';
 import {
-  CarData, CarMoveProps, GameData, WinnerProps,
+  CarData, CarMoveProps, EventDetail, GameData, WinnerProps,
 } from '../../../../../types/types';
 import { ElementCreator } from '../../../../../utils/elementCreator';
 import {
@@ -213,13 +213,13 @@ export class RaceTrackView extends AppView {
     );
 
     this.gameListener.addEventListener('carStop', (event) => {
-      const customEvent = event as CustomEvent;
+      const customEvent = event as CustomEvent<EventDetail>;
       if (customEvent.detail.carId === this.carData.id) {
         animation.pause();
       }
     });
     this.gameListener.addEventListener('carStopAnimation', (event) => {
-      const customEvent = event as CustomEvent;
+      const customEvent = event as CustomEvent<EventDetail>;
       if (customEvent.detail.carId === this.carData.id) {
         carElement.style.left = '0px';
         animation.cancel();
