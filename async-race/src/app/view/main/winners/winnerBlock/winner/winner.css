@@ -1,0 +1,33 @@
+.winner {
+  display: flex;
+  /* width: 470px; */
+  /* justify-content: space-between; */
+  align-items: center;
+}
+
+.winners-number {
+  width: 40px;
+  text-align: center;
+}
+
+.winners-car-container {
+  width: 40px;
+  text-align: center;
+}
+
+.winners-name {
+  width: 200px;
+  text-align: center;
+}
+
+.winners-wins {
+  width: 90px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.winners-time {
+  width: 100px;
+  cursor: pointer;
+  text-align: center;
+}

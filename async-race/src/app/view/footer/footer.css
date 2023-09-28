@@ -1,0 +1,46 @@
+.footer {
+  width: 90vw;
+  margin: 0 auto;
+  box-sizing: border-box;
+  height: 5vh;
+  text-align: left;
+  padding: 10px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: #2e2a23;
+}
+
+.rsschool-link {
+  display: flex;
+  align-items: center;
+  width: 60px;
+  /* height: 40px; */
+  opacity: 100%;
+  border: none;
+  transition: all 0.3s;
+}
+
+.rsschool-link:hover {
+  opacity: 50%;
+}
+
+.rsschool-link:active {
+  border: 1px solid green;
+}
+
+.github-link {
+  color: #f5f5dc;
+  text-decoration: none;
+  opacity: 100%;
+  transition: all 0.3s;
+}
+
+.github-link:hover {
+  opacity: 50%;
+}
+
+.github-link:active {
+  opacity: 50%;
+  border: 1px solid green;
+}
