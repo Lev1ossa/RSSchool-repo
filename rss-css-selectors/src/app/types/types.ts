@@ -1,0 +1,61 @@
+type Callback = (event: Event) => void;
+
+export type ListenersObj = Record<string, Callback>;
+
+export interface ElementCreatorProps {
+  tag: string;
+  classes: string[];
+  textContent: string;
+  listeners: ListenersObj | null;
+}
+
+export enum Statuses {
+  statusWin = 'win',
+  statusWinHelp = 'winHelp',
+  statusUnfinished = 'unfinished',
+}
+
+export type TableItem = {
+  tag: string,
+  id: string,
+  classes: string[],
+  children: TableItems,
+}
+
+export type TableItems = TableItem[];
+
+export type HtmlEditorItem = {
+  tag: string,
+  selector: string,
+  children: HtmlEditorItem[],
+}
+
+export type HtmlEditorItems = HtmlEditorItem[];
+
+export type LevelData = {
+  name: string,
+  title: string,
+  helpTag: string,
+  helpUsed: boolean,
+  status: Statuses,
+  tableItems: TableItems,
+  htmlEditorItems: HtmlEditorItems,
+}
+
+export type ElAttribute = {
+  attribute: string,
+  value: string,
+}
+
+export type ElAttributes = ElAttribute[];
+
+export type LevelsData = Record<string, LevelData>;
+
+export type GameData = {
+  currentLevel: string,
+  levelsData: LevelsData,
+}
+
+export type KeyboardEventHandler = (event: KeyboardEvent) => void;
+
+export type HtmlElements = HTMLElement[];

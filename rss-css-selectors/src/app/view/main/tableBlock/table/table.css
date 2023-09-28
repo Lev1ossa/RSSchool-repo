@@ -1,0 +1,224 @@
+.table {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 500px;
+}
+
+plate, bento {
+  width: 100px;
+  height: 100px;
+}
+
+plate {
+  background: whitesmoke;
+  border-radius: 100%;
+  border-bottom: solid 5px #d7d7d7;
+  z-index: 100;
+}
+
+plate:before {
+  background: whitesmoke;
+  display: block;
+  position: relative;
+  z-index: 100;
+  left: 15px;
+  top: 10px;
+  height: 65px;
+  width: 70px;
+  border-radius: 100%;
+  border-top: solid 7px #d7d7d7;
+  content: "";
+}
+
+plate.small {
+  width: 50px;
+  height: 50px;
+}
+
+plate.small:before {
+  left: 8px;
+  top: 5px;
+  height: 33px;
+  width: 35px;
+}
+
+bento {
+  display: block;
+  box-sizing: border-box;
+  background: brown;
+  position: relative;
+  border: solid 3px #711c12;
+  border-width: 20px 2px;
+}
+
+bento#green {
+  background: rgb(16, 163, 95);
+  border-color: rgb(8, 81, 47);
+}
+
+apple,
+orange,
+tomato {
+  position: relative;
+  display: block;
+  width: 50px;
+  height: 50px;
+  border-radius: 100px;
+  border-style: solid;
+}
+
+apple {
+  background: green;
+  border-color: rgb(0, 76, 0);
+}
+
+orange {
+  background: orange;
+  border-color: rgb(132, 90, 13);
+}
+
+tomato {
+  background: #e41919;
+  border-color: #ab1212;
+}
+
+plate bento {
+  width: 70px;
+  height: 70px;
+  z-index: 101;
+  top: -60px;
+  left: 15px;
+}
+
+bento.small {
+  width: 70px;
+  height: 70px;
+}
+
+plate apple,
+plate orange,
+plate tomato {
+  top: -50px;
+  left: 20px;
+  z-index: 102;
+}
+
+bento apple,
+bento orange,
+bento tomato {
+  /* top: -15px; */
+  left: 20px;
+  z-index: 102;
+}
+
+
+.tooltip {
+  display: inline-block;
+  position: absolute;
+  z-index: 200;
+  left: 5px;
+  top: -50px;
+  background: #f2efdf;
+  padding: 10px;
+  font-size: 20px;
+  color: black;
+}
+
+.hidden {
+  display: none;
+}
+
+.skew {
+  animation: skew 1s infinite;
+  transform-origin: bottom;
+}
+
+.table-item {
+  box-shadow: unset;
+  transition: box-shadow 0.3s;
+}
+
+.table-item.item-hovered {
+  box-shadow: 0 0 0 5px green;
+}
+
+@keyframes skew {
+  0%    {transform: skew(4deg,0deg)  scaleX(1);}
+  25%   {transform: skew(1deg,0deg)  scaleY(.9);}
+  50%   {transform: skew(-4deg,0deg) scaleX(1);}
+  75%   {transform: skew(-1deg,0deg) scaleY(.9);}
+  100%  {transform: skew(4deg,0deg)  scaleX(1);}
+}
+
+.remove {
+  animation: remove .5s 1;
+  transform: translateY(-2000px);
+}
+
+@keyframes remove {
+  0% {transform: translateY(0px);}
+  100% {transform: translateY(-2000px);}
+}
+
+@media (max-width: 700px) {
+  plate, bento {
+    width: 50px;
+    height: 50px;
+  }
+
+  plate:before {
+    left: 8px;
+    top: 5px;
+    height: 33px;
+    width: 35px;
+  }
+  
+  plate.small {
+    width: 25px;
+    height: 25px;
+  }
+
+  plate.small:before {
+    left: 4px;
+    top: 3px;
+    height: 16px;
+    width: 17px;
+  }
+  
+  bento {
+    border-width: 10px 1px;
+  }
+
+  apple,
+  orange,
+  tomato {
+    width: 25px;
+    height: 25px;
+  }
+
+  plate bento {
+    width: 35px;
+    height: 35px;
+    top: -30px;
+    left: 10px;
+  }
+  
+  bento.small {
+    width: 35px;
+    height: 35px;
+  }
+  
+  plate apple,
+  plate orange,
+  plate tomato {
+    top: -25px;
+    left: 10px;
+  }
+  
+  bento apple,
+  bento orange,
+  bento tomato {
+    left: 10px;
+  }
+}
